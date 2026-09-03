@@ -25,6 +25,7 @@ import {
   CheckCircle2,
   Clock
 } from 'lucide-react';
+import DynamicIsland, { DynamicIslandView } from './smoothui/dynamic-island';
 
 interface DeveloperLandingPageProps {
   onLaunchWorkbench: (tab?: string) => void;
@@ -47,8 +48,9 @@ export const DeveloperLandingPage: React.FC<DeveloperLandingPageProps> = ({
 }) => {
   const [activeTabCode, setActiveTabCode] = useState<'typescript' | 'python' | 'cli' | 'rest'>('typescript');
   const [copiedCode, setCopiedCode] = useState(false);
-  const [activeStepPreview, setActiveStepPreview] = useState(1);
   const [simRunning, setSimRunning] = useState(false);
+  const [activeStepPreview, setActiveStepPreview] = useState(0);
+  const [islandView, setIslandView] = useState<DynamicIslandView>('idle');
 
   const codeSnippets = {
     typescript: `import { AgentRuntime, GreenhouseIngestor, GeminiFitEvaluator } from '@agentengine/sdk';
@@ -118,16 +120,22 @@ print(f"✓ {len(matches)} high-fit applications queued for 10:00 AM dispatch.")
   const handleRunSim = () => {
     setSimRunning(true);
     setActiveStepPreview(0);
+    setIslandView('scanning');
     const interval = setInterval(() => {
       setActiveStepPreview((prev) => {
         if (prev >= 3) {
           clearInterval(interval);
           setSimRunning(false);
+          setIslandView('recruiter');
           return 3;
         }
-        return prev + 1;
+        const next = prev + 1;
+        if (next === 1) setIslandView('match');
+        if (next === 2) setIslandView('dispatch');
+        if (next === 3) setIslandView('recruiter');
+        return next;
       });
-    }, 900);
+    }, 1200);
   };
 
   return (
@@ -201,11 +209,25 @@ print(f"✓ {len(matches)} high-fit applications queued for 10:00 AM dispatch.")
                   <button
                     onClick={handleRunSim}
                     disabled={simRunning}
-                    className="px-2.5 py-1 rounded bg-[#FCFBF8] border border-[#DDDAD2] text-[11px] font-mono text-[#111111] hover:border-[#111111] transition-all disabled:opacity-50"
+                    className="px-2.5 py-1 rounded bg-[#FCFBF8] border border-[#DDDAD2] text-[11px] font-mono text-[#111111] hover:border-[#111111] transition-all disabled:opacity-50 cursor-pointer"
                   >
                     {simRunning ? 'Executing Loop...' : 'Trigger Simulation'}
                   </button>
                 </div>
+              </div>
+
+              {/* Kinetic Live Telemetry Dynamic Island HUD */}
+              <div className="py-7 px-4 bg-[#FAF9F5] border-b border-[#DDDAD2] flex flex-col items-center justify-center">
+                <div className="text-center mb-3">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#6B6B67]">
+                    KINETIC AGENT HUD • REAL-TIME STATE SYNC
+                  </span>
+                </div>
+                <DynamicIsland
+                  view={islandView}
+                  onViewChange={setIslandView}
+                  showControls={true}
+                />
               </div>
 
               {/* Visualization Grid: Terminal Trace + Live Agent State */}

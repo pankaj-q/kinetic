@@ -2,66 +2,70 @@
 
 import {
   Bell,
+  Bot,
+  CheckCircle2,
   CloudLightning,
+  Flame,
+  Globe,
   Music2,
   Pause,
   Phone,
   Play,
+  Search,
+  Send,
+  ShieldCheck,
   SkipBack,
   SkipForward,
+  Sparkles,
   Thermometer,
   Timer as TimerIcon,
+  Zap,
 } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { type ReactNode, useMemo, useState } from "react";
 
 const BOUNCE_VARIANTS = {
   idle: 0.5,
-  "idle-ring": 0.5,
-  "idle-timer": 0.3,
-  "ring-idle": 0.5,
-  "ring-timer": 0.35,
-  "timer-idle": 0.3,
-  "timer-ring": 0.35,
+  "idle-scanning": 0.35,
+  "idle-match": 0.45,
+  "idle-dispatch": 0.4,
+  "idle-recruiter": 0.5,
+  "scanning-match": 0.4,
+  "match-dispatch": 0.35,
+  "dispatch-recruiter": 0.45,
 } as const;
 
-const DEFAULT_BOUNCE = 0.5;
+const DEFAULT_BOUNCE = 0.45;
 const TIMER_INTERVAL_MS = 1000;
 
-// Idle Component with Weather
-const DefaultIdle = () => {
-  const [showTemp, setShowTemp] = useState(false);
+// 1. Idle Agent Engine Status
+const AgentIdle = () => {
+  const [showTelemetry, setShowTelemetry] = useState(false);
 
   return (
     <motion.div
-      className="flex items-center gap-2 px-3 py-2"
+      className="flex items-center gap-2.5 px-3.5 py-2 cursor-pointer select-none"
       layout
-      onHoverEnd={() => setShowTemp(false)}
-      onHoverStart={() => setShowTemp(true)}
+      onHoverEnd={() => setShowTelemetry(false)}
+      onHoverStart={() => setShowTelemetry(true)}
     >
-      <AnimatePresence mode="wait">
-        <motion.div
-          animate={{ opacity: 1, scale: 1 }}
-          className="text-white"
-          exit={{ opacity: 0, scale: 0.8 }}
-          initial={{ opacity: 0, scale: 0.8 }}
-          key="storm"
-        >
-          <CloudLightning className="h-5 w-5 text-white" />
-        </motion.div>
-      </AnimatePresence>
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 rounded-full bg-[#FF5A36] animate-pulse" />
+        <Bot className="h-4 w-4 text-white" />
+        <span className="font-mono text-xs text-white font-medium">JobAgent OS</span>
+      </div>
 
       <AnimatePresence>
-        {showTemp ? (
+        {showTelemetry ? (
           <motion.div
             animate={{ opacity: 1, width: "auto" }}
-            className="flex items-center gap-1 overflow-hidden text-white"
+            className="flex items-center gap-1.5 overflow-hidden text-white border-l border-white/20 pl-2"
             exit={{ opacity: 0, width: 0 }}
             initial={{ opacity: 0, width: 0 }}
           >
-            <Thermometer className="h-3 w-3" />
-            <span className="pointer-events-none whitespace-nowrap text-white text-xs">
-              12°C
+            <Zap className="h-3 w-3 text-[#FF5A36]" />
+            <span className="pointer-events-none whitespace-nowrap text-white text-[11px] font-mono">
+              480ms • 10 AM Ready
             </span>
           </motion.div>
         ) : null}
@@ -70,134 +74,143 @@ const DefaultIdle = () => {
   );
 };
 
-// Ring Component
-const DefaultRing = () => (
-  <div className="flex w-64 items-center gap-3 overflow-hidden px-4 py-2 text-white">
-    <Phone className="h-5 w-5 text-green-500" />
-    <div className="flex-1">
-      <p className="pointer-events-none font-medium text-sm text-white">
-        Incoming Call
-      </p>
-      <p className="pointer-events-none text-white text-xs opacity-70">
-        Guillermo Rauch
+// 2. Scanning / Ingestion Stream
+const AgentScanning = () => {
+  const [progress, setProgress] = useState(124);
+
+  return (
+    <div className="flex w-72 items-center gap-3 overflow-hidden px-4 py-2.5 text-white">
+      <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-[#FF5A36] shrink-0">
+        <Search className="h-4 w-4 animate-spin" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="pointer-events-none font-medium text-xs text-white font-mono truncate">
+          Scanning ATS Feeds...
+        </p>
+        <p className="pointer-events-none text-white/70 text-[11px] font-mono truncate">
+          RemoteOK • Lever • Ashby • Greenhouse
+        </p>
+      </div>
+      <span className="text-[10px] font-mono font-bold text-[#FF5A36] bg-[#FFE8E1]/20 px-1.5 py-0.5 rounded">
+        {progress} Jobs
+      </span>
+    </div>
+  );
+};
+
+// 3. AI Fit Match Notification
+const AgentMatch = () => (
+  <div className="flex w-80 items-center gap-3 overflow-hidden px-4 py-2.5 text-white">
+    <div className="w-7 h-7 rounded-lg bg-[#FF5A36]/20 border border-[#FF5A36]/40 flex items-center justify-center text-[#FF5A36] shrink-0">
+      <Flame className="h-4 w-4 text-[#FF5A36]" />
+    </div>
+    <div className="flex-1 min-w-0">
+      <div className="flex items-center justify-between">
+        <p className="pointer-events-none font-semibold text-xs text-white truncate">
+          Staff Systems Engineer
+        </p>
+        <span className="text-[10px] font-mono font-bold text-[#FF5A36] bg-[#FF5A36]/20 px-1.5 py-0.5 rounded">
+          94% Fit
+        </span>
+      </div>
+      <p className="pointer-events-none text-white/70 text-[11px] truncate mt-0.5">
+        Stripe • Go & Distributed Queues Citations Verified
       </p>
     </div>
-    <div className="h-2 w-2 animate-pulse rounded-full bg-green-500" />
   </div>
 );
 
-// Timer Component
-const DefaultTimer = () => {
-  const [time, setTime] = useState(60);
-
-  useMemo(() => {
-    const timer = setInterval(() => {
-      setTime((t) => (t > 0 ? t - 1 : 0));
-    }, TIMER_INTERVAL_MS);
-    return () => clearInterval(timer);
-  }, []);
+// 4. 10:00 AM Dispatch Progress
+const AgentDispatch = () => {
+  const [time, setTime] = useState(5);
 
   return (
-    <div className="flex w-64 items-center gap-3 overflow-hidden px-4 py-2 text-white">
-      <TimerIcon className="h-5 w-5 text-amber-500" />
-      <div className="flex-1">
-        <p className="pointer-events-none font-medium text-sm text-white">
-          {time}s remaining
-        </p>
+    <div className="flex w-76 items-center gap-3 overflow-hidden px-4 py-2.5 text-white">
+      <div className="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
+        <Send className="h-4 w-4" />
       </div>
-      <div className="h-1 w-24 overflow-hidden rounded-full bg-white/20">
-        <motion.div
-          animate={{ width: "0%" }}
-          className="h-full bg-amber-500"
-          initial={{ width: "100%" }}
-          transition={{ duration: time, ease: "linear" }}
-        />
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between">
+          <p className="pointer-events-none font-semibold text-xs text-white">
+            10:00 AM Dispatch Active
+          </p>
+          <span className="text-[10px] font-mono font-bold text-emerald-400">
+            5 / 5 Sent
+          </span>
+        </div>
+        <div className="h-1 w-full overflow-hidden rounded-full bg-white/20 mt-1.5">
+          <motion.div
+            animate={{ width: "100%" }}
+            className="h-full bg-emerald-400"
+            initial={{ width: "0%" }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
-// Notification Component
-const Notification = () => (
-  <div className="flex w-64 items-center gap-3 overflow-hidden px-4 py-2 text-white">
-    <Bell className="h-5 w-5 text-yellow-400" />
-    <div className="flex-1">
-      <p className="pointer-events-none font-medium text-sm text-white">
-        New Message
+// 5. Inbound Recruiter Call / Interview Triage
+const AgentRecruiter = () => (
+  <div className="flex w-80 items-center gap-3 overflow-hidden px-4 py-2.5 text-white">
+    <div className="w-7 h-7 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+      <Phone className="h-4 w-4 text-emerald-400 animate-bounce" />
+    </div>
+    <div className="flex-1 min-w-0">
+      <p className="pointer-events-none font-semibold text-xs text-white">
+        Interview Invitation Incoming
       </p>
-      <p className="pointer-events-none text-white text-xs opacity-70">
-        You have a new notification!
+      <p className="pointer-events-none text-emerald-400 text-[11px] font-mono truncate">
+        Sarah Jenkins @ Stripe (Lead AI Architect)
       </p>
     </div>
-    <span className="rounded-full bg-yellow-400/40 px-2 py-0.5 text-xs text-yellow-500">
-      1
+    <div className="h-2 w-2 animate-ping rounded-full bg-emerald-400 shrink-0" />
+  </div>
+);
+
+// 6. Telegram Push Alert Notification
+const AgentNotification = () => (
+  <div className="flex w-72 items-center gap-3 overflow-hidden px-4 py-2 text-white">
+    <Bell className="h-4 w-4 text-[#FF5A36]" />
+    <div className="flex-1 min-w-0">
+      <p className="pointer-events-none font-medium text-xs text-white font-mono">
+        Telegram Push Sync
+      </p>
+      <p className="pointer-events-none text-white/70 text-[11px] truncate">
+        5 Applications staged for user review
+      </p>
+    </div>
+    <span className="rounded-full bg-[#FF5A36]/30 px-1.5 py-0.2 text-[10px] font-mono text-[#FF5A36]">
+      NEW
     </span>
   </div>
 );
 
-// Music Player Component
-const MusicPlayer = () => {
-  const [playing, setPlaying] = useState(true);
-  return (
-    <div className="flex w-72 items-center gap-3 overflow-hidden px-4 py-2 text-white">
-      <Music2 className="h-5 w-5 text-pink-500" />
-      <div className="min-w-0 flex-1">
-        <p className="pointer-events-none truncate font-medium text-sm text-white">
-          Lofi Chill Beats
-        </p>
-        <p className="pointer-events-none truncate text-white text-xs opacity-70">
-          DJ Smooth
-        </p>
-      </div>
-      <button
-        className="rounded-full p-1 hover:bg-white/30"
-        onClick={() => setPlaying(false)}
-        type="button"
-      >
-        <SkipBack className="h-4 w-4 text-white" />
-      </button>
-      <button
-        className="rounded-full p-1 hover:bg-white/30"
-        onClick={() => setPlaying((p) => !p)}
-        type="button"
-      >
-        {playing ? (
-          <Pause className="h-4 w-4 text-white" />
-        ) : (
-          <Play className="h-4 w-4 text-white" />
-        )}
-      </button>
-      <button
-        className="rounded-full p-1 hover:bg-white/30"
-        onClick={() => setPlaying(true)}
-        type="button"
-      >
-        <SkipForward className="h-4 w-4 text-white" />
-      </button>
-    </div>
-  );
-};
-
-type View = "idle" | "ring" | "timer" | "notification" | "music";
+export type DynamicIslandView =
+  | "idle"
+  | "scanning"
+  | "match"
+  | "dispatch"
+  | "recruiter"
+  | "notification";
 
 export interface DynamicIslandProps {
   className?: string;
   idleContent?: ReactNode;
-  onViewChange?: (view: View) => void;
-  ringContent?: ReactNode;
-  timerContent?: ReactNode;
-  view?: View;
+  onViewChange?: (view: DynamicIslandView) => void;
+  view?: DynamicIslandView;
+  showControls?: boolean;
 }
 
 export default function DynamicIsland({
   view: controlledView,
   onViewChange,
   idleContent,
-  ringContent,
-  timerContent,
   className = "",
+  showControls = true,
 }: DynamicIslandProps) {
-  const [internalView, setInternalView] = useState<View>("idle");
+  const [internalView, setInternalView] = useState<DynamicIslandView>("idle");
   const [variantKey, setVariantKey] = useState<string>("idle");
   const shouldReduceMotion = useReducedMotion();
 
@@ -205,20 +218,22 @@ export default function DynamicIsland({
 
   const content = useMemo(() => {
     switch (view) {
-      case "ring":
-        return ringContent ?? <DefaultRing />;
-      case "timer":
-        return timerContent ?? <DefaultTimer />;
+      case "scanning":
+        return <AgentScanning />;
+      case "match":
+        return <AgentMatch />;
+      case "dispatch":
+        return <AgentDispatch />;
+      case "recruiter":
+        return <AgentRecruiter />;
       case "notification":
-        return <Notification />;
-      case "music":
-        return <MusicPlayer />;
+        return <AgentNotification />;
       default:
-        return idleContent ?? <DefaultIdle />;
+        return idleContent ?? <AgentIdle />;
     }
-  }, [view, idleContent, ringContent, timerContent]);
+  }, [view, idleContent]);
 
-  const handleViewChange = (newView: View) => {
+  const handleViewChange = (newView: DynamicIslandView) => {
     if (view === newView) {
       return;
     }
@@ -231,10 +246,11 @@ export default function DynamicIsland({
   };
 
   return (
-    <div className={`h-[200px] ${className}`}>
-      <div className="relative flex h-full w-full flex-col justify-center">
+    <div className={`relative ${className}`}>
+      <div className="relative flex flex-col items-center justify-center">
+        {/* Kinetic Island Pill Surface */}
         <motion.div
-          className="mx-auto w-fit min-w-[100px] overflow-hidden rounded-full bg-black"
+          className="mx-auto w-fit min-w-[120px] overflow-hidden rounded-full bg-[#121210] border border-[#2B2A27] shadow-xl"
           layout
           style={{ borderRadius: 32 }}
           transition={
@@ -245,7 +261,7 @@ export default function DynamicIsland({
                     BOUNCE_VARIANTS[
                       variantKey as keyof typeof BOUNCE_VARIANTS
                     ] ?? DEFAULT_BOUNCE,
-                  duration: 0.25,
+                  duration: 0.28,
                   type: "spring" as const,
                 }
           }
@@ -260,15 +276,15 @@ export default function DynamicIsland({
                     originX: 0.5,
                     originY: 0.5,
                     scale: 1,
-                    transition: { delay: 0.05 },
+                    transition: { delay: 0.04 },
                   }
             }
             initial={{
-              filter: "blur(5px)",
+              filter: "blur(4px)",
               opacity: 0,
               originX: 0.5,
               originY: 0.5,
-              scale: 0.9,
+              scale: 0.92,
             }}
             key={view}
             transition={{
@@ -282,31 +298,40 @@ export default function DynamicIsland({
           </motion.div>
         </motion.div>
 
-        <div className="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 justify-center gap-1 rounded-full border bg-background p-1">
-          {[
-            { icon: <CloudLightning className="size-3" />, key: "idle" },
-            { icon: <Phone className="size-3" />, key: "ring" },
-            { icon: <TimerIcon className="size-3" />, key: "timer" },
-            { icon: <Bell className="size-3" />, key: "notification" },
-            { icon: <Music2 className="size-3" />, key: "music" },
-          ].map(({ key, icon }) => (
-            <button
-              aria-label={key}
-              className="flex size-8 cursor-pointer items-center justify-center rounded-full border bg-primary px-2"
-              key={key}
-              onClick={() => {
-                if (view !== key) {
-                  setVariantKey(`${view}-${key}`);
-                  handleViewChange(key as View);
-                }
-              }}
-              type="button"
-            >
-              {icon}
-            </button>
-          ))}
-        </div>
+        {/* State Interactive Switcher Pills */}
+        {showControls && (
+          <div className="mt-4 flex items-center justify-center gap-1.5 rounded-full border border-[#DDDAD2] bg-[#FCFBF8] p-1 shadow-xs">
+            {[
+              { icon: <Bot className="w-3.5 h-3.5" />, key: "idle", label: "Idle" },
+              { icon: <Search className="w-3.5 h-3.5" />, key: "scanning", label: "Scan" },
+              { icon: <Flame className="w-3.5 h-3.5" />, key: "match", label: "Match" },
+              { icon: <Send className="w-3.5 h-3.5" />, key: "dispatch", label: "Dispatch" },
+              { icon: <Phone className="w-3.5 h-3.5" />, key: "recruiter", label: "Recruiter" },
+            ].map(({ key, icon, label }) => (
+              <button
+                key={key}
+                aria-label={label}
+                onClick={() => {
+                  if (view !== key) {
+                    setVariantKey(`${view}-${key}`);
+                    handleViewChange(key as DynamicIslandView);
+                  }
+                }}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-mono transition-all cursor-pointer ${
+                  view === key
+                    ? "bg-[#111111] text-white font-semibold shadow-xs"
+                    : "text-[#6B6B67] hover:text-[#111111] hover:bg-[#F7F6F2]"
+                }`}
+                type="button"
+              >
+                {icon}
+                <span className="hidden sm:inline">{label}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
