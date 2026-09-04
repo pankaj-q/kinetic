@@ -26,13 +26,13 @@ interface ApplicationsViewProps {
   onNavigateTab: (tab: string) => void;
 }
 
-const STAGES: { key: ApplicationStatus; label: string; color: string }[] = [
-  { key: 'WAITING_FOR_APPROVAL', label: 'Waiting Approval', color: 'border-amber-500/40 bg-amber-500/10 text-amber-300' },
-  { key: 'APPLIED', label: 'Applied', color: 'border-indigo-500/40 bg-indigo-500/10 text-indigo-300' },
-  { key: 'SCREENING', label: 'Screening', color: 'border-cyan-500/40 bg-cyan-500/10 text-cyan-300' },
-  { key: 'INTERVIEW', label: 'Interview', color: 'border-purple-500/40 bg-purple-500/10 text-purple-300' },
-  { key: 'OFFER', label: 'Offer', color: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300' },
-  { key: 'REJECTED', label: 'Rejected', color: 'border-rose-500/40 bg-rose-500/10 text-rose-300' },
+const STAGES: { key: ApplicationStatus; label: string; badgeColor: string }[] = [
+  { key: 'WAITING_FOR_APPROVAL', label: 'Waiting Approval', badgeColor: 'bg-[#FFE8E1] text-[#FF5A36] border-[#FF5A36]/30' },
+  { key: 'APPLIED', label: 'Applied', badgeColor: 'bg-[#FAF9F5] text-[#111111] border-[#DDDAD2]' },
+  { key: 'SCREENING', label: 'Screening', badgeColor: 'bg-[#FAF9F5] text-[#111111] border-[#DDDAD2]' },
+  { key: 'INTERVIEW', label: 'Interview', badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
+  { key: 'OFFER', label: 'Offer', badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200' },
+  { key: 'REJECTED', label: 'Rejected', badgeColor: 'bg-[#FAF9F5] text-[#6B6B67] border-[#DDDAD2]' },
 ];
 
 export const ApplicationsView: React.FC<ApplicationsViewProps> = ({
@@ -60,36 +60,36 @@ export const ApplicationsView: React.FC<ApplicationsViewProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center">
-              <Layers className="w-4 h-4 text-[#2563EB]" />
+            <div className="w-8 h-8 rounded-lg bg-[#FCFBF8] border border-[#DDDAD2] flex items-center justify-center shadow-xs">
+              <Layers className="w-4 h-4 text-[#FF5A36]" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-normal font-editorial text-[#0F172A] tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-normal font-editorial text-[#111111] tracking-tight">
               Application Pipeline
             </h1>
           </div>
-          <p className="text-xs text-[#64748B] mt-1">
-            Track applications from AI preparation through approval, recruiter interviews, and offers.
+          <p className="text-xs text-[#6B6B67] mt-1">
+            Track applications from AI preparation through human approval, recruiter interviews, and offers.
           </p>
         </div>
 
         {/* View Toggle & Search */}
         <div className="flex items-center gap-2.5 flex-wrap">
           <div className="relative">
-            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#64748B]" />
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#6B6B67]" />
             <input
               type="text"
               placeholder="Search company or title..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8 pr-3 py-2 rounded-lg bg-white border border-[#E2E8F0] text-xs text-[#0F172A] placeholder-[#94A3B8] w-48 sm:w-56 focus:outline-none focus:border-[#2563EB]"
+              className="pl-8 pr-3 py-2 rounded-lg bg-[#FAF9F5] border border-[#DDDAD2] text-xs text-[#111111] placeholder-[#6B6B67] w-48 sm:w-56 focus:outline-none focus:border-[#111111]"
             />
           </div>
 
-          <div className="flex items-center bg-white border border-[#E2E8F0] rounded-lg p-0.5 shadow-2xs">
+          <div className="flex items-center bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-0.5 shadow-2xs">
             <button
               onClick={() => setViewMode('kanban')}
               className={`p-1.5 rounded-md text-xs font-semibold flex items-center gap-1 transition-all ${
-                viewMode === 'kanban' ? 'bg-[#F1F5F9] text-[#0F172A] shadow-2xs' : 'text-[#64748B] hover:text-[#0F172A]'
+                viewMode === 'kanban' ? 'bg-[#FCFBF8] text-[#111111] shadow-2xs border border-[#DDDAD2]' : 'text-[#6B6B67] hover:text-[#111111]'
               }`}
               title="Kanban Board View"
             >
@@ -98,7 +98,7 @@ export const ApplicationsView: React.FC<ApplicationsViewProps> = ({
             <button
               onClick={() => setViewMode('table')}
               className={`p-1.5 rounded-md text-xs font-semibold flex items-center gap-1 transition-all ${
-                viewMode === 'table' ? 'bg-[#F1F5F9] text-[#0F172A] shadow-2xs' : 'text-[#64748B] hover:text-[#0F172A]'
+                viewMode === 'table' ? 'bg-[#FCFBF8] text-[#111111] shadow-2xs border border-[#DDDAD2]' : 'text-[#6B6B67] hover:text-[#111111]'
               }`}
               title="Table View"
             >
@@ -108,7 +108,7 @@ export const ApplicationsView: React.FC<ApplicationsViewProps> = ({
 
           <button
             onClick={() => onNavigateTab('jobs')}
-            className="huvo-glow-button flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-white text-xs font-bold transition-all font-['Geist',sans-serif]"
+            className="btn-accent text-xs py-2 px-3.5 font-semibold"
           >
             <Sparkles className="w-3.5 h-3.5 text-white" />
             <span>Discover More Jobs</span>
@@ -124,73 +124,69 @@ export const ApplicationsView: React.FC<ApplicationsViewProps> = ({
             return (
               <div
                 key={stage.key}
-                className="flex flex-col rounded-2xl bg-white p-3.5 min-w-[240px] space-y-3.5 border border-[#E2E8F0] shadow-xs"
+                className="flex flex-col rounded-xl bg-[#FAF9F5] p-3.5 min-w-[240px] space-y-3.5 border border-[#DDDAD2] shadow-xs"
               >
-                <div className="flex items-center justify-between pb-2.5 border-b border-[#E2E8F0]">
+                <div className="flex items-center justify-between pb-2.5 border-b border-[#DDDAD2]">
                   <div className="flex items-center gap-1.5">
-                    <span className={`text-xs font-bold uppercase tracking-wider ${
-                      stage.key === 'WAITING_FOR_APPROVAL' ? 'text-amber-700' :
-                      stage.key === 'APPLIED' ? 'text-[#2563EB]' :
-                      stage.key === 'SCREENING' ? 'text-cyan-700' :
-                      stage.key === 'INTERVIEW' ? 'text-purple-700' :
-                      stage.key === 'OFFER' ? 'text-[#10B981]' : 'text-rose-600'
-                    }`}>{stage.label}</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-[#111111]">
+                      {stage.label}
+                    </span>
                   </div>
-                  <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#F1F5F9] text-[#475569] font-['Geist_Mono',monospace]">
+                  <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#FCFBF8] text-[#6B6B67] border border-[#DDDAD2]">
                     {stageApps.length}
                   </span>
                 </div>
 
                 <div className="space-y-3 flex-1 overflow-y-auto max-h-[70vh] pr-0.5">
                   {stageApps.length === 0 ? (
-                    <div className="py-10 text-center text-[#94A3B8] text-[11px] font-medium">No applications</div>
+                    <div className="py-10 text-center text-[#6B6B67] text-[11px] font-medium">No applications</div>
                   ) : (
                     stageApps.map((app) => (
                       <div
                         key={app.id}
                         onClick={() => onOpenApplication(app.id)}
-                        className={`p-4 rounded-xl border huvo-card-interactive cursor-pointer transition-all space-y-2.5 group ${
+                        className={`p-4 rounded-xl border cursor-pointer transition-all space-y-2.5 group ${
                           app.status === 'WAITING_FOR_APPROVAL'
-                            ? 'border-amber-300 bg-amber-50/40'
-                            : 'border-[#E2E8F0] bg-white'
+                            ? 'border-[#FF5A36]/40 bg-[#FFE8E1]/20 hover:border-[#FF5A36]'
+                            : 'border-[#DDDAD2] bg-[#FCFBF8] hover:border-[#111111]'
                         }`}
                       >
                         <div className="flex items-start justify-between gap-1.5">
-                          <h4 className="font-bold text-xs text-[#0F172A] group-hover:text-[#2563EB] transition-colors line-clamp-1 font-['Geist',sans-serif]">
+                          <h4 className="font-semibold text-xs text-[#111111] group-hover:text-[#FF5A36] transition-colors line-clamp-1">
                             {app.jobTitle}
                           </h4>
                           <span
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded-md font-['Geist_Mono',monospace] ${
+                            className={`text-[10px] font-bold px-2 py-0.5 rounded-md font-mono ${
                               app.matchScore >= 90
-                                ? 'bg-emerald-50 text-[#10B981] border border-emerald-200'
-                                : 'bg-blue-50 text-[#2563EB] border border-blue-200'
+                                ? 'bg-[#FFE8E1] text-[#FF5A36] border border-[#FF5A36]/30'
+                                : 'bg-[#FAF9F5] text-[#111111] border border-[#DDDAD2]'
                             }`}
                           >
                             {app.matchScore}%
                           </span>
                         </div>
 
-                        <p className="text-[11px] text-[#64748B] flex items-center gap-1.5 font-['Geist',sans-serif]">
-                          <Building className="w-3 h-3 text-[#94A3B8]" />
-                          <span className="font-medium text-[#334155]">{app.company}</span>
+                        <p className="text-[11px] text-[#6B6B67] flex items-center gap-1.5">
+                          <Building className="w-3 h-3 text-[#6B6B67]" />
+                          <span className="font-medium text-[#111111]">{app.company}</span>
                         </p>
 
                         {app.status === 'WAITING_FOR_APPROVAL' && (
                           <div className="pt-1">
-                            <span className="block text-center py-1 rounded-lg bg-amber-100 text-amber-800 text-[10px] font-bold border border-amber-300">
+                            <span className="block text-center py-1 rounded-lg bg-[#FFE8E1] text-[#FF5A36] text-[10px] font-bold border border-[#FF5A36]/30">
                               ⚡ Click to Review & Submit
                             </span>
                           </div>
                         )}
 
                         {app.status === 'INTERVIEW' && app.interviewDate && (
-                          <div className="pt-1 text-[10px] text-purple-700 font-['Geist_Mono',monospace] flex items-center gap-1">
+                          <div className="pt-1 text-[10px] text-emerald-800 font-mono flex items-center gap-1">
                             <Clock className="w-3 h-3" />
                             <span>{new Date(app.interviewDate).toLocaleDateString()}</span>
                           </div>
                         )}
 
-                        <div className="flex items-center justify-between pt-2 text-[10px] text-[#94A3B8] border-t border-[#E2E8F0] font-['Geist_Mono',monospace]">
+                        <div className="flex items-center justify-between pt-2 text-[10px] text-[#6B6B67] border-t border-[#DDDAD2] font-mono">
                           <span>{app.formFields.length} fields</span>
                           <span>{new Date(app.updatedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>
                         </div>
@@ -204,10 +200,10 @@ export const ApplicationsView: React.FC<ApplicationsViewProps> = ({
         </div>
       ) : (
         /* Table View */
-        <div className="rounded-2xl bg-white overflow-hidden shadow-xs border border-[#E2E8F0]">
+        <div className="rounded-xl editorial-card overflow-hidden shadow-xs">
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-[#334155]">
-              <thead className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[11px] text-[#64748B] font-bold uppercase tracking-wider font-['Geist_Mono',monospace]">
+            <table className="w-full text-left text-xs text-[#111111]">
+              <thead className="bg-[#FAF9F5] border-b border-[#DDDAD2] text-[11px] text-[#6B6B67] font-bold uppercase tracking-wider font-mono">
                 <tr>
                   <th className="py-3.5 px-5">Role & Company</th>
                   <th className="py-3.5 px-5">Match Score</th>
@@ -217,50 +213,50 @@ export const ApplicationsView: React.FC<ApplicationsViewProps> = ({
                   <th className="py-3.5 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E2E8F0]">
+              <tbody className="divide-y divide-[#DDDAD2]">
                 {filteredApps.map((app) => (
-                  <tr key={app.id} className="hover:bg-[#F8FAFC] transition-colors">
+                  <tr key={app.id} className="hover:bg-[#FAF9F5] transition-colors">
                     <td className="py-3.5 px-5">
-                      <div className="font-bold text-[#0F172A] text-sm font-['Geist',sans-serif]">{app.jobTitle}</div>
-                      <div className="text-[#64748B] text-xs mt-0.5">{app.company}</div>
+                      <div className="font-bold text-[#111111] text-sm">{app.jobTitle}</div>
+                      <div className="text-[#6B6B67] text-xs mt-0.5">{app.company}</div>
                     </td>
                     <td className="py-3.5 px-5">
-                      <span className="px-2.5 py-0.5 rounded-lg text-[11px] font-bold bg-blue-50 text-[#2563EB] border border-blue-200 font-['Geist_Mono',monospace]">
+                      <span className="px-2.5 py-0.5 rounded-lg text-[11px] font-mono font-bold bg-[#FAF9F5] text-[#111111] border border-[#DDDAD2]">
                         {app.matchScore}%
                       </span>
                     </td>
                     <td className="py-3.5 px-5">
                       <span
-                        className={`px-3 py-1 rounded-full text-[11px] font-bold font-['Geist_Mono',monospace] ${
+                        className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold ${
                           app.status === 'APPLIED'
-                            ? 'bg-blue-50 text-[#2563EB] border border-blue-200'
+                            ? 'bg-[#FAF9F5] text-[#111111] border border-[#DDDAD2]'
                             : app.status === 'WAITING_FOR_APPROVAL'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                            ? 'bg-[#FFE8E1] text-[#FF5A36] border border-[#FF5A36]/30'
                             : app.status === 'INTERVIEW'
-                            ? 'bg-purple-50 text-purple-700 border border-purple-200'
+                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                             : app.status === 'OFFER'
-                            ? 'bg-emerald-50 text-[#10B981] border border-emerald-200'
-                            : 'bg-gray-100 text-[#475569]'
+                            ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                            : 'bg-[#FAF9F5] text-[#6B6B67] border border-[#DDDAD2]'
                         }`}
                       >
                         {app.status.replace(/_/g, ' ')}
                       </span>
                     </td>
-                    <td className="py-3.5 px-5 text-[#64748B] font-['Geist_Mono',monospace]">{app.formFields.length} inputs prepared</td>
-                    <td className="py-3.5 px-5 text-[#64748B] font-['Geist_Mono',monospace]">
+                    <td className="py-3.5 px-5 text-[#6B6B67] font-mono">{app.formFields.length} inputs prepared</td>
+                    <td className="py-3.5 px-5 text-[#6B6B67] font-mono">
                       {new Date(app.updatedAt).toLocaleDateString()}
                     </td>
                     <td className="py-3.5 px-5 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => onOpenApplication(app.id)}
-                          className="px-3 py-1 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs transition-all font-['Geist',sans-serif]"
+                          className="btn-accent text-xs py-1 px-3"
                         >
                           Review
                         </button>
                         <button
                           onClick={() => onDeleteApplication(app.id)}
-                          className="p-1.5 rounded-lg text-[#94A3B8] hover:text-rose-600 hover:bg-rose-50 transition-all"
+                          className="btn-icon p-1.5 text-[#6B6B67] hover:text-rose-600"
                           title="Delete Application"
                         >
                           <Trash2 className="w-3.5 h-3.5" />

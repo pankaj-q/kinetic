@@ -49,7 +49,6 @@ export const JobsView: React.FC<JobsViewProps> = ({
   const [selectedSource, setSelectedSource] = useState<string>('all');
   const [remoteOnly, setRemoteOnly] = useState(false);
   const [minScore, setMinScore] = useState<number>(0);
-  const [selectedJobForDetails, setSelectedJobForDetails] = useState<Job | null>(null);
   const [isIngesting, setIsIngesting] = useState(false);
   const [isMatchingAll, setIsMatchingAll] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
@@ -110,13 +109,15 @@ export const JobsView: React.FC<JobsViewProps> = ({
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <Briefcase className="w-5 h-5 text-[#2563EB]" />
-            <h1 className="text-2xl sm:text-3xl font-normal font-editorial text-[#0F172A] tracking-tight">
-              Job Search & Match Engine
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-[#FCFBF8] border border-[#DDDAD2] flex items-center justify-center shadow-xs">
+              <Briefcase className="w-4 h-4 text-[#FF5A36]" />
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-normal font-editorial text-[#111111] tracking-tight">
+              Job Stream & Match Engine
             </h1>
           </div>
-          <p className="text-xs text-[#64748B] mt-0.5">
+          <p className="text-xs text-[#6B6B67] mt-1">
             Real-time multi-board aggregator (RemoteOK, Arbeitnow, Remotive, Greenhouse, Lever, Ashby, and Custom URL imports).
           </p>
         </div>
@@ -124,9 +125,9 @@ export const JobsView: React.FC<JobsViewProps> = ({
         <div className="flex items-center gap-2.5 flex-wrap">
           <button
             onClick={() => setIsImportModalOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] text-xs font-semibold shadow-xs transition-colors"
+            className="btn-secondary-outline text-xs py-2 px-3.5"
           >
-            <Plus className="w-3.5 h-3.5 text-[#2563EB]" />
+            <Plus className="w-3.5 h-3.5 text-[#FF5A36]" />
             <span>Import Job / Paste Link</span>
           </button>
 
@@ -134,9 +135,9 @@ export const JobsView: React.FC<JobsViewProps> = ({
             id="match-all-jobs-btn"
             onClick={handleMatchAll}
             disabled={isMatchingAll}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] text-xs font-semibold shadow-xs transition-colors disabled:opacity-50"
+            className="btn-secondary-outline text-xs py-2 px-3.5 disabled:opacity-50"
           >
-            <Sparkles className={`w-3.5 h-3.5 ${isMatchingAll ? 'animate-spin' : 'text-[#2563EB]'}`} />
+            <Sparkles className={`w-3.5 h-3.5 ${isMatchingAll ? 'animate-spin' : 'text-[#FF5A36]'}`} />
             <span>{isMatchingAll ? 'Evaluating Matches...' : 'Run Match Engine for All'}</span>
           </button>
 
@@ -144,7 +145,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
             id="crawl-ingest-jobs-btn"
             onClick={handleSearchIngest}
             disabled={isIngesting}
-            className="huvo-glow-button flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all disabled:opacity-50 font-['Geist',sans-serif]"
+            className="btn-accent text-xs py-2 px-4 disabled:opacity-50"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isIngesting ? 'animate-spin' : ''}`} />
             <span>{isIngesting ? 'Ingesting Jobs...' : 'Search & Ingest Live Jobs'}</span>
@@ -153,17 +154,17 @@ export const JobsView: React.FC<JobsViewProps> = ({
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-white space-y-3.5 border border-[#E2E8F0] shadow-xs">
+      <div className="p-4 sm:p-5 rounded-xl editorial-card space-y-3.5 shadow-xs">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* Keyword search */}
           <div className="relative">
-            <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#64748B]" />
+            <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6B6B67]" />
             <input
               type="text"
               placeholder="Search title, company, skill..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#0F172A] placeholder-[#94A3B8] font-medium focus:outline-none focus:border-[#2563EB]"
+              className="w-full pl-9 pr-3 py-2 rounded-lg bg-[#FAF9F5] border border-[#DDDAD2] text-xs text-[#111111] placeholder-[#6B6B67] font-medium focus:outline-none focus:border-[#111111]"
             />
           </div>
 
@@ -172,7 +173,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
             <select
               value={selectedSource}
               onChange={(e) => setSelectedSource(e.target.value)}
-              className="w-full py-2 px-3 rounded-lg huvo-input text-xs text-[#111827]"
+              className="w-full py-2 px-3 rounded-lg bg-[#FAF9F5] border border-[#DDDAD2] text-xs text-[#111111] focus:outline-none focus:border-[#111111]"
             >
               <option value="all">All Job Sources</option>
               <option value="RemoteOK">RemoteOK (Live API)</option>
@@ -190,7 +191,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
             <select
               value={minScore}
               onChange={(e) => setMinScore(Number(e.target.value))}
-              className="w-full py-2 px-3 rounded-lg huvo-input text-xs text-[#111827]"
+              className="w-full py-2 px-3 rounded-lg bg-[#FAF9F5] border border-[#DDDAD2] text-xs text-[#111111] focus:outline-none focus:border-[#111111]"
             >
               <option value={0}>All Match Scores</option>
               <option value={85}>🔥 Strong Match (85%+)</option>
@@ -200,13 +201,13 @@ export const JobsView: React.FC<JobsViewProps> = ({
           </div>
 
           {/* Remote Toggle */}
-          <div className="flex items-center justify-between px-3.5 py-2 rounded-lg huvo-input">
-            <span className="text-xs text-[#374151] font-semibold">Remote Only</span>
+          <div className="flex items-center justify-between px-3.5 py-2 rounded-lg bg-[#FAF9F5] border border-[#DDDAD2]">
+            <span className="text-xs text-[#111111] font-semibold">Remote Only</span>
             <input
               type="checkbox"
               checked={remoteOnly}
               onChange={(e) => setRemoteOnly(e.target.checked)}
-              className="w-4 h-4 rounded text-[#2563EB] focus:ring-[#2563EB] border-[#E5E7EB]"
+              className="w-4 h-4 rounded text-[#FF5A36] focus:ring-[#FF5A36] border-[#DDDAD2]"
             />
           </div>
         </div>
@@ -215,10 +216,10 @@ export const JobsView: React.FC<JobsViewProps> = ({
       {/* Jobs Grid List */}
       <div className="space-y-3.5">
         {filteredJobs.length === 0 ? (
-          <div className="p-12 text-center bg-white rounded-2xl border border-[#E5E7EB] shadow-xs space-y-3">
-            <Briefcase className="w-8 h-8 text-[#9CA3AF] mx-auto" />
-            <h3 className="text-sm font-bold text-[#111827] font-['Inter',sans-serif]">No jobs match your filter criteria</h3>
-            <p className="text-xs text-[#6B7280]">
+          <div className="p-12 text-center editorial-card shadow-xs space-y-3">
+            <Briefcase className="w-8 h-8 text-[#6B6B67] mx-auto" />
+            <h3 className="text-sm font-bold text-[#111111]">No jobs match your filter criteria</h3>
+            <p className="text-xs text-[#6B6B67]">
               Try adjusting your search keywords, lowering the match threshold, or clicking "Search & Ingest Live Jobs".
             </p>
           </div>
@@ -234,72 +235,72 @@ export const JobsView: React.FC<JobsViewProps> = ({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -2 }}
-                transition={{ duration: 0.25 }}
-                className="p-5 sm:p-6 rounded-2xl huvo-card-interactive space-y-4"
+                transition={{ duration: 0.22 }}
+                className="p-5 sm:p-6 editorial-card-interactive space-y-4 shadow-xs"
               >
                 <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
                   <div className="space-y-2 flex-1">
                     <div className="flex items-center gap-2.5 flex-wrap">
-                      <h2 className="text-base sm:text-lg font-bold text-[#111827] hover:text-[#2563EB] transition-colors font-['Inter',sans-serif]">
+                      <h2 className="text-base sm:text-lg font-bold text-[#111111] hover:text-[#FF5A36] transition-colors">
                         {job.title}
                       </h2>
-                      <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-[#F3F4F6] text-[#4B5563] border border-[#E5E7EB]">
+                      <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-[#FAF9F5] text-[#6B6B67] border border-[#DDDAD2]">
                         {job.source}
                       </span>
                       {job.remote && (
-                        <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-[#10B981] border border-emerald-200">
+                        <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#FAF9F5] text-[#111111] border border-[#DDDAD2]">
                           Remote
                         </span>
                       )}
                     </div>
 
-                    <div className="flex items-center gap-4 text-xs text-[#4B5563] flex-wrap">
-                      <span className="flex items-center gap-1.5 font-medium text-[#111827]">
-                        <Building className="w-3.5 h-3.5 text-[#6B7280]" />
-                        <strong>{job.company}</strong>
+                    <div className="flex items-center gap-4 text-xs text-[#6B6B67] flex-wrap">
+                      <span className="flex items-center gap-1.5 font-semibold text-[#111111]">
+                        <Building className="w-3.5 h-3.5 text-[#6B6B67]" />
+                        <span>{job.company}</span>
                       </span>
                       <span className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-[#6B7280]" />
+                        <MapPin className="w-3.5 h-3.5 text-[#6B6B67]" />
                         {job.location}
                       </span>
                       {job.salary && (
-                        <span className="flex items-center gap-1.5 font-semibold text-[#10B981]">
-                          <DollarSign className="w-3.5 h-3.5" />
+                        <span className="flex items-center gap-1.5 font-mono font-semibold text-[#111111]">
+                          <DollarSign className="w-3.5 h-3.5 text-[#6B6B67]" />
                           ${(job.salary.min || 130000).toLocaleString()} - ${(job.salary.max || 170000).toLocaleString()}
                         </span>
                       )}
-                      <span className="flex items-center gap-1.5">
-                        <Clock className="w-3.5 h-3.5 text-[#6B7280]" />
+                      <span className="flex items-center gap-1.5 font-mono text-[11px]">
+                        <Clock className="w-3.5 h-3.5 text-[#6B6B67]" />
                         {new Date(job.postedAt).toLocaleDateString()}
                       </span>
                     </div>
 
-                    <p className="text-xs text-[#4B5563] line-clamp-2 leading-relaxed pt-1">
+                    <p className="text-xs text-[#6B6B67] line-clamp-2 leading-relaxed pt-1 font-normal">
                       {job.description}
                     </p>
                   </div>
 
                   {/* Right Score Pill */}
-                  <div className="flex items-center gap-2 lg:self-start">
+                  <div className="flex items-center gap-2 lg:self-start shrink-0">
                     {score !== undefined ? (
                       <div
-                        className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 font-mono ${
+                        className={`px-3.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 font-mono ${
                           score >= 85
-                            ? 'bg-emerald-50 text-[#10B981] border border-emerald-200'
+                            ? 'bg-[#FFE8E1] text-[#FF5A36] border border-[#FF5A36]/30'
                             : score >= 70
-                            ? 'bg-blue-50 text-[#2563EB] border border-blue-200'
-                            : 'bg-gray-50 text-[#6B7280] border border-[#E5E7EB]'
+                            ? 'bg-[#FAF9F5] text-[#111111] border border-[#DDDAD2]'
+                            : 'bg-[#FAF9F5] text-[#6B6B67] border border-[#DDDAD2]'
                         }`}
                       >
-                        <Flame className="w-4 h-4 text-[#2563EB]" />
+                        <Flame className="w-4 h-4 text-[#FF5A36]" />
                         <span>{score}% Match</span>
                       </div>
                     ) : (
                       <button
                         onClick={() => onMatchJob(job.id)}
-                        className="px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#F3F4F6] text-[#4B5563] border border-[#E5E7EB] text-xs font-semibold flex items-center gap-1.5 transition-all shadow-2xs"
+                        className="btn-secondary-outline text-xs py-1.5 px-3"
                       >
-                        <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
+                        <Sparkles className="w-3.5 h-3.5 text-[#FF5A36]" />
                         <span>Score Fit</span>
                       </button>
                     )}
@@ -308,22 +309,22 @@ export const JobsView: React.FC<JobsViewProps> = ({
 
                 {/* AI Match Explanation */}
                 {match?.reason && (
-                  <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E5E7EB] text-xs text-[#374151] space-y-1.5">
-                    <div className="flex items-center gap-1.5 text-[#2563EB] font-semibold">
+                  <div className="p-3.5 rounded-lg bg-[#FAF9F5] border border-[#DDDAD2] text-xs text-[#111111] space-y-1.5">
+                    <div className="flex items-center gap-1.5 text-[#FF5A36] font-semibold text-[11px] uppercase font-mono tracking-wider">
                       <Sparkles className="w-3.5 h-3.5" />
-                      <span>Gemini 3.7 Evaluation</span>
+                      <span>Gemini 2.0 Evaluation</span>
                     </div>
-                    <p className="leading-relaxed font-sans">{match.reason}</p>
+                    <p className="leading-relaxed font-sans text-xs text-[#6B6B67]">{match.reason}</p>
                   </div>
                 )}
 
                 {/* Skills & Action Buttons */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#E5E7EB]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#DDDAD2]">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     {job.skillsRequired.slice(0, 5).map((skill, idx) => (
                       <span
                         key={idx}
-                        className="px-2.5 py-0.5 rounded-md text-[11px] font-medium bg-[#F3F4F6] text-[#4B5563] border border-[#E5E7EB]"
+                        className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-[#FAF9F5] text-[#6B6B67] border border-[#DDDAD2]"
                       >
                         {skill}
                       </span>
@@ -333,25 +334,25 @@ export const JobsView: React.FC<JobsViewProps> = ({
                   <div className="flex items-center gap-2 self-end sm:self-auto">
                     <button
                       onClick={() => onGenerateCoverLetter(job.id)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-[#F3F4F6] text-[#374151] text-xs font-semibold border border-[#E5E7EB] transition-all shadow-2xs"
+                      className="btn-secondary-outline text-xs py-1.5 px-3"
                     >
-                      <FileText className="w-3.5 h-3.5 text-[#2563EB]" />
+                      <FileText className="w-3.5 h-3.5 text-[#FF5A36]" />
                       <span>Custom Cover Letter</span>
                     </button>
 
                     {hasApp ? (
                       <button
                         onClick={() => onOpenApplication(job.applicationId!)}
-                        className="flex items-center gap-1 px-3.5 py-1.5 rounded-lg bg-blue-50 text-[#2563EB] border border-blue-200 text-xs font-semibold hover:bg-blue-100 transition-all font-['Geist',sans-serif]"
+                        className="btn-secondary-outline text-xs py-1.5 px-3.5 font-semibold text-[#FF5A36] border-[#DDDAD2] hover:border-[#FF5A36]"
                       >
                         <span>View Application ({job.applicationStatus?.replace(/_/g, ' ')})</span>
-                        <ChevronRight className="w-3.5 h-3.5" />
+                        <ChevronRight className="w-3.5 h-3.5 text-[#FF5A36]" />
                       </button>
                     ) : (
                       <button
                         id={`job-prepare-btn-${job.id}`}
                         onClick={() => onPrepareApplication(job.id)}
-                        className="huvo-glow-button flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-white text-xs font-bold transition-all font-['Geist',sans-serif]"
+                        className="btn-accent text-xs py-1.5 px-4 font-semibold"
                       >
                         <Sparkles className="w-3.5 h-3.5 text-white" />
                         <span>Prepare Application</span>
@@ -367,30 +368,30 @@ export const JobsView: React.FC<JobsViewProps> = ({
 
       {/* Import Custom Job Modal */}
       {isImportModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200 font-['Geist',sans-serif]">
-          <div className="relative w-full max-w-xl bg-white border border-[#E2E8F0] rounded-2xl shadow-2xl overflow-hidden">
-            <div className="px-6 py-4.5 border-b border-[#E2E8F0] flex items-center justify-between bg-[#F8FAFC]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#111111]/50 backdrop-blur-xs animate-in fade-in duration-200 font-['Geist',sans-serif]">
+          <div className="relative w-full max-w-xl bg-[#FCFBF8] border border-[#DDDAD2] rounded-2xl shadow-xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-[#DDDAD2] flex items-center justify-between bg-[#FAF9F5]">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center border border-blue-200">
-                  <Globe className="w-4 h-4 text-[#2563EB]" />
+                <div className="w-8 h-8 rounded-lg bg-[#FCFBF8] border border-[#DDDAD2] flex items-center justify-center shadow-xs">
+                  <Globe className="w-4 h-4 text-[#FF5A36]" />
                 </div>
-                <h3 className="text-xl font-normal font-editorial text-[#0F172A] tracking-tight">Import Custom Job Posting</h3>
+                <h3 className="text-xl font-normal font-editorial text-[#111111] tracking-tight">Import Custom Job Posting</h3>
               </div>
               <button
                 onClick={() => setIsImportModalOpen(false)}
-                className="p-1.5 rounded-lg text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] transition-all"
+                className="btn-icon p-1.5 text-[#6B6B67] hover:text-[#111111]"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             <form onSubmit={handleImportCustomSubmit} className="p-6 space-y-4">
-              <p className="text-xs text-[#475569] leading-relaxed">
-                Paste a link or raw description from any job site (LinkedIn, Greenhouse, Lever, Ashby, Indeed, etc.). The Gemini AI will extract the role requirements, score candidate match, and generate an application package.
+              <p className="text-xs text-[#6B6B67] leading-relaxed">
+                Paste a link or raw description from any job site (LinkedIn, Greenhouse, Lever, Ashby, Indeed, etc.). Gemini AI will extract the role requirements, score candidate match, and generate an application package.
               </p>
 
               <div>
-                <label className="block text-xs font-bold text-[#0F172A] mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">
+                <label className="block text-xs font-mono font-bold text-[#111111] mb-1.5 uppercase tracking-wider">
                   Job URL (Optional)
                 </label>
                 <input
@@ -398,12 +399,12 @@ export const JobsView: React.FC<JobsViewProps> = ({
                   placeholder="https://jobs.lever.co/stripe/..."
                   value={customJobUrl}
                   onChange={(e) => setCustomJobUrl(e.target.value)}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#0F172A] mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">
+                <label className="block text-xs font-mono font-bold text-[#111111] mb-1.5 uppercase tracking-wider">
                   Raw Job Description or Requirement Details
                 </label>
                 <textarea
@@ -411,22 +412,22 @@ export const JobsView: React.FC<JobsViewProps> = ({
                   placeholder="Paste the full job posting, tech stack, and responsibilities here..."
                   value={customJobText}
                   onChange={(e) => setCustomJobText(e.target.value)}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-sans"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-sans focus:outline-none focus:border-[#111111]"
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#E2E8F0]">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#DDDAD2]">
                 <button
                   type="button"
                   onClick={() => setIsImportModalOpen(false)}
-                  className="px-4 py-2 rounded-lg bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#334155] text-xs font-semibold border border-[#E2E8F0] transition-all"
+                  className="btn-secondary-outline text-xs py-2 px-4"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isImportingCustom || (!customJobUrl.trim() && !customJobText.trim())}
-                  className="huvo-glow-button flex items-center gap-1.5 px-5 py-2 rounded-lg text-white text-xs font-bold transition-all disabled:opacity-50 font-['Geist',sans-serif]"
+                  className="btn-accent text-xs py-2 px-5 disabled:opacity-50"
                 >
                   {isImportingCustom ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-white" />}
                   <span>{isImportingCustom ? 'Parsing & Matching...' : 'Import & Match'}</span>

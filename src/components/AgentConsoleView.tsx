@@ -87,41 +87,41 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center">
-              <Bot className="w-4 h-4 text-[#2563EB]" />
+            <div className="w-8 h-8 rounded-lg bg-[#FCFBF8] border border-[#DDDAD2] flex items-center justify-center shadow-xs">
+              <Bot className="w-4 h-4 text-[#FF5A36]" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-normal font-editorial text-[#0F172A] tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-normal font-editorial text-[#111111] tracking-tight">
               AI Agent Telemetry Console
             </h1>
           </div>
-          <p className="text-xs text-[#64748B] mt-1">
+          <p className="text-xs text-[#6B6B67] mt-1">
             Autonomous multi-step ReAct reasoning loop. Executes tool calling with strict human-in-the-loop safety boundaries.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <span
-            className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 font-['Geist_Mono',monospace] ${
+            className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 font-mono ${
               isAgentRunning
-                ? 'bg-amber-50 text-amber-700 border border-amber-300 animate-pulse'
-                : 'bg-emerald-50 text-[#10B981] border border-emerald-200'
+                ? 'bg-[#FFE8E1] text-[#FF5A36] border border-[#FF5A36]/30 animate-pulse'
+                : 'bg-[#FAF9F5] text-[#111111] border border-[#DDDAD2]'
             }`}
           >
-            <span className={`w-2 h-2 rounded-full ${isAgentRunning ? 'bg-amber-500' : 'bg-[#10B981]'}`} />
+            <span className={`w-2 h-2 rounded-full ${isAgentRunning ? 'bg-[#FF5A36]' : 'bg-[#111111]'}`} />
             <span>{isAgentRunning ? 'Agent Loop Running' : 'Telemetry Ready'}</span>
           </span>
         </div>
       </div>
 
       {/* Agent Goal Input & Controls Box */}
-      <div className="p-6 rounded-2xl bg-white space-y-4 border border-[#E2E8F0] shadow-xs">
+      <div className="p-6 rounded-xl editorial-card space-y-4 shadow-xs">
         <div className="space-y-2">
-          <label className="text-xs font-bold text-[#0F172A] flex items-center justify-between uppercase tracking-wider font-['Geist',sans-serif]">
+          <label className="text-xs font-mono font-bold text-[#111111] flex items-center justify-between uppercase tracking-wider">
             <span className="flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#FF5A36]" />
               Autonomous Agent Goal Prompt
             </span>
-            <span className="text-[11px] text-[#64748B] font-['Geist_Mono',monospace] normal-case">Natural language instruction</span>
+            <span className="text-[11px] text-[#6B6B67] normal-case">Natural language instruction</span>
           </label>
           <textarea
             id="agent-goal-textarea"
@@ -129,13 +129,13 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
             value={goal}
             onChange={(e) => setGoal(e.target.value)}
             placeholder="Describe the agent objective..."
-            className="w-full text-xs sm:text-sm text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-4 focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-500/10 font-sans leading-relaxed"
+            className="w-full text-xs sm:text-sm text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-xl p-4 focus:outline-none focus:border-[#111111] font-sans leading-relaxed"
           />
         </div>
 
         {/* Presets */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          <span className="text-[11px] text-[#64748B] font-semibold uppercase tracking-wider whitespace-nowrap font-['Geist_Mono',monospace]">Presets:</span>
+          <span className="text-[11px] text-[#6B6B67] font-semibold uppercase tracking-wider whitespace-nowrap font-mono">Presets:</span>
           {presets.map((p, i) => (
             <button
               key={i}
@@ -143,16 +143,16 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
                 setGoal(p.prompt);
                 setMinMatchScore(p.score);
               }}
-              className="px-3 py-1 rounded-lg bg-[#F1F5F9] hover:bg-[#E2E8F0] text-[#334155] text-[11px] font-medium whitespace-nowrap transition-all border border-[#E2E8F0]"
+              className="px-3 py-1 rounded-lg bg-[#FAF9F5] hover:bg-[#F0EFEA] text-[#111111] text-[11px] font-medium whitespace-nowrap transition-all border border-[#DDDAD2]"
             >
               {p.label}
             </button>
           ))}
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-[#E2E8F0]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-[#DDDAD2]">
           <div className="flex items-center gap-3">
-            <label className="text-xs text-[#64748B] font-medium font-['Geist',sans-serif]">Min Match Score:</label>
+            <label className="text-xs text-[#6B6B67] font-medium">Min Match Score:</label>
             <div className="flex items-center gap-2">
               <input
                 type="range"
@@ -161,9 +161,9 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
                 step={5}
                 value={minMatchScore}
                 onChange={(e) => setMinMatchScore(Number(e.target.value))}
-                className="w-32 accent-[#2563EB]"
+                className="w-32 accent-[#FF5A36]"
               />
-              <span className="text-xs font-bold text-[#2563EB] w-10 font-['Geist_Mono',monospace]">{minMatchScore}%</span>
+              <span className="text-xs font-bold text-[#FF5A36] w-10 font-mono">{minMatchScore}%</span>
             </div>
           </div>
 
@@ -171,7 +171,7 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
             id="execute-agent-loop-btn"
             onClick={handleLaunch}
             disabled={isAgentRunning || !goal.trim()}
-            className="huvo-glow-button flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-white font-bold text-xs shadow-md shadow-blue-500/20 transition-all active:scale-95 disabled:opacity-50 font-['Geist',sans-serif]"
+            className="btn-accent text-xs py-2.5 px-6 font-semibold disabled:opacity-50"
           >
             {isAgentRunning ? (
               <RotateCw className="w-4 h-4 animate-spin" />
@@ -185,42 +185,42 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
 
       {/* Metrics Banner */}
       {currentSession && (
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3.5 p-5 rounded-2xl bg-white border border-[#E2E8F0] shadow-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3.5 p-5 rounded-xl editorial-card shadow-xs">
           <div className="space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] font-['Geist_Mono',monospace]">Jobs Scanned</span>
-            <div className="text-xl font-extrabold text-[#0F172A] tracking-tight">{currentSession.metrics.jobsScanned}</div>
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#6B6B67]">Jobs Scanned</span>
+            <div className="text-xl font-extrabold text-[#111111] tracking-tight">{currentSession.metrics.jobsScanned}</div>
           </div>
           <div className="space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] font-['Geist_Mono',monospace]">AI Matches</span>
-            <div className="text-xl font-extrabold text-[#2563EB] tracking-tight">{currentSession.metrics.jobsMatched}</div>
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#6B6B67]">AI Matches</span>
+            <div className="text-xl font-extrabold text-[#FF5A36] tracking-tight">{currentSession.metrics.jobsMatched}</div>
           </div>
           <div className="space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] font-['Geist_Mono',monospace]">Letters Synthesized</span>
-            <div className="text-xl font-extrabold text-purple-600 tracking-tight">{currentSession.metrics.coverLettersGenerated}</div>
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#6B6B67]">Letters Synthesized</span>
+            <div className="text-xl font-extrabold text-[#111111] tracking-tight">{currentSession.metrics.coverLettersGenerated}</div>
           </div>
           <div className="space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] font-['Geist_Mono',monospace]">Applications Prepared</span>
-            <div className="text-xl font-extrabold text-amber-600 tracking-tight">{currentSession.metrics.applicationsPrepared}</div>
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#6B6B67]">Applications Prepared</span>
+            <div className="text-xl font-extrabold text-[#FF5A36] tracking-tight">{currentSession.metrics.applicationsPrepared}</div>
           </div>
           <div className="space-y-1">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748B] font-['Geist_Mono',monospace]">Dispatched Alerts</span>
-            <div className="text-xl font-extrabold text-[#10B981] tracking-tight">{currentSession.metrics.notificationsSent}</div>
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#6B6B67]">Dispatched Alerts</span>
+            <div className="text-xl font-extrabold text-[#111111] tracking-tight">{currentSession.metrics.notificationsSent}</div>
           </div>
         </div>
       )}
 
       {/* Live ReAct Execution Trace / Console Logs */}
-      <div className="p-6 rounded-2xl bg-white space-y-4 border border-[#E2E8F0] shadow-xs">
+      <div className="p-6 rounded-xl editorial-card space-y-4 shadow-xs">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-[#2563EB]" />
-            <h2 className="text-base font-normal font-editorial text-[#0F172A] tracking-tight">ReAct Execution Trace & Reasoning Log</h2>
+            <Terminal className="w-4 h-4 text-[#FF5A36]" />
+            <h2 className="text-base font-normal font-editorial text-[#111111] tracking-tight">ReAct Execution Trace & Reasoning Log</h2>
           </div>
 
           {currentSession?.status === 'completed' && currentSession.metrics.applicationsPrepared > 0 && (
             <button
               onClick={() => onNavigateTab('applications')}
-              className="huvo-glow-button flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-white font-bold text-xs transition-all font-['Geist',sans-serif]"
+              className="btn-accent text-xs py-1.5 px-3.5 font-semibold"
             >
               <span>Review Prepared Applications</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -229,8 +229,8 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
         </div>
 
         {!currentSession || currentSession.logs.length === 0 ? (
-          <div className="p-12 text-center text-[#64748B] text-xs border border-dashed border-[#CBD5E1] rounded-xl space-y-2 bg-[#F8FAFC]">
-            <Bot className="w-8 h-8 text-[#94A3B8] mx-auto" />
+          <div className="p-12 text-center text-[#6B6B67] text-xs border border-dashed border-[#DDDAD2] rounded-xl space-y-2 bg-[#FAF9F5]">
+            <Bot className="w-8 h-8 text-[#6B6B67] mx-auto" />
             <p>Click "Execute Autonomous Loop" above to watch the step-by-step reasoning telemetry live.</p>
           </div>
         ) : (
@@ -242,34 +242,34 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
                   key={log.id}
                   className={`p-4 sm:p-5 rounded-xl border transition-all ${
                     log.status === 'waiting_approval'
-                      ? 'bg-amber-50/60 border-amber-300'
+                      ? 'bg-[#FFE8E1]/20 border-[#FF5A36]/40'
                       : log.status === 'failed'
                       ? 'bg-rose-50/60 border-rose-300'
-                      : 'bg-[#F8FAFC] border-[#E2E8F0]'
+                      : 'bg-[#FAF9F5] border-[#DDDAD2]'
                   }`}
                 >
                   {/* Step Header */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2.5">
-                      <span className="px-2.5 py-0.5 rounded-md text-[10px] font-['Geist_Mono',monospace] font-bold bg-blue-50 text-[#2563EB] border border-blue-200">
+                      <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#FFE8E1] text-[#FF5A36] border border-[#FF5A36]/30">
                         STEP {log.step}
                       </span>
-                      <span className="text-xs font-bold text-[#0F172A] font-['Geist',sans-serif]">{log.action}</span>
+                      <span className="text-xs font-bold text-[#111111]">{log.action}</span>
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-md text-[10px] font-['Geist_Mono',monospace] bg-[#F1F5F9] text-[#475569] border border-[#E2E8F0]">
+                      <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono bg-[#FCFBF8] text-[#6B6B67] border border-[#DDDAD2]">
                         tool: {log.tool}
                       </span>
-                      <span className="text-[10px] text-[#94A3B8] font-['Geist_Mono',monospace]">
+                      <span className="text-[10px] text-[#6B6B67] font-mono">
                         {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
                       </span>
                     </div>
                   </div>
 
                   {/* Thought / Reasoning Bubble */}
-                  <div className="mt-3 p-3.5 rounded-lg bg-white border border-[#E2E8F0] text-xs text-[#334155] leading-relaxed font-sans shadow-2xs">
-                    <div className="flex items-center gap-1.5 text-[#2563EB] font-bold text-[11px] mb-1 uppercase tracking-wider font-['Geist_Mono',monospace]">
+                  <div className="mt-3 p-3.5 rounded-lg bg-[#FCFBF8] border border-[#DDDAD2] text-xs text-[#111111] leading-relaxed font-sans shadow-2xs">
+                    <div className="flex items-center gap-1.5 text-[#FF5A36] font-bold text-[11px] mb-1 uppercase tracking-wider font-mono">
                       <Sparkles className="w-3 h-3" />
                       <span>Observation & Reasoning</span>
                     </div>
@@ -280,7 +280,7 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
                   <div className="mt-3 flex items-center justify-between">
                     <button
                       onClick={() => toggleLogExpand(log.id)}
-                      className="text-[11px] text-[#64748B] hover:text-[#0F172A] flex items-center gap-1 font-['Geist_Mono',monospace] transition-colors"
+                      className="text-[11px] text-[#6B6B67] hover:text-[#111111] flex items-center gap-1 font-mono transition-colors"
                     >
                       <Code2 className="w-3 h-3" />
                       <span>{isExpanded ? 'Hide Payload' : 'View Tool I/O Data'}</span>
@@ -288,7 +288,7 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
                     </button>
 
                     {log.status === 'waiting_approval' && (
-                      <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300 flex items-center gap-1 font-['Geist_Mono',monospace]">
+                      <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#FFE8E1] text-[#FF5A36] border border-[#FF5A36]/30 flex items-center gap-1">
                         <ShieldCheck className="w-3 h-3" />
                         Human-In-The-Loop Guard
                       </span>
@@ -296,14 +296,14 @@ export const AgentConsoleView: React.FC<AgentConsoleViewProps> = ({
                   </div>
 
                   {isExpanded && (
-                    <div className="mt-2.5 grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px] font-['Geist_Mono',monospace] pt-2.5 border-t border-[#E2E8F0]">
-                      <div className="bg-white p-3 rounded-lg overflow-x-auto border border-[#E2E8F0] shadow-2xs">
-                        <span className="text-[#64748B] font-bold block mb-1">Input Arguments:</span>
-                        <pre className="text-[#334155]">{JSON.stringify(log.input, null, 2)}</pre>
+                    <div className="mt-2.5 grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px] font-mono pt-2.5 border-t border-[#DDDAD2]">
+                      <div className="code-editor-surface p-3 rounded-lg overflow-x-auto">
+                        <span className="text-[#6B6B67] font-bold block mb-1">Input Arguments:</span>
+                        <pre className="text-[#EDECE8]">{JSON.stringify(log.input, null, 2)}</pre>
                       </div>
-                      <div className="bg-white p-3 rounded-lg overflow-x-auto border border-[#E2E8F0] shadow-2xs">
-                        <span className="text-[#64748B] font-bold block mb-1">Execution Output:</span>
-                        <pre className="text-[#334155]">{JSON.stringify(log.output, null, 2)}</pre>
+                      <div className="code-editor-surface p-3 rounded-lg overflow-x-auto">
+                        <span className="text-[#6B6B67] font-bold block mb-1">Execution Output:</span>
+                        <pre className="text-[#EDECE8]">{JSON.stringify(log.output, null, 2)}</pre>
                       </div>
                     </div>
                   )}

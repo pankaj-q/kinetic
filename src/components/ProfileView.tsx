@@ -131,37 +131,37 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center">
-              <FileText className="w-4 h-4 text-[#2563EB]" />
+            <div className="w-8 h-8 rounded-lg bg-[#FCFBF8] border border-[#DDDAD2] flex items-center justify-center shadow-xs">
+              <FileText className="w-4 h-4 text-[#FF5A36]" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-normal font-editorial text-[#0F172A] tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-normal font-editorial text-[#111111] tracking-tight">
               Candidate Profile & Resume Studio
             </h1>
           </div>
-          <p className="text-xs text-[#64748B] mt-1">
+          <p className="text-xs text-[#6B6B67] mt-1">
             Your single source of truth for AI match evaluation and truthful cover letter synthesis.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           {saveSuccess && (
-            <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" />
+            <span className="text-xs font-semibold text-emerald-700 flex items-center gap-1 font-mono">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               Saved successfully
             </span>
           )}
           <button
             onClick={handleExportProfile}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] text-[#0F172A] text-xs font-semibold shadow-xs transition-all font-['Geist',sans-serif]"
+            className="btn-secondary-outline text-xs py-2 px-3.5"
           >
-            <Download className="w-3.5 h-3.5 text-[#2563EB]" />
+            <Download className="w-3.5 h-3.5 text-[#FF5A36]" />
             <span>Export JSON</span>
           </button>
           <button
             id="save-profile-btn"
             onClick={handleSave}
             disabled={isSaving}
-            className="huvo-glow-button flex items-center gap-1.5 px-4.5 py-2 rounded-xl text-white text-xs font-bold transition-all disabled:opacity-50"
+            className="btn-accent text-xs py-2 px-4.5 disabled:opacity-50 font-semibold"
           >
             {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
             <span>{isSaving ? 'Saving Profile...' : 'Save Profile Changes'}</span>
@@ -170,16 +170,16 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
       </div>
 
       {/* Resume AI Parser Box */}
-      <div className="p-6 rounded-2xl bg-white space-y-4 border border-[#E2E8F0] shadow-xs">
+      <div className="p-6 rounded-xl editorial-card space-y-4 shadow-xs">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-[#2563EB]" />
-            <h2 className="text-base font-normal font-editorial text-[#0F172A] tracking-tight">AI Resume Extraction Engine</h2>
+            <Sparkles className="w-4 h-4 text-[#FF5A36]" />
+            <h2 className="text-base font-normal font-editorial text-[#111111] tracking-tight">AI Resume Extraction Engine</h2>
           </div>
-          <span className="text-[11px] text-[#2563EB] font-['Geist_Mono',monospace]">Gemini 3.7 Structured Parser</span>
+          <span className="text-[11px] font-mono text-[#FF5A36] font-bold">Gemini 2.0 Structured Parser</span>
         </div>
 
-        <p className="text-xs text-[#64748B] leading-relaxed font-sans">
+        <p className="text-xs text-[#6B6B67] leading-relaxed font-sans">
           Upload a resume file (.txt, .md, .json) or paste your raw text below. The AI will automatically extract work history, metrics, tech stack skills,
           and career timelines into structured candidate fields.
         </p>
@@ -189,7 +189,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
           value={resumeText}
           onChange={(e) => setResumeText(e.target.value)}
           placeholder="Paste raw resume or LinkedIn text here (e.g. Alex Morgan, Senior Backend Engineer, 7+ years in Go/Node.js, AWS, Postgres, Kafka...)"
-          className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3.5 focus:outline-none focus:border-[#2563EB] font-['Geist_Mono',monospace]"
+          className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-xl p-3.5 focus:outline-none focus:border-[#111111] font-mono"
         />
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -204,18 +204,18 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F1F5F9] border border-[#E2E8F0] text-[#334155] text-xs font-semibold transition-all"
+              className="btn-secondary-outline text-xs py-1.5 px-3.5"
             >
-              <Upload className="w-3.5 h-3.5 text-[#2563EB]" />
+              <Upload className="w-3.5 h-3.5 text-[#FF5A36]" />
               <span>Upload Resume File</span>
             </button>
-            <span className="text-[11px] text-[#94A3B8] font-['Geist_Mono',monospace]">Supports .txt, .md, .json</span>
+            <span className="text-[11px] text-[#6B6B67] font-mono">Supports .txt, .md, .json</span>
           </div>
 
           <button
             onClick={handleParse}
             disabled={isParsing || !resumeText.trim()}
-            className="huvo-glow-button flex items-center justify-center gap-1.5 px-4.5 py-1.5 rounded-lg text-white text-xs font-bold transition-all disabled:opacity-50 font-['Geist',sans-serif]"
+            className="btn-accent text-xs py-1.5 px-4.5 disabled:opacity-50 font-semibold"
           >
             {isParsing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-white" />}
             <span>{isParsing ? 'Parsing Resume...' : 'Parse & Populate Profile'}</span>
@@ -224,43 +224,43 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-[#E2E8F0] pb-1 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-[#DDDAD2] pb-1 overflow-x-auto">
         <button
           onClick={() => setActiveTab('profile')}
-          className={`py-2 px-3.5 text-xs font-bold rounded-lg transition-all font-['Geist',sans-serif] ${
+          className={`py-2 px-3.5 text-xs font-semibold rounded-lg transition-all ${
             activeTab === 'profile'
-              ? 'bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0]'
-              : 'text-[#64748B] hover:text-[#0F172A]'
+              ? 'bg-[#FCFBF8] text-[#111111] border border-[#DDDAD2] shadow-2xs'
+              : 'text-[#6B6B67] hover:text-[#111111]'
           }`}
         >
           Personal & Bio
         </button>
         <button
           onClick={() => setActiveTab('experience')}
-          className={`py-2 px-3.5 text-xs font-bold rounded-lg transition-all font-['Geist',sans-serif] ${
+          className={`py-2 px-3.5 text-xs font-semibold rounded-lg transition-all ${
             activeTab === 'experience'
-              ? 'bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0]'
-              : 'text-[#64748B] hover:text-[#0F172A]'
+              ? 'bg-[#FCFBF8] text-[#111111] border border-[#DDDAD2] shadow-2xs'
+              : 'text-[#6B6B67] hover:text-[#111111]'
           }`}
         >
           Work History ({formData.experience.length})
         </button>
         <button
           onClick={() => setActiveTab('skills')}
-          className={`py-2 px-3.5 text-xs font-bold rounded-lg transition-all font-['Geist',sans-serif] ${
+          className={`py-2 px-3.5 text-xs font-semibold rounded-lg transition-all ${
             activeTab === 'skills'
-              ? 'bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0]'
-              : 'text-[#64748B] hover:text-[#0F172A]'
+              ? 'bg-[#FCFBF8] text-[#111111] border border-[#DDDAD2] shadow-2xs'
+              : 'text-[#6B6B67] hover:text-[#111111]'
           }`}
         >
           Skills & Tech Stack ({formData.skills.length})
         </button>
         <button
           onClick={() => setActiveTab('preferences')}
-          className={`py-2 px-3.5 text-xs font-bold rounded-lg transition-all font-['Geist',sans-serif] ${
+          className={`py-2 px-3.5 text-xs font-semibold rounded-lg transition-all ${
             activeTab === 'preferences'
-              ? 'bg-[#F1F5F9] text-[#0F172A] border border-[#E2E8F0]'
-              : 'text-[#64748B] hover:text-[#0F172A]'
+              ? 'bg-[#FCFBF8] text-[#111111] border border-[#DDDAD2] shadow-2xs'
+              : 'text-[#6B6B67] hover:text-[#111111]'
           }`}
         >
           Search Preferences & Salary
@@ -268,78 +268,78 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
       </div>
 
       {/* Tab Contents */}
-      <div className="p-6 sm:p-7 rounded-2xl bg-white space-y-6 border border-[#E2E8F0] shadow-xs">
+      <div className="p-6 sm:p-7 rounded-xl editorial-card space-y-6 shadow-xs">
         {activeTab === 'profile' && (
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">Full Legal Name</label>
+                <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">Full Legal Name</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 focus:outline-none focus:border-[#111111]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">Email Address</label>
+                <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">Email Address</label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">Phone Number</label>
+                <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">Phone Number</label>
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">Current Location</label>
+                <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">Current Location</label>
                 <input
                   type="text"
                   value={formData.location}
                   onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 focus:outline-none focus:border-[#111111]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">LinkedIn Profile URL</label>
+                <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">LinkedIn Profile URL</label>
                 <input
                   type="text"
                   value={formData.linkedinUrl || ''}
                   onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">GitHub / Portfolio URL</label>
+                <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">GitHub / Portfolio URL</label>
                 <input
                   type="text"
                   value={formData.githubUrl || formData.portfolioUrl || ''}
                   onChange={(e) => setFormData({ ...formData, githubUrl: e.target.value })}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">Professional Summary</label>
+              <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">Professional Summary</label>
               <textarea
                 rows={3}
                 value={formData.summary}
                 onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
-                className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3.5 leading-relaxed"
+                className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3.5 leading-relaxed focus:outline-none focus:border-[#111111]"
               />
             </div>
           </div>
@@ -348,25 +348,25 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
         {activeTab === 'experience' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-normal font-editorial text-[#0F172A] tracking-tight">Work History & Technical Milestones</h3>
-              <span className="text-xs text-[#64748B] font-['Geist_Mono',monospace]">{formData.yearsOfExperience} Years Experience</span>
+              <h3 className="text-base font-normal font-editorial text-[#111111] tracking-tight">Work History & Technical Milestones</h3>
+              <span className="text-xs text-[#6B6B67] font-mono">{formData.yearsOfExperience} Years Experience</span>
             </div>
 
             <div className="space-y-4">
               {formData.experience.map((exp, idx) => (
-                <div key={exp.id || idx} className="p-5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-2.5">
+                <div key={exp.id || idx} className="p-5 rounded-xl bg-[#FAF9F5] border border-[#DDDAD2] space-y-2.5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                    <div className="font-bold text-sm text-[#0F172A] font-['Geist',sans-serif]">{exp.role}</div>
-                    <span className="text-xs text-[#2563EB] font-['Geist_Mono',monospace] font-medium">
+                    <div className="font-bold text-sm text-[#111111]">{exp.role}</div>
+                    <span className="text-xs text-[#FF5A36] font-mono font-semibold">
                       {exp.startDate} - {exp.current ? 'Present' : exp.endDate}
                     </span>
                   </div>
-                  <div className="text-xs font-semibold text-[#475569] flex items-center gap-1.5">
-                    <Building className="w-3.5 h-3.5 text-[#94A3B8]" />
+                  <div className="text-xs font-semibold text-[#111111] flex items-center gap-1.5">
+                    <Building className="w-3.5 h-3.5 text-[#6B6B67]" />
                     <span>{exp.company}</span>
                   </div>
 
-                  <ul className="list-disc list-inside text-xs text-[#475569] space-y-1 pt-1 font-sans">
+                  <ul className="list-disc list-inside text-xs text-[#6B6B67] space-y-1 pt-1 font-sans">
                     {exp.highlights.map((h, i) => (
                       <li key={i} className="leading-relaxed">
                         {h}
@@ -375,9 +375,9 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                   </ul>
 
                   {exp.technologies && (
-                    <div className="flex items-center gap-1.5 flex-wrap pt-2.5 border-t border-[#E2E8F0]">
+                    <div className="flex items-center gap-1.5 flex-wrap pt-2.5 border-t border-[#DDDAD2]">
                       {exp.technologies.map((t, i) => (
-                        <span key={i} className="px-2.5 py-0.5 rounded-md text-[10px] bg-white text-[#334155] border border-[#E2E8F0] font-['Geist_Mono',monospace]">
+                        <span key={i} className="px-2.5 py-0.5 rounded-md text-[10px] bg-[#FCFBF8] text-[#6B6B67] border border-[#DDDAD2] font-mono">
                           {t}
                         </span>
                       ))}
@@ -392,8 +392,8 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
         {activeTab === 'skills' && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-normal font-editorial text-[#0F172A] tracking-tight">Verified Technical Skills & Tools</h3>
-              <span className="text-xs text-[#64748B]">Used for AI job scoring</span>
+              <h3 className="text-base font-normal font-editorial text-[#111111] tracking-tight">Verified Technical Skills & Tools</h3>
+              <span className="text-xs text-[#6B6B67]">Used for AI job scoring</span>
             </div>
 
             <div className="flex items-center gap-2">
@@ -403,11 +403,11 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                 value={newSkill}
                 onChange={(e) => setNewSkill(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && addSkill()}
-                className="text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg px-3.5 py-2.5 focus:outline-none focus:border-[#2563EB] flex-1"
+                className="text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg px-3.5 py-2.5 focus:outline-none focus:border-[#111111] flex-1 font-mono"
               />
               <button
                 onClick={addSkill}
-                className="huvo-glow-button px-4 py-2.5 rounded-lg text-white text-xs font-bold flex items-center gap-1 font-['Geist',sans-serif]"
+                className="btn-accent text-xs py-2.5 px-4 font-semibold flex items-center gap-1"
               >
                 <Plus className="w-3.5 h-3.5 text-white" />
                 <span>Add Skill</span>
@@ -418,12 +418,12 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
               {formData.skills.map((skill, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-50 text-[#2563EB] border border-blue-200 flex items-center gap-1.5 shadow-2xs font-['Geist_Mono',monospace]"
+                  className="px-3 py-1.5 rounded-lg text-xs font-mono font-semibold bg-[#FFE8E1] text-[#FF5A36] border border-[#FF5A36]/30 flex items-center gap-1.5 shadow-2xs"
                 >
                   <span>{skill}</span>
                   <button
                     onClick={() => removeSkill(skill)}
-                    className="text-[#94A3B8] hover:text-rose-600 transition-colors ml-1 font-bold text-sm"
+                    className="text-[#FF5A36] hover:text-rose-700 transition-colors ml-1 font-bold text-sm"
                   >
                     ×
                   </button>
@@ -437,7 +437,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
           <div className="space-y-6">
             {/* Preferred Target Roles */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-[#0F172A] block uppercase tracking-wider font-['Geist',sans-serif]">Target Job Titles</label>
+              <label className="text-xs font-mono font-bold text-[#111111] block uppercase tracking-wider">Target Job Titles</label>
               <div className="flex items-center gap-2">
                 <input
                   type="text"
@@ -445,11 +445,11 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                   value={newRole}
                   onChange={(e) => setNewRole(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && addRole()}
-                  className="text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg px-3.5 py-2.5 focus:outline-none focus:border-[#2563EB] flex-1"
+                  className="text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg px-3.5 py-2.5 focus:outline-none focus:border-[#111111] flex-1"
                 />
                 <button
                   onClick={addRole}
-                  className="huvo-glow-button px-4 py-2.5 rounded-lg text-white text-xs font-bold flex items-center gap-1 font-['Geist',sans-serif]"
+                  className="btn-accent text-xs py-2.5 px-4 font-semibold flex items-center gap-1"
                 >
                   <Plus className="w-3.5 h-3.5 text-white" />
                   <span>Add Role</span>
@@ -460,12 +460,12 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                 {formData.preferredRoles.map((role, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[#F1F5F9] text-[#334155] border border-[#E2E8F0] flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[#FAF9F5] text-[#111111] border border-[#DDDAD2] flex items-center gap-1.5"
                   >
                     <span>{role}</span>
                     <button
                       onClick={() => removeRole(role)}
-                      className="text-[#94A3B8] hover:text-rose-600 ml-1 font-bold text-sm"
+                      className="text-[#6B6B67] hover:text-rose-600 ml-1 font-bold text-sm"
                     >
                       ×
                     </button>
@@ -475,9 +475,9 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
             </div>
 
             {/* Salary Preferences */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#E2E8F0]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#DDDAD2]">
               <div>
-                <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">Target Minimum Salary (USD)</label>
+                <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">Target Minimum Salary (USD)</label>
                 <input
                   type="number"
                   value={formData.salaryPreference.min || 135000}
@@ -487,16 +487,16 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                       salaryPreference: { ...formData.salaryPreference, min: Number(e.target.value) },
                     })
                   }
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">Remote Preference</label>
+                <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">Remote Preference</label>
                 <select
                   value={formData.remotePreference}
                   onChange={(e) => setFormData({ ...formData, remotePreference: e.target.value as any })}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 focus:outline-none focus:border-[#111111]"
                 >
                   <option value="remote_only">Remote Only</option>
                   <option value="hybrid">Hybrid</option>
@@ -507,8 +507,8 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
             </div>
 
             {/* Excluded Companies */}
-            <div className="space-y-2 pt-4 border-t border-[#E2E8F0]">
-              <label className="text-xs font-bold text-[#0F172A] block uppercase tracking-wider font-['Geist',sans-serif]">Excluded Companies (Blacklist)</label>
+            <div className="space-y-2 pt-4 border-t border-[#DDDAD2]">
+              <label className="text-xs font-mono font-bold text-[#111111] block uppercase tracking-wider">Excluded Companies (Blacklist)</label>
               <div className="flex items-center gap-2">
                 <input
                   type="text"
@@ -516,13 +516,13 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                   value={newExcludedCompany}
                   onChange={(e) => setNewExcludedCompany(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && addExcludedCompany()}
-                  className="text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg px-3.5 py-2.5 focus:outline-none focus:border-[#2563EB] flex-1"
+                  className="text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg px-3.5 py-2.5 focus:outline-none focus:border-[#111111] flex-1"
                 />
                 <button
                   onClick={addExcludedCompany}
-                  className="px-4 py-2.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#334155] text-xs font-semibold border border-[#E2E8F0] flex items-center gap-1 transition-all"
+                  className="btn-secondary-outline text-xs py-2.5 px-4 font-semibold flex items-center gap-1"
                 >
-                  <Plus className="w-3.5 h-3.5" />
+                  <Plus className="w-3.5 h-3.5 text-[#FF5A36]" />
                   <span>Exclude</span>
                 </button>
               </div>
@@ -531,12 +531,12 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                 {(formData.excludedCompanies || []).map((comp, idx) => (
                   <span
                     key={idx}
-                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-rose-50 text-rose-600 border border-rose-200 flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-lg text-xs font-medium bg-[#FFE8E1] text-[#FF5A36] border border-[#FF5A36]/30 flex items-center gap-1.5"
                   >
                     <span>{comp}</span>
                     <button
                       onClick={() => removeExcludedCompany(comp)}
-                      className="text-rose-500 hover:text-rose-700 ml-1 font-bold text-sm"
+                      className="text-[#FF5A36] hover:text-rose-700 ml-1 font-bold text-sm"
                     >
                       ×
                     </button>

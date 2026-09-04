@@ -180,33 +180,33 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       {/* Header */}
       <div>
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center border border-blue-200">
-            <Sliders className="w-4 h-4 text-[#2563EB]" />
+          <div className="w-8 h-8 rounded-lg bg-[#FCFBF8] flex items-center justify-center border border-[#DDDAD2] shadow-xs">
+            <Sliders className="w-4 h-4 text-[#FF5A36]" />
           </div>
-          <h1 className="text-2xl font-normal font-editorial text-[#0F172A] tracking-tight">
+          <h1 className="text-2xl font-normal font-editorial text-[#111111] tracking-tight">
             Automation, Telegram & Email Settings
           </h1>
         </div>
-        <p className="text-xs text-[#64748B] mt-1 font-sans">
+        <p className="text-xs text-[#6B6B67] mt-1 font-sans">
           Configure autonomous 10:00 AM daily job applications, real-time Telegram alerts, and Gmail email dispatches.
         </p>
       </div>
 
       {/* Featured 10:00 AM Morning Job Routine Quick Banner */}
-      <div className="p-6 rounded-2xl bg-amber-50/60 border border-amber-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs">
+      <div className="p-6 rounded-xl bg-[#FFE8E1]/30 border border-[#FF5A36]/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs">
         <div className="flex items-start gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 border border-amber-300">
+          <div className="w-10 h-10 rounded-xl bg-[#FFE8E1] text-[#FF5A36] flex items-center justify-center shrink-0 border border-[#FF5A36]/30">
             <Sun className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-bold text-[#0F172A] tracking-tight font-['Geist',sans-serif]">Daily 10:00 AM Autonomous Pipeline</h2>
-              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold border border-emerald-300 font-['Geist_Mono',monospace]">
+              <h2 className="text-base font-bold text-[#111111] tracking-tight">Daily 10:00 AM Autonomous Pipeline</h2>
+              <span className="px-2 py-0.5 rounded-full bg-[#FCFBF8] text-[#FF5A36] text-[10px] font-bold border border-[#FF5A36]/30 font-mono">
                 SCHEDULED
               </span>
             </div>
-            <p className="text-xs text-[#475569] mt-1 max-w-xl leading-relaxed font-sans">
-              Every morning at <strong className="text-[#0F172A] font-['Geist_Mono',monospace]">10:00 AM</strong>, the agent scans live boards, scores matches, prepares & applies to at least <strong className="text-[#0F172A]">5 target jobs</strong>, sends a full summary on <strong className="text-[#0F172A]">Telegram</strong>, and delivers an email digest to <strong className="text-[#2563EB] font-['Geist_Mono',monospace]">{emailConf.recipientEmail}</strong>.
+            <p className="text-xs text-[#6B6B67] mt-1 max-w-xl leading-relaxed font-sans">
+              Every morning at <strong className="text-[#111111] font-mono">10:00 AM</strong>, the agent scans live boards, scores matches, prepares & applies to at least <strong className="text-[#111111]">5 target jobs</strong>, sends a full summary on <strong className="text-[#111111]">Telegram</strong>, and delivers an email digest to <strong className="text-[#FF5A36] font-mono">{emailConf.recipientEmail}</strong>.
             </p>
           </div>
         </div>
@@ -215,7 +215,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           id="run-morning-test-now-btn"
           onClick={handleRunMorningTest}
           disabled={isRunningMorning}
-          className="huvo-amber-glow-button flex items-center gap-2 px-5 py-2.5 rounded-xl text-slate-950 font-bold text-xs shadow-xs transition-all active:scale-95 disabled:opacity-50 shrink-0 font-['Geist',sans-serif]"
+          className="btn-accent text-xs py-2.5 px-5 font-semibold shrink-0 disabled:opacity-50"
         >
           <Zap className={`w-4 h-4 ${isRunningMorning ? 'animate-spin' : ''}`} />
           <span>{isRunningMorning ? 'Running 10:00 AM Routine...' : '⚡ Test 10:00 AM Routine (5 Applied)'}</span>
@@ -223,8 +223,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       </div>
 
       {morningResult && (
-        <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 font-semibold flex items-center gap-2.5 animate-in fade-in">
-          <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />
+        <div className="p-4 rounded-xl bg-[#FFE8E1]/40 border border-[#FF5A36]/30 text-xs text-[#111111] font-semibold flex items-center gap-2.5 animate-in fade-in">
+          <CheckCircle2 className="w-4 h-4 text-[#FF5A36] shrink-0" />
           <span>{morningResult}</span>
         </div>
       )}
@@ -232,15 +232,15 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       {/* 2-Column Settings Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Scheduler & 10:00 AM Daily Routine Card */}
-        <div className="p-6 sm:p-7 rounded-2xl bg-white space-y-5 border border-[#E2E8F0] shadow-xs">
-          <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+        <div className="p-6 sm:p-7 rounded-xl editorial-card space-y-5 shadow-xs">
+          <div className="flex items-center justify-between pb-3 border-b border-[#DDDAD2]">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#2563EB] flex items-center justify-center border border-blue-200">
+              <div className="w-8 h-8 rounded-lg bg-[#FAF9F5] text-[#FF5A36] flex items-center justify-center border border-[#DDDAD2]">
                 <Clock className="w-4 h-4" />
               </div>
               <div>
-                <h2 className="text-base font-bold text-[#0F172A] tracking-tight font-['Geist',sans-serif]">Daily Schedule & Automation Rules</h2>
-                <p className="text-xs text-[#64748B]">Autonomous morning execution triggers</p>
+                <h2 className="text-base font-bold text-[#111111] tracking-tight">Daily Schedule & Automation Rules</h2>
+                <p className="text-xs text-[#6B6B67]">Autonomous morning execution triggers</p>
               </div>
             </div>
 
@@ -251,14 +251,14 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 onChange={(e) => setSched({ ...sched, active: e.target.checked })}
                 className="sr-only peer"
               />
-              <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#2563EB]"></div>
+              <div className="w-9 h-5 bg-[#DDDAD2] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#DDDAD2] after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#FF5A36]"></div>
             </label>
           </div>
 
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">
+                <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">
                   Morning Trigger Time
                 </label>
                 <input
@@ -266,13 +266,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   placeholder="10:00"
                   value={sched.dailyMorningTime || '10:00'}
                   onChange={(e) => setSched({ ...sched, dailyMorningTime: e.target.value })}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
                 />
-                <p className="text-[10px] text-[#64748B] mt-1 font-['Geist_Mono',monospace]">24-hour format (e.g. 10:00 = 10:00 AM)</p>
+                <p className="text-[10px] text-[#6B6B67] mt-1 font-mono">24-hour format (e.g. 10:00 = 10:00 AM)</p>
               </div>
 
               <div>
-                <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">
+                <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">
                   Daily Min Jobs to Apply
                 </label>
                 <input
@@ -281,15 +281,15 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   max={20}
                   value={sched.minJobsToApplyDaily || 5}
                   onChange={(e) => setSched({ ...sched, minJobsToApplyDaily: Number(e.target.value) })}
-                  className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                  className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
                 />
-                <p className="text-[10px] text-[#64748B] mt-1 font-['Geist_Mono',monospace]">Target ≥ 5 applications per morning</p>
+                <p className="text-[10px] text-[#6B6B67] mt-1 font-mono">Target ≥ 5 applications per morning</p>
               </div>
             </div>
 
             <div>
-              <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">
-                Auto-Prepare Minimum Match Score: <span className="font-['Geist_Mono',monospace] text-[#2563EB]">{sched.minMatchScoreForAutoPrepare}%</span>
+              <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">
+                Auto-Prepare Minimum Match Score: <span className="text-[#FF5A36]">{sched.minMatchScoreForAutoPrepare}%</span>
               </label>
               <input
                 type="range"
@@ -300,40 +300,40 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 onChange={(e) =>
                   setSched({ ...sched, minMatchScoreForAutoPrepare: Number(e.target.value) })
                 }
-                className="w-full accent-[#2563EB]"
+                className="w-full accent-[#FF5A36]"
               />
-              <p className="text-[11px] text-[#64748B] mt-1">
+              <p className="text-[11px] text-[#6B6B67] mt-1">
                 Jobs with match scores at or above this threshold will automatically have tailored cover letters and applications synthesized.
               </p>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] space-y-1.5 text-xs text-[#64748B] font-['Geist_Mono',monospace]">
+            <div className="p-3.5 rounded-xl bg-[#FAF9F5] border border-[#DDDAD2] space-y-1.5 text-xs text-[#6B6B67] font-mono">
               <div className="flex justify-between">
                 <span>Morning Routine:</span>
-                <span className="text-amber-700 font-bold">Every Day @ {sched.dailyMorningTime || '10:00'} AM</span>
+                <span className="text-[#FF5A36] font-bold">Every Day @ {sched.dailyMorningTime || '10:00'} AM</span>
               </div>
               <div className="flex justify-between">
                 <span>Last Run:</span>
-                <span className="text-[#0F172A]">
+                <span className="text-[#111111]">
                   {sched.lastRunAt ? new Date(sched.lastRunAt).toLocaleTimeString() : 'Pending'}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>Next Scheduled Run:</span>
-                <span className="text-[#0F172A]">
+                <span className="text-[#111111]">
                   {sched.nextRunAt ? new Date(sched.nextRunAt).toLocaleTimeString() : 'Tomorrow 10:00 AM'}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-[#E2E8F0]">
+          <div className="flex items-center justify-between pt-3 border-t border-[#DDDAD2]">
             <button
               onClick={handleTriggerScheduler}
               disabled={isTriggeringSched}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#334155] text-xs font-semibold border border-[#E2E8F0] transition-all disabled:opacity-50"
+              className="btn-secondary-outline text-xs py-2 px-3.5 disabled:opacity-50"
             >
-              <Play className="w-3.5 h-3.5 text-[#2563EB]" />
+              <Play className="w-3.5 h-3.5 text-[#FF5A36]" />
               <span>{isTriggeringSched ? 'Triggering...' : 'Trigger Cycle Now'}</span>
             </button>
 
@@ -341,7 +341,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               id="save-scheduler-settings-btn"
               onClick={handleSaveScheduler}
               disabled={isSavingSched}
-              className="huvo-glow-button flex items-center gap-1.5 px-4.5 py-2 rounded-lg text-white text-xs font-bold transition-all font-['Geist',sans-serif]"
+              className="btn-accent text-xs py-2 px-4.5 font-semibold"
             >
               <Save className="w-3.5 h-3.5" />
               <span>{isSavingSched ? 'Saving...' : 'Save Schedule Settings'}</span>
@@ -349,23 +349,23 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           </div>
 
           {schedTriggerSuccess && (
-            <p className="text-xs text-[#10B981] font-semibold flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" />
+            <p className="text-xs text-emerald-700 font-semibold flex items-center gap-1 font-mono">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               Scheduled cycle triggered successfully!
             </p>
           )}
         </div>
 
         {/* Telegram Bot Integration Card */}
-        <div className="p-6 sm:p-7 rounded-2xl bg-white space-y-5 border border-[#E2E8F0] shadow-xs">
-          <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+        <div className="p-6 sm:p-7 rounded-xl editorial-card space-y-5 shadow-xs">
+          <div className="flex items-center justify-between pb-3 border-b border-[#DDDAD2]">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#2563EB] flex items-center justify-center border border-blue-200">
+              <div className="w-8 h-8 rounded-lg bg-[#FAF9F5] text-[#FF5A36] flex items-center justify-center border border-[#DDDAD2]">
                 <Send className="w-4 h-4" />
               </div>
               <div>
-                <h2 className="text-base font-bold text-[#0F172A] tracking-tight font-['Geist',sans-serif]">Telegram Real-Time Alerts</h2>
-                <p className="text-xs text-[#64748B]">Pushes 10:00 AM report & recruiter updates</p>
+                <h2 className="text-base font-bold text-[#111111] tracking-tight">Telegram Real-Time Alerts</h2>
+                <p className="text-xs text-[#6B6B67]">Pushes 10:00 AM report & recruiter updates</p>
               </div>
             </div>
 
@@ -376,88 +376,88 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 onChange={(e) => setTg({ ...tg, enabled: e.target.checked })}
                 className="sr-only peer"
               />
-              <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#2563EB]"></div>
+              <div className="w-9 h-5 bg-[#DDDAD2] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#DDDAD2] after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#FF5A36]"></div>
             </label>
           </div>
 
           <div className="space-y-3.5">
             <div>
-              <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">Telegram Bot Token</label>
+              <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">Telegram Bot Token</label>
               <input
                 type="text"
                 placeholder="e.g. 7123456789:AAFx9_exampleBotToken"
                 value={tg.botToken}
                 onChange={(e) => setTg({ ...tg, botToken: e.target.value })}
-                className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
               />
-              <p className="text-[11px] text-[#64748B] mt-1 font-sans">Create with @BotFather on Telegram</p>
+              <p className="text-[11px] text-[#6B6B67] mt-1 font-sans">Create with @BotFather on Telegram</p>
             </div>
 
             <div>
-              <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">Telegram Chat ID</label>
+              <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">Telegram Chat ID</label>
               <input
                 type="text"
                 placeholder="e.g. 987654321"
                 value={tg.chatId}
                 onChange={(e) => setTg({ ...tg, chatId: e.target.value })}
-                className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
               />
-              <p className="text-[11px] text-[#64748B] mt-1 font-sans">Get your ID from @userinfobot or @myidbot</p>
+              <p className="text-[11px] text-[#6B6B67] mt-1 font-sans">Get your ID from @userinfobot or @myidbot</p>
             </div>
 
             {/* Notification Checkboxes */}
-            <div className="space-y-2.5 pt-2.5 border-t border-[#E2E8F0]">
-              <span className="text-xs font-bold text-[#0F172A] block uppercase tracking-wider font-['Geist',sans-serif]">Notification Events</span>
+            <div className="space-y-2.5 pt-2.5 border-t border-[#DDDAD2]">
+              <span className="text-xs font-mono font-bold text-[#111111] block uppercase tracking-wider">Notification Events</span>
 
-              <label className="flex items-center gap-2.5 text-xs text-[#334155] cursor-pointer">
+              <label className="flex items-center gap-2.5 text-xs text-[#111111] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={tg.morningReportEnabled !== false}
                   onChange={(e) => setTg({ ...tg, morningReportEnabled: e.target.checked })}
-                  className="rounded text-[#2563EB] bg-white border-slate-300"
+                  className="rounded text-[#FF5A36] focus:ring-[#FF5A36] border-[#DDDAD2]"
                 />
-                <span className="font-semibold text-amber-800">10:00 AM Morning Job Report (5+ applied jobs)</span>
+                <span className="font-semibold text-[#FF5A36]">10:00 AM Morning Job Report (5+ applied jobs)</span>
               </label>
 
-              <label className="flex items-center gap-2.5 text-xs text-[#334155] cursor-pointer">
+              <label className="flex items-center gap-2.5 text-xs text-[#111111] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={tg.notifyOnHighMatch}
                   onChange={(e) => setTg({ ...tg, notifyOnHighMatch: e.target.checked })}
-                  className="rounded text-[#2563EB] bg-white border-slate-300"
+                  className="rounded text-[#FF5A36] focus:ring-[#FF5A36] border-[#DDDAD2]"
                 />
                 <span>High Match Job Discovered (&gt;80%)</span>
               </label>
 
-              <label className="flex items-center gap-2.5 text-xs text-[#334155] cursor-pointer">
+              <label className="flex items-center gap-2.5 text-xs text-[#111111] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={tg.notifyOnSubmission}
                   onChange={(e) => setTg({ ...tg, notifyOnSubmission: e.target.checked })}
-                  className="rounded text-[#2563EB] bg-white border-slate-300"
+                  className="rounded text-[#FF5A36] focus:ring-[#FF5A36] border-[#DDDAD2]"
                 />
                 <span>Application Submission Confirmation</span>
               </label>
 
-              <label className="flex items-center gap-2.5 text-xs text-[#334155] cursor-pointer">
+              <label className="flex items-center gap-2.5 text-xs text-[#111111] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={tg.notifyOnInterview}
                   onChange={(e) => setTg({ ...tg, notifyOnInterview: e.target.checked })}
-                  className="rounded text-[#2563EB] bg-white border-slate-300"
+                  className="rounded text-[#FF5A36] focus:ring-[#FF5A36] border-[#DDDAD2]"
                 />
                 <span>Recruiter Interview & Offer Invitations</span>
               </label>
             </div>
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-[#E2E8F0]">
+          <div className="flex items-center justify-between pt-3 border-t border-[#DDDAD2]">
             <button
               onClick={handleTestTelegram}
               disabled={isTestingTg}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#334155] text-xs font-semibold border border-[#E2E8F0] transition-all disabled:opacity-50"
+              className="btn-secondary-outline text-xs py-2 px-3.5 disabled:opacity-50"
             >
-              <Send className="w-3.5 h-3.5 text-[#2563EB]" />
+              <Send className="w-3.5 h-3.5 text-[#FF5A36]" />
               <span>{isTestingTg ? 'Sending...' : 'Send Test Alert'}</span>
             </button>
 
@@ -465,7 +465,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               id="save-telegram-settings-btn"
               onClick={handleSaveTelegram}
               disabled={isSavingTg}
-              className="huvo-glow-button flex items-center gap-1.5 px-4.5 py-2 rounded-lg text-white text-xs font-bold transition-all font-['Geist',sans-serif]"
+              className="btn-accent text-xs py-2 px-4.5 font-semibold"
             >
               <Save className="w-3.5 h-3.5" />
               <span>{isSavingTg ? 'Saving...' : 'Save Telegram Settings'}</span>
@@ -473,23 +473,23 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           </div>
 
           {tgTestSuccess && (
-            <p className="text-xs text-[#10B981] font-semibold flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" />
+            <p className="text-xs text-emerald-700 font-semibold flex items-center gap-1 font-mono">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               Test message dispatched to Telegram and in-app stream!
             </p>
           )}
         </div>
 
         {/* Email Dispatch & Gmail SMTP Card */}
-        <div className="p-6 sm:p-7 rounded-2xl bg-white space-y-5 border border-[#E2E8F0] shadow-xs lg:col-span-2">
-          <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
+        <div className="p-6 sm:p-7 rounded-xl editorial-card space-y-5 shadow-xs lg:col-span-2">
+          <div className="flex items-center justify-between pb-3 border-b border-[#DDDAD2]">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-emerald-50 text-[#10B981] flex items-center justify-center border border-emerald-200">
+              <div className="w-8 h-8 rounded-lg bg-[#FAF9F5] text-[#FF5A36] flex items-center justify-center border border-[#DDDAD2]">
                 <Mail className="w-4 h-4" />
               </div>
               <div>
-                <h2 className="text-base font-bold text-[#0F172A] tracking-tight font-['Geist',sans-serif]">Email Dispatch & Delivery Pipeline</h2>
-                <p className="text-xs text-[#64748B]">Configure morning job digests and outbound email delivery</p>
+                <h2 className="text-base font-bold text-[#111111] tracking-tight">Email Dispatch & Delivery Pipeline</h2>
+                <p className="text-xs text-[#6B6B67]">Configure morning job digests and outbound email delivery</p>
               </div>
             </div>
 
@@ -500,13 +500,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 onChange={(e) => setEmailConf({ ...emailConf, enabled: e.target.checked })}
                 className="sr-only peer"
               />
-              <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#2563EB]"></div>
+              <div className="w-9 h-5 bg-[#DDDAD2] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#DDDAD2] after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#FF5A36]"></div>
             </label>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">
+              <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">
                 Recipient Email (Where to send 10:00 AM digests)
               </label>
               <input
@@ -514,13 +514,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 placeholder="codepankaj84@gmail.com"
                 value={emailConf.recipientEmail}
                 onChange={(e) => setEmailConf({ ...emailConf, recipientEmail: e.target.value })}
-                className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
               />
-              <p className="text-[11px] text-[#64748B] mt-1 font-['Geist_Mono',monospace]">Default: codepankaj84@gmail.com</p>
+              <p className="text-[11px] text-[#6B6B67] mt-1 font-mono">Default: codepankaj84@gmail.com</p>
             </div>
 
             <div>
-              <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">
+              <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">
                 Sender Display Name
               </label>
               <input
@@ -528,14 +528,14 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 placeholder="JobAgent Autonomous AI"
                 value={emailConf.senderName}
                 onChange={(e) => setEmailConf({ ...emailConf, senderName: e.target.value })}
-                className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3"
+                className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 focus:outline-none focus:border-[#111111]"
               />
-              <p className="text-[11px] text-[#64748B] mt-1">Appears as sender on morning digests</p>
+              <p className="text-[11px] text-[#6B6B67] mt-1">Appears as sender on morning digests</p>
             </div>
 
             {/* Optional Gmail SMTP Credentials */}
             <div>
-              <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">
+              <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">
                 Gmail SMTP Username (Optional for direct inbox routing)
               </label>
               <input
@@ -543,13 +543,13 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 placeholder="e.g. codepankaj84@gmail.com"
                 value={emailConf.smtpUser || ''}
                 onChange={(e) => setEmailConf({ ...emailConf, smtpUser: e.target.value })}
-                className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
               />
-              <p className="text-[11px] text-[#64748B] mt-1 font-sans">Your Google email address</p>
+              <p className="text-[11px] text-[#6B6B67] mt-1 font-sans">Your Google email address</p>
             </div>
 
             <div>
-              <label className="text-xs font-bold text-[#0F172A] block mb-1.5 uppercase tracking-wider font-['Geist',sans-serif]">
+              <label className="text-xs font-mono font-bold text-[#111111] block mb-1.5 uppercase tracking-wider">
                 Gmail App Password (Optional)
               </label>
               <input
@@ -557,28 +557,28 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 placeholder="••••••••••••••••"
                 value={emailConf.smtpPassword || ''}
                 onChange={(e) => setEmailConf({ ...emailConf, smtpPassword: e.target.value })}
-                className="w-full text-xs text-[#0F172A] bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-3 font-['Geist_Mono',monospace]"
+                className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 font-mono focus:outline-none focus:border-[#111111]"
               />
-              <p className="text-[11px] text-[#64748B] mt-1">
+              <p className="text-[11px] text-[#6B6B67] mt-1">
                 16-digit App Password from Google Account &gt; Security &gt; 2-Step Verification &gt; App Passwords.
               </p>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-start gap-3 text-xs text-[#475569]">
-            <Info className="w-4 h-4 text-[#2563EB] shrink-0 mt-0.5" />
+          <div className="p-4 rounded-xl bg-[#FAF9F5] border border-[#DDDAD2] flex items-start gap-3 text-xs text-[#6B6B67]">
+            <Info className="w-4 h-4 text-[#FF5A36] shrink-0 mt-0.5" />
             <span className="leading-relaxed">
-              <strong className="text-[#0F172A]">Dual Email Dispatch Engine:</strong> All morning application digests are rendered in rich HTML, recorded in your in-app Email Monitor inbox, and delivered directly to your email address. If Gmail App Password is provided, messages are additionally routed through Google SMTP.
+              <strong className="text-[#111111]">Dual Email Dispatch Engine:</strong> All morning application digests are rendered in rich HTML, recorded in your in-app Email Monitor inbox, and delivered directly to your email address. If Gmail App Password is provided, messages are additionally routed through Google SMTP.
             </span>
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-[#E2E8F0]">
+          <div className="flex items-center justify-between pt-3 border-t border-[#DDDAD2]">
             <button
               onClick={handleTestEmailClick}
               disabled={isTestingEmail}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#334155] text-xs font-semibold border border-[#E2E8F0] transition-all disabled:opacity-50"
+              className="btn-secondary-outline text-xs py-2 px-3.5 disabled:opacity-50"
             >
-              <Mail className="w-3.5 h-3.5 text-[#10B981]" />
+              <Mail className="w-3.5 h-3.5 text-[#FF5A36]" />
               <span>{isTestingEmail ? 'Sending Test...' : 'Send Test Verification Email'}</span>
             </button>
 
@@ -586,7 +586,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               id="save-email-settings-btn"
               onClick={handleSaveEmail}
               disabled={isSavingEmail}
-              className="huvo-glow-button flex items-center gap-1.5 px-4.5 py-2 rounded-lg text-white text-xs font-bold transition-all font-['Geist',sans-serif]"
+              className="btn-accent text-xs py-2 px-4.5 font-semibold"
             >
               <Save className="w-3.5 h-3.5" />
               <span>{isSavingEmail ? 'Saving...' : 'Save Email Settings'}</span>
@@ -594,8 +594,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           </div>
 
           {emailTestSuccess && (
-            <p className="text-xs text-[#10B981] font-semibold flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" />
+            <p className="text-xs text-emerald-700 font-semibold flex items-center gap-1 font-mono">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               {emailTestSuccess}
             </p>
           )}
@@ -603,10 +603,10 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       </div>
 
       {/* System Baseline & Reset */}
-      <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#E2E8F0] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+      <div className="p-6 sm:p-7 rounded-xl editorial-card flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
         <div>
-          <h2 className="text-base font-bold text-[#0F172A] tracking-tight font-['Geist',sans-serif]">Reset Environment Baseline</h2>
-          <p className="text-xs text-[#64748B] mt-1 font-sans">
+          <h2 className="text-base font-bold text-[#111111] tracking-tight">Reset Environment Baseline</h2>
+          <p className="text-xs text-[#6B6B67] mt-1 font-sans">
             Restores initial curated candidate profile, sample job matches, cover letters, and email pipeline data.
           </p>
         </div>
@@ -614,7 +614,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         <button
           onClick={handleReset}
           disabled={isResetting}
-          className="flex items-center gap-1.5 px-4.5 py-2 rounded-lg bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 text-xs font-bold transition-all disabled:opacity-50 font-['Geist',sans-serif]"
+          className="btn-secondary-outline text-xs py-2 px-4.5 font-semibold text-rose-600 hover:border-rose-600 disabled:opacity-50"
         >
           <RotateCcw className={`w-3.5 h-3.5 ${isResetting ? 'animate-spin' : ''}`} />
           <span>{isResetting ? 'Resetting...' : 'Reset to Demo Baseline'}</span>
@@ -622,7 +622,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       </div>
 
       {resetSuccess && (
-        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-[#10B981] font-semibold flex items-center gap-2">
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-semibold flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4" />
           <span>Environment restored to clean baseline!</span>
         </div>
