@@ -33,7 +33,7 @@ export class EmailService {
         });
 
         await transporter.sendMail({
-          from: `"${emailConfig.senderName || 'JobAgent AI'}" <${emailConfig.smtpUser}>`,
+          from: `"${emailConfig.senderName || 'Kinetic AI'}" <${emailConfig.smtpUser}>`,
           to: params.to,
           subject: params.subject,
           text: params.text,
@@ -49,7 +49,7 @@ export class EmailService {
     // Always create an EmailEvent in the local DB so it's visible in Email Monitor
     const emailEvent: EmailEvent = {
       id: `em_out_${uuidv4().slice(0, 8)}`,
-      sender: emailConfig.smtpUser || 'agent@jobagent.ai',
+      sender: emailConfig.smtpUser || 'agent@kinetic.ai',
       recipient: params.to,
       subject: params.subject,
       snippet: params.text.slice(0, 150),
@@ -112,7 +112,7 @@ export class EmailService {
     const plainText = `🌅 10:00 AM DAILY JOB APPLICATION DIGEST
 Hello ${profile.name},
 
-Here is your morning report. The AI Job Search Agent has scanned live boards and applied to ${appliedApps.length} high-matching roles on your behalf:
+Here is your morning report. The Kinetic AI Job Search Agent has scanned live boards and applied to ${appliedApps.length} high-matching roles on your behalf:
 
 ${appliedApps
   .map(
@@ -123,7 +123,7 @@ ${appliedApps
 
 Next scheduled scan: Tomorrow at 10:00 AM.
 Best regards,
-JobAgent AI`;
+Kinetic AI`;
 
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 680px; margin: 0 auto; background-color: #0f172a; color: #e2e8f0; border-radius: 12px; padding: 24px; border: 1px solid #1e293b;">
@@ -133,7 +133,7 @@ JobAgent AI`;
         </div>
 
         <p style="font-size: 14px; line-height: 1.5; color: #cbd5e1;">
-          Good morning! Your Autonomous Job Agent has completed today's morning cycle. Below are the <strong>${appliedApps.length} positions</strong> processed, verified against your candidate profile, and submitted:
+          Good morning! Your Kinetic Autonomous Agent has completed today's morning cycle. Below are the <strong>${appliedApps.length} positions</strong> processed, verified against your candidate profile, and submitted:
         </p>
 
         <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; text-align: left;">
@@ -161,7 +161,7 @@ JobAgent AI`;
         </div>
 
         <div style="margin-top: 24px; font-size: 11px; color: #64748b; text-align: center; border-top: 1px solid #334155; padding-top: 16px;">
-          Sent by JobAgent Autonomous AI Engine • <a href="mailto:${recipient}" style="color: #6366f1;">${recipient}</a>
+          Sent by Kinetic Autonomous AI Engine • <a href="mailto:${recipient}" style="color: #6366f1;">${recipient}</a>
         </div>
       </div>
     `;
@@ -179,7 +179,7 @@ JobAgent AI`;
    */
   static async sendTestEmail(recipientEmail: string) {
     const profile = db.getProfile();
-    const text = `🚀 JobAgent Email System Verified!\n\nHello ${profile.name},\n\nThis is a test notification confirming your email dispatch system is operational.\nYour 10:00 AM daily job digest with at least 5 applied positions will be delivered to this address.\n\nTime: ${new Date().toLocaleString()}`;
+    const text = `🚀 Kinetic Email System Verified!\n\nHello ${profile.name},\n\nThis is a test notification confirming your email dispatch system is operational.\nYour 10:00 AM daily job digest with at least 5 applied positions will be delivered to this address.\n\nTime: ${new Date().toLocaleString()}`;
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 550px; margin: 0 auto; background-color: #0f172a; color: #e2e8f0; border-radius: 12px; padding: 24px; border: 1px solid #1e293b;">
         <h2 style="color: #10b981; margin-top: 0;">🚀 Email System Test Verified!</h2>
@@ -187,7 +187,7 @@ JobAgent AI`;
           Hello <strong>${profile.name}</strong>,
         </p>
         <p style="color: #cbd5e1; font-size: 14px;">
-          This test confirms that your JobAgent email dispatch pipeline is connected and operational for <strong>${recipientEmail}</strong>.
+          This test confirms that your Kinetic email dispatch pipeline is connected and operational for <strong>${recipientEmail}</strong>.
         </p>
         <div style="background-color: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #94a3b8;">
           ⏰ <strong>Scheduled Routine:</strong> Every morning at 10:00 AM<br/>
@@ -199,7 +199,7 @@ JobAgent AI`;
 
     return this.sendOutboundEmail({
       to: recipientEmail,
-      subject: '🚀 JobAgent AI: Email Dispatch Connection Test',
+      subject: '🚀 Kinetic AI: Email Dispatch Connection Test',
       text,
       html,
     });

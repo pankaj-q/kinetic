@@ -104,7 +104,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Left: Single Fixed Brand Logo */}
           <div className="flex items-center gap-3 shrink-0">
             <motion.div
-              id="jobagent-brand"
+              id="kinetic-brand"
               onClick={() => setActiveTab('landing')}
               className="flex items-center gap-2.5 cursor-pointer select-none group"
               whileHover={{ scale: 1.02 }}
@@ -115,7 +115,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="font-editorial text-2xl font-normal tracking-tight text-[#111111]">
-                  JobAgent
+                  Kinetic
                 </span>
                 <span className="text-[10px] font-mono font-bold tracking-wider px-1.5 py-0.5 rounded bg-[#FFE8E1] text-[#FF5A36] uppercase whitespace-nowrap">
                   AI OS

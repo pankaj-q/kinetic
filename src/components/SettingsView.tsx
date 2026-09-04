@@ -52,7 +52,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
     emailConfig || {
       enabled: true,
       recipientEmail: 'codepankaj84@gmail.com',
-      senderName: 'JobAgent Autonomous AI',
+      senderName: 'Kinetic Autonomous AI',
       smtpHost: 'smtp.gmail.com',
       smtpPort: 587,
       smtpUser: '',
@@ -525,7 +525,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               </label>
               <input
                 type="text"
-                placeholder="JobAgent Autonomous AI"
+                placeholder="Kinetic Autonomous AI"
                 value={emailConf.senderName}
                 onChange={(e) => setEmailConf({ ...emailConf, senderName: e.target.value })}
                 className="w-full text-xs text-[#111111] bg-[#FAF9F5] border border-[#DDDAD2] rounded-lg p-3 focus:outline-none focus:border-[#111111]"

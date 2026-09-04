@@ -52,7 +52,7 @@ const AgentIdle = () => {
       <div className="flex items-center gap-2">
         <div className="w-2 h-2 rounded-full bg-[#FF5A36] animate-pulse" />
         <Bot className="h-4 w-4 text-white" />
-        <span className="font-mono text-xs text-white font-medium">JobAgent OS</span>
+        <span className="font-mono text-xs text-white font-medium">Kinetic OS</span>
       </div>
 
       <AnimatePresence>

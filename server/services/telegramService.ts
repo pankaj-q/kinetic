@@ -33,7 +33,7 @@ export class TelegramService {
         const url = `https://api.telegram.org/bot${config.botToken}/sendMessage`;
         const payload = {
           chat_id: config.chatId,
-          text: `🤖 *JobAgent Notification*\n\n${text}`,
+          text: `🤖 *Kinetic Notification*\n\n${text}`,
           parse_mode: 'Markdown',
         };
 
@@ -76,7 +76,7 @@ export class TelegramService {
 *Key Matching Skills:*
 ${matchingSkills.map((s) => `✓ ${s}`).join('\n')}
 
-[Review in JobAgent Dashboard]`;
+[Review in Kinetic Dashboard]`;
 
     return this.sendTelegramNotification(text, 'high_match', title, {
       jobId: job.id,

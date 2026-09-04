@@ -198,7 +198,7 @@ print(f"✓ {len(matches)} high-fit applications queued for 10:00 AM dispatch.")
                   <div className="w-2.5 h-2.5 rounded-full bg-[#DDDAD2]" />
                   <div className="w-2.5 h-2.5 rounded-full bg-[#DDDAD2]" />
                   <div className="w-2.5 h-2.5 rounded-full bg-[#DDDAD2]" />
-                  <span className="text-xs font-mono text-[#6B6B67] ml-2">jobagent-runtime — v2.4.0 (active)</span>
+                  <span className="text-xs font-mono text-[#6B6B67] ml-2">kinetic-runtime — v2.4.0 (active)</span>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -487,7 +487,7 @@ print(f"✓ {len(matches)} high-fit applications queued for 10:00 AM dispatch.")
               <div className="space-y-2">
                 <h3 className="text-3xl font-editorial text-[#111111]">Verifiable Cover Letters & Custom Q&A</h3>
                 <p className="text-sm text-[#6B6B67] leading-relaxed max-w-xl">
-                  Unlike generic GPT wrappers that hallucinate fake achievements, JobAgent is constrained to cite real historical projects, GitHub repositories, and verified engineering metrics from your parsed candidate profile.
+                  Unlike generic GPT wrappers that hallucinate fake achievements, Kinetic is constrained to cite real historical projects, GitHub repositories, and verified engineering metrics from your parsed candidate profile.
                 </p>
               </div>
 
@@ -830,7 +830,7 @@ print(f"✓ {len(matches)} high-fit applications queued for 10:00 AM dispatch.")
           </h2>
 
           <p className="text-base sm:text-lg text-[#6B6B67] max-w-xl mx-auto leading-relaxed">
-            Stop spending hours filling repetitive forms. Let JobAgent AI OS scan, qualify, and prepare your applications every morning.
+            Stop spending hours filling repetitive forms. Let Kinetic scan, qualify, and prepare your applications every morning.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
@@ -866,7 +866,7 @@ print(f"✓ {len(matches)} high-fit applications queued for 10:00 AM dispatch.")
                 <div className="w-6 h-6 rounded bg-[#111111] flex items-center justify-center text-white">
                   <Bot className="w-3.5 h-3.5 text-[#FF5A36]" />
                 </div>
-                <span className="font-editorial text-lg text-[#111111]">JobAgent AI OS</span>
+                <span className="font-editorial text-lg text-[#111111]">Kinetic AI OS</span>
               </div>
               <p className="text-xs text-[#6B6B67] max-w-sm leading-relaxed">
                 Deterministic autonomous job search, resume fit scoring, cover letter synthesis, and recruiter email monitoring.
@@ -912,7 +912,7 @@ print(f"✓ {len(matches)} high-fit applications queued for 10:00 AM dispatch.")
           </div>
 
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-[#6B6B67]">
-            <p>© 2026 JobAgent Autonomous Systems. Built for high-leverage careers.</p>
+            <p>© 2026 Kinetic Autonomous Systems. Built for high-leverage careers.</p>
             <div className="flex items-center gap-4">
               <span>Privacy</span>
               <span>Terms</span>

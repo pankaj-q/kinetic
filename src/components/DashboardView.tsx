@@ -650,7 +650,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <tr className="border-b border-[#DDDAD2] text-[#6B6B67] font-mono">
                 <th className="py-3 px-4 font-bold uppercase">Feature Capability</th>
                 <th className="py-3 px-4 font-bold text-[#FF5A36] uppercase bg-[#FFE8E1]/50 rounded-t-xl">
-                  JobAgent Autonomous AI
+                  Kinetic Autonomous AI
                 </th>
                 <th className="py-3 px-4 font-bold uppercase">Manual Job Hunting</th>
                 <th className="py-3 px-4 font-bold uppercase">Basic Job Scrapers</th>

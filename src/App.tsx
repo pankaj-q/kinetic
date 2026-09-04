@@ -32,7 +32,7 @@ export function App() {
   const [activeTab, setActiveTab] = useState<string>('landing');
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    const saved = localStorage.getItem('jobagent_theme');
+    const saved = localStorage.getItem('kinetic_theme');
     return saved === 'dark' ? 'dark' : 'light';
   });
 
@@ -45,7 +45,7 @@ export function App() {
       root.classList.add('light');
       root.classList.remove('dark');
     }
-    localStorage.setItem('jobagent_theme', theme);
+    localStorage.setItem('kinetic_theme', theme);
   }, [theme]);
 
   const handleToggleTheme = () => {
@@ -79,7 +79,7 @@ export function App() {
   const [emailConfig, setEmailConfig] = useState<EmailDispatchConfig>({
     enabled: true,
     recipientEmail: 'codepankaj84@gmail.com',
-    senderName: 'JobAgent Autonomous AI',
+    senderName: 'Kinetic Autonomous AI',
     smtpHost: 'smtp.gmail.com',
     smtpPort: 587,
     smtpUser: '',
@@ -160,7 +160,7 @@ export function App() {
         }));
       setCoverLetters(extractedLetters);
     } catch (err) {
-      console.error('Failed to fetch JobAgent data:', err);
+      console.error('Failed to fetch Kinetic data:', err);
     } finally {
       setLoading(false);
     }
@@ -505,9 +505,9 @@ export function App() {
       <div className="min-h-screen bg-[#F7F6F2] text-[#111111] flex items-center justify-center font-['Geist',sans-serif]">
         <div className="text-center space-y-4">
           <div className="w-12 h-12 rounded-2xl bg-[#FCFBF8] border border-[#DDDAD2] flex items-center justify-center mx-auto shadow-xs animate-pulse">
-            <span className="text-[#FF5A36] font-extrabold text-lg tracking-tight font-mono">JA</span>
+            <span className="text-[#FF5A36] font-extrabold text-lg tracking-tight font-mono">K</span>
           </div>
-          <h2 className="text-sm font-semibold text-[#6B6B67] tracking-tight">Initializing JobAgent Autonomous Engine...</h2>
+          <h2 className="text-sm font-semibold text-[#6B6B67] tracking-tight">Initializing Kinetic Autonomous Engine...</h2>
         </div>
       </div>
     );
