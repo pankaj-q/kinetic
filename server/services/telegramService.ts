@@ -13,6 +13,8 @@ export class TelegramService {
     meta?: NotificationMessage['data']
   ): Promise<{ success: boolean; deliveredToTelegram: boolean; notification: NotificationMessage }> {
     const config = db.getTelegramConfig();
+    const botToken = config.botToken || process.env.TELEGRAM_BOT_TOKEN || '';
+    const chatId = config.chatId || process.env.TELEGRAM_CHAT_ID || '';
 
     // 1. Store in-app notification
     const notification: NotificationMessage = {
@@ -28,11 +30,13 @@ export class TelegramService {
 
     // 2. Deliver to Telegram if configured
     let deliveredToTelegram = false;
-    if (config.enabled && config.botToken && config.chatId) {
+    let deliveryError: string | undefined = undefined;
+
+    if (config.enabled && botToken && chatId) {
       try {
-        const url = `https://api.telegram.org/bot${config.botToken}/sendMessage`;
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
         const payload = {
-          chat_id: config.chatId,
+          chat_id: chatId,
           text: `🤖 *Kinetic Notification*\n\n${text}`,
           parse_mode: 'Markdown',
         };
@@ -46,18 +50,24 @@ export class TelegramService {
         if (response.ok) {
           deliveredToTelegram = true;
         } else {
-          console.warn('Telegram API delivery response not OK:', await response.text());
+          const errBody = await response.json().catch(() => ({ description: 'Unknown Telegram error' }));
+          deliveryError = errBody.description || `HTTP ${response.status}`;
+          console.warn('Telegram API delivery response not OK:', deliveryError);
         }
-      } catch (err) {
+      } catch (err: any) {
+        deliveryError = err.message || 'Network connection failed';
         console.warn('Failed to send Telegram message:', err);
       }
+    } else {
+      deliveryError = 'Telegram Bot Token or Chat ID is missing.';
     }
 
     return {
       success: true,
       deliveredToTelegram,
+      deliveryError,
       notification,
-    };
+    } as any;
   }
 
   /**

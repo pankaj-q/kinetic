@@ -240,11 +240,17 @@ apiRouter.put('/notifications/telegram/config', (req: Request, res: Response) =>
 
 apiRouter.post('/notifications/telegram/test', async (req: Request, res: Response) => {
   try {
-    const result = await TelegramService.sendTelegramNotification(
-      '🚀 *JobAgent Telegram Link Verified!*\n\nYour autonomous job search notifications and approval requests will appear here in real time.',
+    const result: any = await TelegramService.sendTelegramNotification(
+      '🚀 *Kinetic Telegram Link Verified!*\n\nYour autonomous job search notifications, 10:00 AM routines, and approval alerts will appear here in real time.',
       'system_alert',
-      'Telegram Test Message'
+      'Telegram Test Alert'
     );
+    if (!result.deliveredToTelegram) {
+      return res.status(400).json({
+        success: false,
+        error: result.deliveryError || 'Failed to deliver message to Telegram. Make sure you pressed /start on your bot and your Bot Token & Chat ID are correct.',
+      });
+    }
     res.json(result);
   } catch (err: any) {
     res.status(500).json({ error: err.message });

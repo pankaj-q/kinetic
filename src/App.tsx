@@ -391,10 +391,16 @@ export function App() {
 
   const handleTestTelegram = async () => {
     try {
-      await fetch('/api/notifications/telegram/test', { method: 'POST' });
+      const res = await fetch('/api/notifications/telegram/test', { method: 'POST' });
+      const data = await res.json().catch(() => ({}));
       await fetchData();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to deliver message to Telegram');
+      }
+      return data;
     } catch (err) {
       console.error('Error testing telegram:', err);
+      throw err;
     }
   };
 
