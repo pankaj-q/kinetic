@@ -6,60 +6,50 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --bg-canvas: #F7F6F2;
-  --text-primary: #111111;
-  --text-secondary: #6B6B67;
-  --border-subtle: #DDDAD2;
-  --card-bg: #FCFBF8;
+  --bg-canvas: #070709;
+  --text-primary: #FFFFFF;
+  --text-secondary: #8E8E9B;
+  --border-subtle: #1D1D24;
+  --card-bg: #111116;
   --accent-primary: #FF5A36;
-  --accent-light: #FFE8E1;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --accent-neon-green: #00FF88;
+  --background: oklch(0.08 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.11 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.11 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.98 0 0);
+  --primary-foreground: oklch(0.11 0 0);
+  --secondary: oklch(0.15 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.65 0 0);
+  --accent: oklch(0.15 0 0);
+  --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --border: #1D1D24;
+  --input: #1D1D24;
+  --ring: #FF5A36;
+  --radius: 1rem;
 }
 
 @layer base {
   * {
-    border-color: #DDDAD2;
-    @apply border-border outline-ring/50;
+    border-color: #1D1D24;
   }
 
   body {
-    background-color: #F7F6F2;
-    color: #111111;
+    background-color: #070709;
+    color: #FFFFFF;
     font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
     overflow-x: hidden;
     line-height: 1.6;
-    @apply bg-background text-foreground;
+  }
+
+  .font-display {
+    font-family: 'Syne', 'Space Grotesk', -apple-system, sans-serif;
+    letter-spacing: -0.03em;
   }
 
   .font-editorial {
@@ -67,13 +57,16 @@
     letter-spacing: -0.02em;
   }
 
+  .font-serif-italic {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    letter-spacing: -0.01em;
+  }
+
   .font-technical,
   .font-mono {
-    font-family: 'Geist Mono', monospace;
+    font-family: 'Geist Mono', 'JetBrains Mono', monospace;
     letter-spacing: -0.02em;
-  }
-  html {
-    @apply font-sans;
   }
 }
 
@@ -84,67 +77,83 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #F7F6F2;
+  background: #070709;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #DDDAD2;
+  background: #1D1D24;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #6B6B67;
+  background: #333342;
 }
 
-/* Warm Editorial Card Styles */
-.editorial-card {
-  background: #FCFBF8;
-  border: 1px solid #DDDAD2;
-  border-radius: 10px;
+/* Kinetic Dark Minimal Glass Cards */
+.kinetic-card,
+.editorial-card,
+.huvo-card {
+  background: #111116;
+  border: 1px solid #1D1D24;
+  border-radius: 16px;
 }
 
-.editorial-card-interactive {
-  background: #FCFBF8;
-  border: 1px solid #DDDAD2;
-  border-radius: 10px;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+.kinetic-card-interactive,
+.editorial-card-interactive,
+.huvo-card-interactive {
+  background: #111116;
+  border: 1px solid #1D1D24;
+  border-radius: 16px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.editorial-card-interactive:hover {
-  border-color: #111111;
+.kinetic-card-interactive:hover,
+.editorial-card-interactive:hover,
+.huvo-card-interactive:hover {
+  border-color: rgba(255, 90, 54, 0.4);
+  box-shadow: 0 0 25px rgba(255, 90, 54, 0.08);
   transform: translateY(-1px);
 }
 
-/* Action Buttons */
-.btn-accent {
-  background-color: #FF5A36;
+/* Kinetic Primary Action Button */
+.btn-accent,
+.btn-kinetic-primary,
+.huvo-glow-button,
+.huvo-amber-glow-button {
+  background: linear-gradient(135deg, #FF5A36, #FF3D14);
   color: #FFFFFF;
   font-family: 'Geist', sans-serif;
   font-weight: 600;
-  border-radius: 8px;
-  padding: 10px 20px;
-  transition: all 0.18s ease;
+  border-radius: 9999px;
+  padding: 10px 22px;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   cursor: pointer;
+  box-shadow: 0 0 20px rgba(255, 90, 54, 0.35);
 }
 
-.btn-accent:hover {
-  background-color: #E04826;
+.btn-accent:hover,
+.btn-kinetic-primary:hover,
+.huvo-glow-button:hover,
+.huvo-amber-glow-button:hover {
+  background: linear-gradient(135deg, #FF6B47, #FF5A36);
+  box-shadow: 0 0 30px rgba(255, 90, 54, 0.55);
   transform: translateY(-1px);
 }
 
-.btn-secondary-outline {
-  background-color: #FCFBF8;
-  color: #111111;
+.btn-secondary-outline,
+.btn-kinetic-secondary {
+  background-color: #14141B;
+  color: #FFFFFF;
   font-family: 'Geist', sans-serif;
   font-weight: 500;
-  border: 1px solid #DDDAD2;
-  border-radius: 8px;
-  padding: 10px 20px;
-  transition: all 0.18s ease;
+  border: 1px solid #262632;
+  border-radius: 9999px;
+  padding: 10px 22px;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -152,17 +161,18 @@
   cursor: pointer;
 }
 
-.btn-secondary-outline:hover {
-  border-color: #111111;
-  background-color: #F7F6F2;
+.btn-secondary-outline:hover,
+.btn-kinetic-secondary:hover {
+  border-color: #FFFFFF;
+  background-color: #1A1A24;
   transform: translateY(-1px);
 }
 
 .btn-icon {
-  background-color: #FCFBF8;
-  color: #6B6B67;
-  border: 1px solid #DDDAD2;
-  border-radius: 8px;
+  background-color: #111116;
+  color: #8E8E9B;
+  border: 1px solid #1D1D24;
+  border-radius: 10px;
   padding: 8px;
   transition: all 0.18s ease;
   display: inline-flex;
@@ -172,71 +182,24 @@
 }
 
 .btn-icon:hover {
-  color: #111111;
-  border-color: #111111;
-  background-color: #F7F6F2;
+  color: #FFFFFF;
+  border-color: #353545;
+  background-color: #181820;
 }
 
-/* Warm Code Editor & Terminal */
+/* High Contrast Dark Code Editor & Terminal */
 .code-editor-surface {
-  background-color: #161614;
-  color: #EDECE8;
-  border: 1px solid #2B2A27;
-  border-radius: 10px;
+  background-color: #0A0A0D;
+  color: #E2E2E8;
+  border: 1px solid #1D1D24;
+  border-radius: 14px;
   font-family: 'Geist Mono', monospace;
 }
 
-/* Compatibility mappings */
-.huvo-card {
-  background: #FCFBF8;
-  border: 1px solid #DDDAD2;
-  border-radius: 10px;
-}
-
-.huvo-card-interactive {
-  background: #FCFBF8;
-  border: 1px solid #DDDAD2;
-  border-radius: 10px;
-  transition: all 0.18s ease;
-}
-
-.huvo-card-interactive:hover {
-  border-color: #111111;
-  transform: translateY(-1px);
-}
-
-.huvo-glow-button {
-  background: #FF5A36;
-  color: #FFFFFF;
-  font-family: 'Geist', sans-serif;
-  font-weight: 600;
-  border-radius: 8px;
-  transition: all 0.18s ease;
-}
-
-.huvo-glow-button:hover {
-  background: #E04826;
-  transform: translateY(-1px);
-}
-
-.huvo-amber-glow-button {
-  background: #FF5A36;
-  color: #FFFFFF;
-  font-family: 'Geist', sans-serif;
-  font-weight: 600;
-  border-radius: 8px;
-  transition: all 0.18s ease;
-}
-
-.huvo-amber-glow-button:hover {
-  background: #E04826;
-  transform: translateY(-1px);
-}
-
 .huvo-input {
-  background: #FCFBF8;
-  border: 1px solid #DDDAD2;
-  color: #111111;
+  background: #111116;
+  border: 1px solid #1D1D24;
+  color: #FFFFFF;
 }
 
 .huvo-input:focus {

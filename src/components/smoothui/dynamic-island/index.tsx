@@ -300,7 +300,7 @@ export default function DynamicIsland({
 
         {/* State Interactive Switcher Pills */}
         {showControls && (
-          <div className="mt-4 flex items-center justify-center gap-1.5 rounded-full border border-[#DDDAD2] bg-[#FCFBF8] p-1 shadow-xs">
+          <div className="mt-4 flex items-center justify-center gap-1.5 rounded-full border border-[#1D1D24] bg-[#111116] p-1 shadow-sm">
             {[
               { icon: <Bot className="w-3.5 h-3.5" />, key: "idle", label: "Idle" },
               { icon: <Search className="w-3.5 h-3.5" />, key: "scanning", label: "Scan" },
@@ -319,8 +319,8 @@ export default function DynamicIsland({
                 }}
                 className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-mono transition-all cursor-pointer ${
                   view === key
-                    ? "bg-[#111111] text-white font-semibold shadow-xs"
-                    : "text-[#6B6B67] hover:text-[#111111] hover:bg-[#F7F6F2]"
+                    ? "bg-[#FF5A36] text-white font-semibold shadow-sm"
+                    : "text-[#8E8E9B] hover:text-white hover:bg-[#181822]"
                 }`}
                 type="button"
               >

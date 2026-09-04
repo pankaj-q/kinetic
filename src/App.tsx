@@ -502,19 +502,19 @@ export function App() {
 
   if (loading && !profile) {
     return (
-      <div className="min-h-screen bg-[#F7F6F2] text-[#111111] flex items-center justify-center font-['Geist',sans-serif]">
+      <div className="min-h-screen bg-[#070709] text-[#FFFFFF] flex items-center justify-center font-['Geist',sans-serif]">
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#FCFBF8] border border-[#DDDAD2] flex items-center justify-center mx-auto shadow-xs animate-pulse">
+          <div className="w-12 h-12 rounded-2xl bg-[#111116] border border-[#1D1D24] flex items-center justify-center mx-auto shadow-xs animate-pulse">
             <span className="text-[#FF5A36] font-extrabold text-lg tracking-tight font-mono">K</span>
           </div>
-          <h2 className="text-sm font-semibold text-[#6B6B67] tracking-tight">Initializing Kinetic Autonomous Engine...</h2>
+          <h2 className="text-sm font-semibold text-[#8E8E9B] tracking-tight">Initializing Kinetic Autonomous Engine...</h2>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F6F2] text-[#111111] flex flex-col font-['Geist',sans-serif] selection:bg-[#FFE8E1] selection:text-[#FF5A36]">
+    <div className="min-h-screen bg-[#070709] text-[#FFFFFF] flex flex-col font-['Geist',sans-serif] selection:bg-[#FF5A36]/30 selection:text-[#FF5A36]">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
