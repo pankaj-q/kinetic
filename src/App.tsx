@@ -531,8 +531,14 @@ export function App() {
       {/* Main App Body with Smooth Page Transitions */}
       {activeTab === 'landing' ? (
         <DeveloperLandingPage
-          onLaunchWorkbench={(tab) => setActiveTab(tab || 'dashboard')}
-          stats={stats}
+          onEnterApp={() => setActiveTab('dashboard')}
+          onNavigateTab={setActiveTab}
+          onRunMorningRoutine={handleRunMorningRoutineNow}
+          profile={profile}
+          jobs={jobs}
+          applications={applications}
+          telegramConfig={telegramConfig}
+          schedulerConfig={schedulerConfig}
         />
       ) : (
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
