@@ -3,6 +3,7 @@ import path from 'path';
 import { createServer as createViteServer } from 'vite';
 import { apiRouter } from './server/routes/api';
 import { SchedulerService } from './server/services/schedulerService';
+import { initPostgres, isPostgresConnected } from './server/postgres';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -11,6 +12,9 @@ async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3005;
 
+  // Initialize PostgreSQL database connection and schema
+  await initPostgres();
+
   app.use(express.json({ limit: '15mb' }));
   app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
@@ -18,7 +22,12 @@ async function startServer() {
   app.use('/api', apiRouter);
 
   app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', service: 'JobAgent Core Engine', timestamp: new Date().toISOString() });
+    res.json({
+      status: 'ok',
+      service: 'JobAgent Core Engine',
+      postgres: isPostgresConnected() ? 'connected' : 'local_json_fallback',
+      timestamp: new Date().toISOString()
+    });
   });
 
   // Vite middleware in dev, static files in prod
