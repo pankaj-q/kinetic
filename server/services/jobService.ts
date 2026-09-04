@@ -310,10 +310,10 @@ Responsibilities:
   /**
    * Run AI Matcher across all unmatched jobs
    */
-  static async matchAllUnmatchedJobs(profile?: CandidateProfile): Promise<{ matchedCount: number; strongMatches: number }> {
-    const candidate = profile || db.getProfile();
+  static async matchAllUnmatchedJobs(profile?: CandidateProfile, userId?: string): Promise<{ matchedCount: number; strongMatches: number }> {
+    const candidate = profile || db.getProfile(userId);
     const jobs = db.getJobs();
-    const existingMatches = db.getMatches();
+    const existingMatches = db.getMatches(userId);
 
     let matchedCount = 0;
     let strongMatches = 0;
@@ -322,7 +322,7 @@ Responsibilities:
       const alreadyMatched = existingMatches.find((m) => m.jobId === job.id);
       if (!alreadyMatched) {
         const match = await AIService.matchJob(candidate, job);
-        db.saveMatch(match);
+        db.saveMatch(match, userId);
         matchedCount++;
         if (match.score >= 85) {
           strongMatches++;

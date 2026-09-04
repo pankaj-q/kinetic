@@ -12,6 +12,7 @@ import { CoverLettersView } from './components/CoverLettersView';
 import { EmailMonitorView } from './components/EmailMonitorView';
 import { SettingsView } from './components/SettingsView';
 import { TelegramConnectModal } from './components/TelegramConnectModal';
+import { AuthModal } from './components/AuthModal';
 import {
   CandidateProfile,
   Job,
@@ -27,6 +28,8 @@ import {
   NotificationMessage,
   ApplicationFormField,
   ApplicationStatus,
+  User,
+  AuthResponse,
 } from './types';
 
 export function App() {
@@ -54,6 +57,24 @@ export function App() {
   };
 
   // Core Data States
+  const [authToken, setAuthToken] = useState<string>(() => {
+    return localStorage.getItem('kinetic_auth_token') || 'token_usr_pankaj_default';
+  });
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  // Authenticated fetch helper
+  const authFetch = useCallback(
+    async (url: string, options: RequestInit = {}) => {
+      const headers = new Headers(options.headers || {});
+      if (authToken) {
+        headers.set('Authorization', `Bearer ${authToken}`);
+      }
+      return fetch(url, { ...options, headers });
+    },
+    [authToken]
+  );
+
   const [profile, setProfile] = useState<CandidateProfile | null>(null);
   const [jobs, setJobs] = useState<(Job & { match?: JobMatch; applicationId?: string; applicationStatus?: string })[]>([]);
   const [applications, setApplications] = useState<PreparedApplication[]>([]);
@@ -107,7 +128,25 @@ export function App() {
   const [showTelegramModal, setShowTelegramModal] = useState(false);
   const [isAgentRunning, setIsAgentRunning] = useState(false);
 
-  // Fetch all data
+  // Sync current user on token changes
+  useEffect(() => {
+    authFetch('/api/auth/me')
+      .then((r) => r.json())
+      .then((user) => {
+        if (user && user.id) {
+          setCurrentUser(user);
+        }
+      })
+      .catch((err) => console.error('Failed to load current user:', err));
+  }, [authToken, authFetch]);
+
+  const handleAuthSuccess = (authData: AuthResponse) => {
+    setAuthToken(authData.token);
+    setCurrentUser(authData.user);
+    localStorage.setItem('kinetic_auth_token', authData.token);
+  };
+
+  // Fetch all data scoped to active user
   const fetchData = useCallback(async () => {
     try {
       const [
@@ -122,16 +161,16 @@ export function App() {
         sessionsRes,
         emailConfigRes,
       ] = await Promise.all([
-        fetch('/api/resume/profile').then((r) => r.json()),
-        fetch('/api/jobs').then((r) => r.json()),
-        fetch('/api/applications').then((r) => r.json()),
-        fetch('/api/dashboard/stats').then((r) => r.json()),
-        fetch('/api/notifications').then((r) => r.json()),
-        fetch('/api/notifications/telegram/config').then((r) => r.json()),
-        fetch('/api/scheduler').then((r) => r.json()),
-        fetch('/api/email/inbox').then((r) => r.json()),
-        fetch('/api/agent/sessions').then((r) => r.json()),
-        fetch('/api/email/config').then((r) => r.json()).catch(() => null),
+        authFetch('/api/resume/profile').then((r) => r.json()),
+        authFetch('/api/jobs').then((r) => r.json()),
+        authFetch('/api/applications').then((r) => r.json()),
+        authFetch('/api/dashboard/stats').then((r) => r.json()),
+        authFetch('/api/notifications').then((r) => r.json()),
+        authFetch('/api/notifications/telegram/config').then((r) => r.json()),
+        authFetch('/api/scheduler').then((r) => r.json()),
+        authFetch('/api/email/inbox').then((r) => r.json()),
+        authFetch('/api/agent/sessions').then((r) => r.json()),
+        authFetch('/api/email/config').then((r) => r.json()).catch(() => null),
       ]);
 
       setProfile(profileRes);
@@ -166,7 +205,7 @@ export function App() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [authFetch]);
 
   useEffect(() => {
     fetchData();
@@ -189,7 +228,7 @@ export function App() {
     editedCoverLetter: string
   ) => {
     try {
-      const res = await fetch(`/api/applications/${appId}/approve`, {
+      const res = await authFetch(`/api/applications/${appId}/approve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ editedFields, editedCoverLetter }),
@@ -204,7 +243,7 @@ export function App() {
 
   const handleUpdateApplicationStatus = async (appId: string, status: ApplicationStatus) => {
     try {
-      await fetch(`/api/applications/${appId}/status`, {
+      await authFetch(`/api/applications/${appId}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status }),
@@ -217,7 +256,7 @@ export function App() {
 
   const handleDeleteApplication = async (appId: string) => {
     try {
-      await fetch(`/api/applications/${appId}`, { method: 'DELETE' });
+      await authFetch(`/api/applications/${appId}`, { method: 'DELETE' });
       await fetchData();
     } catch (err) {
       console.error('Error deleting application:', err);
@@ -226,7 +265,7 @@ export function App() {
 
   const handlePrepareApplication = async (jobId: string) => {
     try {
-      const res = await fetch('/api/applications/prepare', {
+      const res = await authFetch('/api/applications/prepare', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ jobId }),
@@ -243,7 +282,7 @@ export function App() {
 
   const handleMatchJob = async (jobId: string) => {
     try {
-      await fetch(`/api/jobs/${jobId}/match`, { method: 'POST' });
+      await authFetch(`/api/jobs/${jobId}/match`, { method: 'POST' });
       await fetchData();
     } catch (err) {
       console.error('Error matching job:', err);
@@ -252,7 +291,7 @@ export function App() {
 
   const handleMatchAllJobs = async () => {
     try {
-      await fetch('/api/jobs/match-all', { method: 'POST' });
+      await authFetch('/api/jobs/match-all', { method: 'POST' });
       await fetchData();
     } catch (err) {
       console.error('Error matching all jobs:', err);
@@ -261,7 +300,7 @@ export function App() {
 
   const handleSearchIngestJobs = async (query?: string, sources?: string[]) => {
     try {
-      await fetch('/api/jobs/search', {
+      await authFetch('/api/jobs/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query, sources }),
@@ -274,7 +313,7 @@ export function App() {
 
   const handleIngestCustomJob = async (data: { url?: string; rawText?: string }) => {
     try {
-      const res = await fetch('/api/jobs/ingest-custom', {
+      const res = await authFetch('/api/jobs/ingest-custom', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -290,7 +329,7 @@ export function App() {
   const handleRunAgent = async (goal: string, minMatchScore: number) => {
     setIsAgentRunning(true);
     try {
-      const res = await fetch('/api/agent/run', {
+      const res = await authFetch('/api/agent/run', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ goal, minMatchScore }),
@@ -307,7 +346,7 @@ export function App() {
 
   const handleSaveProfile = async (updated: CandidateProfile) => {
     try {
-      await fetch('/api/resume/profile', {
+      await authFetch('/api/resume/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updated),
@@ -320,7 +359,7 @@ export function App() {
 
   const handleParseResume = async (resumeText: string) => {
     try {
-      const res = await fetch('/api/resume/parse', {
+      const res = await authFetch('/api/resume/parse', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ resumeText }),
@@ -337,7 +376,7 @@ export function App() {
 
   const handleGenerateCoverLetter = async (jobId: string, tone: any) => {
     try {
-      const res = await fetch('/api/cover-letter/generate', {
+      const res = await authFetch('/api/cover-letter/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ jobId, tone }),
@@ -352,7 +391,7 @@ export function App() {
 
   const handleSimulateEmail = async (type: 'interview' | 'rejection' | 'offer' | 'screening', company?: string) => {
     try {
-      await fetch('/api/email/simulate', {
+      await authFetch('/api/email/simulate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, company }),
@@ -365,10 +404,10 @@ export function App() {
 
   const handleProcessRawEmail = async (raw: { sender: string; recipient: string; subject: string; body: string }) => {
     try {
-      await fetch('/api/email/process', {
+      await authFetch('/api/email/process', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(raw),
+        body: JSON.stringify({ raw }),
       });
       await fetchData();
     } catch (err) {
@@ -378,7 +417,7 @@ export function App() {
 
   const handleSaveTelegram = async (config: TelegramConfig) => {
     try {
-      await fetch('/api/notifications/telegram/config', {
+      await authFetch('/api/notifications/telegram/config', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(config),
@@ -391,7 +430,7 @@ export function App() {
 
   const handleTestTelegram = async () => {
     try {
-      const res = await fetch('/api/notifications/telegram/test', { method: 'POST' });
+      const res = await authFetch('/api/notifications/telegram/test', { method: 'POST' });
       const data = await res.json().catch(() => ({}));
       await fetchData();
       if (!res.ok) {
@@ -406,7 +445,7 @@ export function App() {
 
   const handleSaveScheduler = async (config: SchedulerConfig) => {
     try {
-      await fetch('/api/scheduler', {
+      await authFetch('/api/scheduler', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(config),
@@ -419,7 +458,7 @@ export function App() {
 
   const handleSaveEmailConfig = async (config: EmailDispatchConfig) => {
     try {
-      await fetch('/api/email/config', {
+      await authFetch('/api/email/config', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(config),
@@ -432,7 +471,7 @@ export function App() {
 
   const handleTestEmail = async (recipientEmail?: string) => {
     try {
-      const res = await fetch('/api/email/test', {
+      const res = await authFetch('/api/email/test', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ recipientEmail: recipientEmail || emailConfig.recipientEmail }),
@@ -448,7 +487,7 @@ export function App() {
   const handleRunMorningRoutineNow = async (targetCount: number = 5, autoSubmit: boolean = true) => {
     setIsAgentRunning(true);
     try {
-      const res = await fetch('/api/scheduler/morning-routine', {
+      const res = await authFetch('/api/scheduler/morning-routine', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ targetCount, autoSubmit }),
@@ -469,7 +508,7 @@ export function App() {
 
   const handleTriggerSchedulerNow = async () => {
     try {
-      await fetch('/api/scheduler/trigger-now', { method: 'POST' });
+      await authFetch('/api/scheduler/trigger-now', { method: 'POST' });
       await fetchData();
     } catch (err) {
       console.error('Error triggering scheduler:', err);
@@ -478,7 +517,7 @@ export function App() {
 
   const handleResetDemo = async () => {
     try {
-      await fetch('/api/reset-demo', { method: 'POST' });
+      await authFetch('/api/reset-demo', { method: 'POST' });
       await fetchData();
     } catch (err) {
       console.error('Error resetting demo:', err);
@@ -487,7 +526,7 @@ export function App() {
 
   const handleMarkNotificationRead = async (id: string) => {
     try {
-      await fetch(`/api/notifications/${id}/read`, { method: 'PATCH' });
+      await authFetch(`/api/notifications/${id}/read`, { method: 'PATCH' });
       setNotifications((prev) =>
         prev.map((n) => (n.id === id ? { ...n, read: true } : n))
       );
@@ -498,7 +537,7 @@ export function App() {
 
   const handleClearNotifications = async () => {
     try {
-      await fetch('/api/notifications/clear', { method: 'POST' });
+      await authFetch('/api/notifications/clear', { method: 'POST' });
       setNotifications([]);
     } catch (err) {
       console.error('Error clearing notifications:', err);
@@ -537,6 +576,8 @@ export function App() {
         theme={theme}
         onToggleTheme={handleToggleTheme}
         onOpenTelegramModal={() => setShowTelegramModal(true)}
+        currentUser={currentUser}
+        onOpenAuthModal={() => setShowAuthModal(true)}
       />
 
       {/* Main App Body with Smooth Page Transitions */}
@@ -652,6 +693,8 @@ export function App() {
                 onResetDemo={handleResetDemo}
                 theme={theme}
                 onToggleTheme={handleToggleTheme}
+                currentUser={currentUser}
+                onOpenAuthModal={() => setShowAuthModal(true)}
               />
             )}
           </motion.div>
@@ -676,6 +719,14 @@ export function App() {
         telegramConfig={telegramConfig}
         onSaveTelegram={handleSaveTelegram}
         onTestTelegram={handleTestTelegram}
+      />
+
+      {/* Multi-User Account & Workspace Modal */}
+      <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        currentUser={currentUser}
+        onAuthSuccess={handleAuthSuccess}
       />
     </div>
   );

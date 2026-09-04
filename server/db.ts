@@ -11,6 +11,7 @@ import {
   AgentRunSession,
   SchedulerConfig,
   DashboardStats,
+  User,
 } from '../src/types';
 import fs from 'fs';
 import path from 'path';
@@ -540,65 +541,124 @@ const initialNotifications: NotificationMessage[] = [
   },
 ];
 
-// Persistent File Store Engine
+// Persistent Multi-User File Store Engine
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DATA_FILE = path.join(DATA_DIR, 'store.json');
 
-interface StoreSchema {
+export const PRIMARY_USER: User = {
+  id: 'usr_pankaj_default',
+  name: 'Pankaj Kumar',
+  email: 'codepankaj84@gmail.com',
+  role: 'Senior Backend Software Engineer',
+  isPrimary: true,
+  createdAt: '2026-09-04T10:00:00.000Z',
+};
+
+export const DEMO_USER: User = {
+  id: 'usr_demo_evaluator',
+  name: 'Alex Reed',
+  email: 'alex.reed@techcareer.io',
+  role: 'Full Stack Engineer',
+  isPrimary: false,
+  createdAt: '2026-09-04T12:00:00.000Z',
+};
+
+export interface UserState {
+  user: User;
   profile: CandidateProfile;
-  jobs: Job[];
+  telegramConfig: TelegramConfig;
+  emailDispatchConfig: EmailDispatchConfig;
+  schedulerConfig: SchedulerConfig;
   matches: JobMatch[];
   applications: PreparedApplication[];
   coverLetters: CoverLetter[];
   emails: EmailEvent[];
-  telegramConfig: TelegramConfig;
-  emailDispatchConfig: EmailDispatchConfig;
-  schedulerConfig: SchedulerConfig;
   notifications: NotificationMessage[];
   agentSessions: AgentRunSession[];
 }
 
+export interface MultiUserStoreSchema {
+  version: '2.0';
+  users: User[];
+  userData: Record<string, UserState>;
+  jobs: Job[];
+}
+
 class Database {
-  private data: StoreSchema;
+  private data: MultiUserStoreSchema;
 
   constructor() {
     this.data = this.loadData();
   }
 
-  private loadData(): StoreSchema {
+  private loadData(): MultiUserStoreSchema {
     try {
       if (fs.existsSync(DATA_FILE)) {
         const raw = fs.readFileSync(DATA_FILE, 'utf-8');
         const parsed = JSON.parse(raw);
-        return {
+
+        // Check if file is already in v2.0 multi-user format
+        if (parsed.version === '2.0' && parsed.userData && parsed.users) {
+          return {
+            version: '2.0',
+            users: parsed.users,
+            userData: parsed.userData,
+            jobs: parsed.jobs || initialJobs,
+          };
+        }
+
+        // Migrate legacy single-tenant format to v2.0 multi-user format
+        const primaryUserData: UserState = {
+          user: PRIMARY_USER,
           profile: parsed.profile || defaultProfile,
-          jobs: parsed.jobs || initialJobs,
+          telegramConfig: { ...defaultTelegramConfig, ...(parsed.telegramConfig || {}) },
+          emailDispatchConfig: { ...defaultEmailDispatchConfig, ...(parsed.emailDispatchConfig || {}) },
+          schedulerConfig: { ...defaultSchedulerConfig, ...(parsed.schedulerConfig || {}) },
           matches: parsed.matches || initialMatches,
           applications: parsed.applications || initialApplications,
           coverLetters: parsed.coverLetters || [],
           emails: parsed.emails || initialEmails,
-          telegramConfig: { ...defaultTelegramConfig, ...(parsed.telegramConfig || {}) },
-          emailDispatchConfig: { ...defaultEmailDispatchConfig, ...(parsed.emailDispatchConfig || {}) },
-          schedulerConfig: { ...defaultSchedulerConfig, ...(parsed.schedulerConfig || {}) },
           notifications: parsed.notifications || initialNotifications,
           agentSessions: parsed.agentSessions || [],
         };
+
+        const migratedSchema: MultiUserStoreSchema = {
+          version: '2.0',
+          users: [PRIMARY_USER],
+          userData: {
+            [PRIMARY_USER.id]: primaryUserData,
+          },
+          jobs: parsed.jobs || initialJobs,
+        };
+
+        return migratedSchema;
       }
     } catch (err) {
       console.warn('Could not load data from file, using seeded defaults', err);
     }
-    return {
+
+    // Default seeded schema
+    const initialUserData: UserState = {
+      user: PRIMARY_USER,
       profile: defaultProfile,
-      jobs: initialJobs,
+      telegramConfig: defaultTelegramConfig,
+      emailDispatchConfig: defaultEmailDispatchConfig,
+      schedulerConfig: defaultSchedulerConfig,
       matches: initialMatches,
       applications: initialApplications,
       coverLetters: [],
       emails: initialEmails,
-      telegramConfig: defaultTelegramConfig,
-      emailDispatchConfig: defaultEmailDispatchConfig,
-      schedulerConfig: defaultSchedulerConfig,
       notifications: initialNotifications,
       agentSessions: [],
+    };
+
+    return {
+      version: '2.0',
+      users: [PRIMARY_USER],
+      userData: {
+        [PRIMARY_USER.id]: initialUserData,
+      },
+      jobs: initialJobs,
     };
   }
 
@@ -613,22 +673,147 @@ class Database {
     }
   }
 
-  // Profile operations
-  getProfile(): CandidateProfile {
-    return this.data.profile;
+  // Ensure user state exists and return it
+  private getUserData(userId: string = PRIMARY_USER.id): UserState {
+    const effectiveUserId = userId || PRIMARY_USER.id;
+    if (!this.data.userData[effectiveUserId]) {
+      const user = this.getUserById(effectiveUserId) || {
+        id: effectiveUserId,
+        name: 'Guest Candidate',
+        email: 'guest@kinetic.ai',
+        role: 'Software Engineer',
+        createdAt: new Date().toISOString(),
+      };
+
+      const newUserProfile: CandidateProfile = {
+        ...defaultProfile,
+        id: `profile_${effectiveUserId}`,
+        name: user.name,
+        email: user.email,
+        summary: `Software Engineer actively exploring new career opportunities.`,
+        skills: ['JavaScript', 'TypeScript', 'Node.js', 'React', 'REST APIs', 'Git'],
+        preferredRoles: ['Software Engineer', 'Full Stack Developer', 'Backend Developer'],
+        experience: [],
+        education: [],
+        projects: [],
+        updatedAt: new Date().toISOString(),
+      };
+
+      this.data.userData[effectiveUserId] = {
+        user,
+        profile: newUserProfile,
+        telegramConfig: {
+          ...defaultTelegramConfig,
+          enabled: false,
+          botToken: '',
+          chatId: '',
+        },
+        emailDispatchConfig: {
+          ...defaultEmailDispatchConfig,
+          recipientEmail: user.email,
+        },
+        schedulerConfig: {
+          ...defaultSchedulerConfig,
+        },
+        matches: [],
+        applications: [],
+        coverLetters: [],
+        emails: [],
+        notifications: [
+          {
+            id: `notif_${Date.now()}`,
+            type: 'system_alert',
+            title: '👋 Welcome to Kinetic Autonomous Career OS',
+            body: 'Your dedicated career workspace is ready. Upload your resume to begin autonomous matching.',
+            timestamp: new Date().toISOString(),
+            read: false,
+          },
+        ],
+        agentSessions: [],
+      };
+
+      if (!this.data.users.some((u) => u.id === effectiveUserId)) {
+        this.data.users.push(user);
+      }
+      this.persist();
+    }
+    return this.data.userData[effectiveUserId];
   }
 
-  updateProfile(profile: Partial<CandidateProfile>): CandidateProfile {
-    this.data.profile = {
-      ...this.data.profile,
+  // User Management
+  getUsers(): User[] {
+    return this.data.users;
+  }
+
+  getUserById(id: string): User | undefined {
+    return this.data.users.find((u) => u.id === id);
+  }
+
+  getUserByEmail(email: string): User | undefined {
+    const norm = email.trim().toLowerCase();
+    return this.data.users.find((u) => u.email.trim().toLowerCase() === norm);
+  }
+
+  createUser(name: string, email: string, role?: string): { user: User; token: string } {
+    const existing = this.getUserByEmail(email);
+    if (existing) {
+      return { user: existing, token: `token_${existing.id}` };
+    }
+
+    const newUser: User = {
+      id: `usr_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 6)}`,
+      name: name.trim() || 'Candidate',
+      email: email.trim().toLowerCase(),
+      role: role?.trim() || 'Software Engineer',
+      isPrimary: false,
+      createdAt: new Date().toISOString(),
+    };
+
+    this.data.users.push(newUser);
+    // Initialize user state
+    this.getUserData(newUser.id);
+    this.persist();
+
+    return { user: newUser, token: `token_${newUser.id}` };
+  }
+
+  getDemoUser(): { user: User; token: string } {
+    let demo = this.getUserById(DEMO_USER.id);
+    if (!demo) {
+      this.data.users.push(DEMO_USER);
+      this.getUserData(DEMO_USER.id);
+      this.persist();
+      demo = DEMO_USER;
+    }
+    return { user: demo, token: `token_${demo.id}` };
+  }
+
+  getPrimaryUser(): { user: User; token: string } {
+    return { user: PRIMARY_USER, token: `token_${PRIMARY_USER.id}` };
+  }
+
+  // Profile operations
+  getProfile(userId: string = PRIMARY_USER.id): CandidateProfile {
+    return this.getUserData(userId).profile;
+  }
+
+  updateProfile(profile: Partial<CandidateProfile>, userId: string = PRIMARY_USER.id): CandidateProfile {
+    const userData = this.getUserData(userId);
+    userData.profile = {
+      ...userData.profile,
       ...profile,
       updatedAt: new Date().toISOString(),
     };
+    // Also sync user name/email if changed
+    if (profile.name) userData.user.name = profile.name;
+    if (profile.email) userData.user.email = profile.email;
+    if (profile.preferredRoles?.[0]) userData.user.role = profile.preferredRoles[0];
+
     this.persist();
-    return this.data.profile;
+    return userData.profile;
   }
 
-  // Jobs operations
+  // Jobs operations (shared global job listings pool)
   getJobs(): Job[] {
     return this.data.jobs;
   }
@@ -642,9 +827,6 @@ class Database {
     let deduplicated = 0;
 
     for (const job of newJobs) {
-      // Deduplication rules (Section 8 of specification):
-      // 1. Match source + externalId
-      // 2. Fallback: normalized company + normalized title + normalized location
       const normCompany = job.company.toLowerCase().trim();
       const normTitle = job.title.toLowerCase().replace(/[^a-z0-9]/g, '');
       const normLoc = job.location.toLowerCase().trim();
@@ -671,89 +853,95 @@ class Database {
     return { added, deduplicated };
   }
 
-  // Match operations
-  getMatches(): JobMatch[] {
-    return this.data.matches;
+  // Match operations (user-scoped)
+  getMatches(userId: string = PRIMARY_USER.id): JobMatch[] {
+    return this.getUserData(userId).matches;
   }
 
-  getMatchByJobId(jobId: string): JobMatch | undefined {
-    return this.data.matches.find((m) => m.jobId === jobId);
+  getMatchByJobId(jobId: string, userId: string = PRIMARY_USER.id): JobMatch | undefined {
+    return this.getUserData(userId).matches.find((m) => m.jobId === jobId);
   }
 
-  saveMatch(match: JobMatch): JobMatch {
-    const idx = this.data.matches.findIndex((m) => m.jobId === match.jobId);
+  saveMatch(match: JobMatch, userId: string = PRIMARY_USER.id): JobMatch {
+    const userData = this.getUserData(userId);
+    const idx = userData.matches.findIndex((m) => m.jobId === match.jobId);
     if (idx >= 0) {
-      this.data.matches[idx] = match;
+      userData.matches[idx] = match;
     } else {
-      this.data.matches.push(match);
+      userData.matches.push(match);
     }
     this.persist();
     return match;
   }
 
-  // Application operations
-  getApplications(): PreparedApplication[] {
-    return this.data.applications;
+  // Application operations (user-scoped)
+  getApplications(userId: string = PRIMARY_USER.id): PreparedApplication[] {
+    return this.getUserData(userId).applications;
   }
 
-  getApplicationById(id: string): PreparedApplication | undefined {
-    return this.data.applications.find((a) => a.id === id);
+  getApplicationById(id: string, userId: string = PRIMARY_USER.id): PreparedApplication | undefined {
+    return this.getUserData(userId).applications.find((a) => a.id === id);
   }
 
-  getApplicationByJobId(jobId: string): PreparedApplication | undefined {
-    return this.data.applications.find((a) => a.id === jobId || a.jobId === jobId);
+  getApplicationByJobId(jobId: string, userId: string = PRIMARY_USER.id): PreparedApplication | undefined {
+    return this.getUserData(userId).applications.find((a) => a.id === jobId || a.jobId === jobId);
   }
 
-  saveApplication(app: PreparedApplication): PreparedApplication {
-    const idx = this.data.applications.findIndex((a) => a.id === app.id);
+  saveApplication(app: PreparedApplication, userId: string = PRIMARY_USER.id): PreparedApplication {
+    const userData = this.getUserData(userId);
+    const idx = userData.applications.findIndex((a) => a.id === app.id);
     if (idx >= 0) {
-      this.data.applications[idx] = app;
+      userData.applications[idx] = app;
     } else {
-      this.data.applications.unshift(app);
+      userData.applications.unshift(app);
     }
     this.persist();
     return app;
   }
 
-  deleteApplication(id: string): boolean {
-    const initialLen = this.data.applications.length;
-    this.data.applications = this.data.applications.filter((a) => a.id !== id);
-    if (this.data.applications.length !== initialLen) {
+  deleteApplication(id: string, userId: string = PRIMARY_USER.id): boolean {
+    const userData = this.getUserData(userId);
+    const initialLen = userData.applications.length;
+    userData.applications = userData.applications.filter((a) => a.id !== id);
+    if (userData.applications.length !== initialLen) {
       this.persist();
       return true;
     }
     return false;
   }
 
-  // Cover letter operations
-  getCoverLetters(): CoverLetter[] {
-    return this.data.coverLetters;
+  // Cover letter operations (user-scoped)
+  getCoverLetters(userId: string = PRIMARY_USER.id): CoverLetter[] {
+    return this.getUserData(userId).coverLetters;
   }
 
-  saveCoverLetter(letter: CoverLetter): CoverLetter {
-    const idx = this.data.coverLetters.findIndex((c) => c.id === letter.id);
+  saveCoverLetter(letter: CoverLetter, userId: string = PRIMARY_USER.id): CoverLetter {
+    const userData = this.getUserData(userId);
+    const idx = userData.coverLetters.findIndex((c) => c.id === letter.id);
     if (idx >= 0) {
-      this.data.coverLetters[idx] = letter;
+      userData.coverLetters[idx] = letter;
     } else {
-      this.data.coverLetters.unshift(letter);
+      userData.coverLetters.unshift(letter);
     }
     this.persist();
     return letter;
   }
 
-  // Email operations
-  getEmails(): EmailEvent[] {
-    return this.data.emails;
+  // Email operations (user-scoped)
+  getEmails(userId: string = PRIMARY_USER.id): EmailEvent[] {
+    return this.getUserData(userId).emails;
   }
 
-  addEmail(email: EmailEvent): EmailEvent {
-    this.data.emails.unshift(email);
+  addEmail(email: EmailEvent, userId: string = PRIMARY_USER.id): EmailEvent {
+    const userData = this.getUserData(userId);
+    userData.emails.unshift(email);
     this.persist();
     return email;
   }
 
-  updateEmail(id: string, updates: Partial<EmailEvent>): EmailEvent | undefined {
-    const email = this.data.emails.find((e) => e.id === id);
+  updateEmail(id: string, updates: Partial<EmailEvent>, userId: string = PRIMARY_USER.id): EmailEvent | undefined {
+    const userData = this.getUserData(userId);
+    const email = userData.emails.find((e) => e.id === id);
     if (email) {
       Object.assign(email, updates);
       this.persist();
@@ -762,91 +950,99 @@ class Database {
     return undefined;
   }
 
-  // Notifications
-  getNotifications(): NotificationMessage[] {
-    return this.data.notifications;
+  // Notifications (user-scoped)
+  getNotifications(userId: string = PRIMARY_USER.id): NotificationMessage[] {
+    return this.getUserData(userId).notifications;
   }
 
-  addNotification(notif: NotificationMessage): NotificationMessage {
-    this.data.notifications.unshift(notif);
+  addNotification(notif: NotificationMessage, userId: string = PRIMARY_USER.id): NotificationMessage {
+    const userData = this.getUserData(userId);
+    userData.notifications.unshift(notif);
     this.persist();
     return notif;
   }
 
-  markNotificationRead(id: string): void {
-    const notif = this.data.notifications.find((n) => n.id === id);
+  markNotificationRead(id: string, userId: string = PRIMARY_USER.id): void {
+    const userData = this.getUserData(userId);
+    const notif = userData.notifications.find((n) => n.id === id);
     if (notif) {
       notif.read = true;
       this.persist();
     }
   }
 
-  clearNotifications(): void {
-    this.data.notifications = [];
+  clearNotifications(userId: string = PRIMARY_USER.id): void {
+    const userData = this.getUserData(userId);
+    userData.notifications = [];
     this.persist();
   }
 
-  // Configs
-  getTelegramConfig(): TelegramConfig {
-    return this.data.telegramConfig;
+  // Configs (user-scoped)
+  getTelegramConfig(userId: string = PRIMARY_USER.id): TelegramConfig {
+    return this.getUserData(userId).telegramConfig;
   }
 
-  updateTelegramConfig(config: Partial<TelegramConfig>): TelegramConfig {
-    this.data.telegramConfig = {
-      ...this.data.telegramConfig,
+  updateTelegramConfig(config: Partial<TelegramConfig>, userId: string = PRIMARY_USER.id): TelegramConfig {
+    const userData = this.getUserData(userId);
+    userData.telegramConfig = {
+      ...userData.telegramConfig,
       ...config,
     };
     this.persist();
-    return this.data.telegramConfig;
+    return userData.telegramConfig;
   }
 
-  getEmailDispatchConfig(): EmailDispatchConfig {
-    return this.data.emailDispatchConfig || defaultEmailDispatchConfig;
+  getEmailDispatchConfig(userId: string = PRIMARY_USER.id): EmailDispatchConfig {
+    return this.getUserData(userId).emailDispatchConfig || defaultEmailDispatchConfig;
   }
 
-  updateEmailDispatchConfig(config: Partial<EmailDispatchConfig>): EmailDispatchConfig {
-    this.data.emailDispatchConfig = {
-      ...(this.data.emailDispatchConfig || defaultEmailDispatchConfig),
+  updateEmailDispatchConfig(config: Partial<EmailDispatchConfig>, userId: string = PRIMARY_USER.id): EmailDispatchConfig {
+    const userData = this.getUserData(userId);
+    userData.emailDispatchConfig = {
+      ...(userData.emailDispatchConfig || defaultEmailDispatchConfig),
       ...config,
     };
     this.persist();
-    return this.data.emailDispatchConfig;
+    return userData.emailDispatchConfig;
   }
 
-  getSchedulerConfig(): SchedulerConfig {
-    return this.data.schedulerConfig;
+  getSchedulerConfig(userId: string = PRIMARY_USER.id): SchedulerConfig {
+    return this.getUserData(userId).schedulerConfig;
   }
 
-  updateSchedulerConfig(config: Partial<SchedulerConfig>): SchedulerConfig {
-    this.data.schedulerConfig = {
-      ...this.data.schedulerConfig,
+  updateSchedulerConfig(config: Partial<SchedulerConfig>, userId: string = PRIMARY_USER.id): SchedulerConfig {
+    const userData = this.getUserData(userId);
+    userData.schedulerConfig = {
+      ...userData.schedulerConfig,
       ...config,
     };
     this.persist();
-    return this.data.schedulerConfig;
+    return userData.schedulerConfig;
   }
 
-  // Agent sessions
-  getAgentSessions(): AgentRunSession[] {
-    return this.data.agentSessions;
+  // Agent sessions (user-scoped)
+  getAgentSessions(userId: string = PRIMARY_USER.id): AgentRunSession[] {
+    return this.getUserData(userId).agentSessions;
   }
 
-  saveAgentSession(session: AgentRunSession): AgentRunSession {
-    const idx = this.data.agentSessions.findIndex((s) => s.id === session.id);
+  saveAgentSession(session: AgentRunSession, userId: string = PRIMARY_USER.id): AgentRunSession {
+    const userData = this.getUserData(userId);
+    const idx = userData.agentSessions.findIndex((s) => s.id === session.id);
     if (idx >= 0) {
-      this.data.agentSessions[idx] = session;
+      userData.agentSessions[idx] = session;
     } else {
-      this.data.agentSessions.unshift(session);
+      userData.agentSessions.unshift(session);
     }
     this.persist();
     return session;
   }
 
-  // Stats calculation
-  getDashboardStats(): DashboardStats {
+  // Stats calculation (user-scoped)
+  getDashboardStats(userId: string = PRIMARY_USER.id): DashboardStats {
+    const userData = this.getUserData(userId);
     const totalJobs = this.data.jobs.length;
-    const matches = this.data.matches;
-    const apps = this.data.applications;
+    const matches = userData.matches;
+    const apps = userData.applications;
 
     const strongMatches = matches.filter((m) => m.score >= 80).length;
     const waitingApproval = apps.filter((a) => a.status === 'WAITING_FOR_APPROVAL').length;
@@ -867,7 +1063,7 @@ class Database {
         time: a.updatedAt,
         badgeColor: a.status === 'INTERVIEW' ? 'purple' : a.status === 'OFFER' ? 'green' : 'blue',
       })),
-      ...this.data.notifications.slice(0, 5).map((n) => ({
+      ...userData.notifications.slice(0, 5).map((n) => ({
         id: `act_notif_${n.id}`,
         type: 'Alert',
         message: n.title + ': ' + n.body.slice(0, 70) + (n.body.length > 70 ? '...' : ''),
@@ -895,22 +1091,21 @@ class Database {
   }
 
   // Reset demo data helper
-  resetToDefaults() {
-    this.data = {
-      profile: defaultProfile,
-      jobs: initialJobs,
-      matches: initialMatches,
-      applications: initialApplications,
-      coverLetters: [],
-      emails: initialEmails,
-      telegramConfig: defaultTelegramConfig,
-      emailDispatchConfig: defaultEmailDispatchConfig,
-      schedulerConfig: defaultSchedulerConfig,
-      notifications: initialNotifications,
-      agentSessions: [],
-    };
+  resetToDefaults(userId: string = PRIMARY_USER.id) {
+    const userData = this.getUserData(userId);
+    userData.profile = defaultProfile;
+    userData.matches = initialMatches;
+    userData.applications = initialApplications;
+    userData.coverLetters = [];
+    userData.emails = initialEmails;
+    userData.telegramConfig = defaultTelegramConfig;
+    userData.emailDispatchConfig = defaultEmailDispatchConfig;
+    userData.schedulerConfig = defaultSchedulerConfig;
+    userData.notifications = initialNotifications;
+    userData.agentSessions = [];
     this.persist();
   }
 }
 
 export const db = new Database();
+

@@ -19,7 +19,8 @@ export class AgentLoop {
   static async runMorningRoutine(
     targetCount: number = 5,
     autoSubmit: boolean = true,
-    onProgress?: (log: AgentActionLog) => void
+    onProgress?: (log: AgentActionLog) => void,
+    userId?: string
   ): Promise<{ session: AgentRunSession; appliedApplications: PreparedApplication[] }> {
     const session: AgentRunSession = {
       id: `session_morning_${uuidv4().slice(0, 8)}`,
@@ -60,13 +61,13 @@ export class AgentLoop {
       };
       session.logs.push(log);
       if (onProgress) onProgress(log);
-      db.saveAgentSession(session);
+      db.saveAgentSession(session, userId);
     };
 
     const appliedApplications: PreparedApplication[] = [];
 
     try {
-      const profile = db.getProfile();
+      const profile = db.getProfile(userId);
 
       // Step 1: Candidate Profile Inspection
       addLog(
@@ -103,10 +104,10 @@ export class AgentLoop {
         {}
       );
 
-      const matchRes = await JobService.matchAllUnmatchedJobs(profile);
+      const matchRes = await JobService.matchAllUnmatchedJobs(profile, userId);
       session.metrics.jobsMatched = matchRes.matchedCount;
 
-      const allMatches = db.getMatches().sort((a, b) => b.score - a.score);
+      const allMatches = db.getMatches(userId).sort((a, b) => b.score - a.score);
       const minScore = 75;
       let topEligible = allMatches.filter((m) => m.score >= minScore);
 
@@ -136,9 +137,9 @@ export class AgentLoop {
         const job = db.getJobById(m.jobId);
         if (!job) continue;
 
-        let app = db.getApplicationByJobId(job.id);
+        let app = db.getApplicationByJobId(job.id, userId);
         if (!app) {
-          app = await ApplicationService.prepareApplication(job.id);
+          app = await ApplicationService.prepareApplication(job.id, userId);
           session.metrics.applicationsPrepared++;
           session.metrics.coverLettersGenerated++;
         }
@@ -153,7 +154,7 @@ export class AgentLoop {
             note: `Auto-submitted via 10:00 AM Morning Job Routine (Match: ${app.matchScore}%)`,
             source: 'agent',
           });
-          db.saveApplication(app);
+          db.saveApplication(app, userId);
         }
 
         appliedApplications.push(app);
@@ -173,12 +174,12 @@ export class AgentLoop {
         {}
       );
 
-      await TelegramService.sendMorningJobReport(appliedApplications, session.metrics.jobsScanned);
+      await TelegramService.sendMorningJobReport(appliedApplications, session.metrics.jobsScanned, userId);
       session.metrics.notificationsSent++;
       session.logs[session.logs.length - 1].output = { telegramNotificationDispatched: true };
 
       // Step 6: Morning Email Digest Dispatch
-      const emailConfig = db.getEmailDispatchConfig();
+      const emailConfig = db.getEmailDispatchConfig(userId);
       addLog(
         `Generating and sending formatted morning email digest with all ${appliedApplications.length} applied jobs to ${emailConfig.recipientEmail}.`,
         'Dispatching morning email digest',
@@ -209,13 +210,16 @@ export class AgentLoop {
 
       session.status = 'completed';
       session.completedAt = new Date().toISOString();
-      db.saveAgentSession(session);
+      db.saveAgentSession(session, userId);
 
       // Update scheduler last morning report timestamp
-      db.updateSchedulerConfig({
-        lastMorningReportSentAt: new Date().toISOString(),
-        lastRunAt: new Date().toISOString(),
-      });
+      db.updateSchedulerConfig(
+        {
+          lastMorningReportSentAt: new Date().toISOString(),
+          lastRunAt: new Date().toISOString(),
+        },
+        userId
+      );
 
       return { session, appliedApplications };
     } catch (err: any) {
@@ -229,7 +233,7 @@ export class AgentLoop {
         { error: String(err) },
         'failed'
       );
-      db.saveAgentSession(session);
+      db.saveAgentSession(session, userId);
       return { session, appliedApplications };
     }
   }
@@ -240,7 +244,8 @@ export class AgentLoop {
   static async runAutonomousAgent(
     goal: string,
     minMatchScore: number = 80,
-    onProgress?: (log: AgentActionLog) => void
+    onProgress?: (log: AgentActionLog) => void,
+    userId?: string
   ): Promise<AgentRunSession> {
     const session: AgentRunSession = {
       id: `session_${uuidv4().slice(0, 8)}`,
@@ -281,25 +286,26 @@ export class AgentLoop {
       };
       session.logs.push(log);
       if (onProgress) onProgress(log);
-      db.saveAgentSession(session);
+      db.saveAgentSession(session, userId);
     };
 
     try {
       // Step 1: Read Candidate Profile
+      const candidateProfile = db.getProfile(userId);
       addLog(
         'I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.',
         'Fetching candidate profile from secure store',
         'get_candidate_profile',
         {},
         {
-          name: db.getProfile().name,
-          preferredRoles: db.getProfile().preferredRoles,
-          skillsCount: db.getProfile().skills.length,
-          remotePreference: db.getProfile().remotePreference,
+          name: candidateProfile.name,
+          preferredRoles: candidateProfile.preferredRoles,
+          skillsCount: candidateProfile.skills.length,
+          remotePreference: candidateProfile.remotePreference,
         }
       );
 
-      const profile = db.getProfile();
+      const profile = candidateProfile;
 
       // Step 2: Search and Ingest Multi-Source Jobs
       addLog(
@@ -329,10 +335,10 @@ export class AgentLoop {
         {}
       );
 
-      const matchRes = await JobService.matchAllUnmatchedJobs(profile);
+      const matchRes = await JobService.matchAllUnmatchedJobs(profile, userId);
       session.metrics.jobsMatched = matchRes.matchedCount;
 
-      const matches = db.getMatches();
+      const matches = db.getMatches(userId);
       const highMatches = matches.filter((m) => m.score >= minMatchScore);
 
       session.logs[session.logs.length - 1].output = {
@@ -357,7 +363,7 @@ export class AgentLoop {
           if (!job) continue;
 
           // Check if application already exists
-          const existingApp = db.getApplicationByJobId(job.id);
+          const existingApp = db.getApplicationByJobId(job.id, userId);
           if (!existingApp) {
             addLog(
               `Job "${job.title}" at ${job.company} scored ${m.score}% (Strong Match). Generating bespoke cover letter and answering application questions.`,
@@ -367,7 +373,7 @@ export class AgentLoop {
               {}
             );
 
-            const app = await ApplicationService.prepareApplication(job.id);
+            const app = await ApplicationService.prepareApplication(job.id, userId);
             session.metrics.applicationsPrepared++;
             session.metrics.coverLettersGenerated++;
 
@@ -403,7 +409,7 @@ export class AgentLoop {
 
       session.status = 'completed';
       session.completedAt = new Date().toISOString();
-      db.saveAgentSession(session);
+      db.saveAgentSession(session, userId);
       return session;
     } catch (err: any) {
       session.status = 'error';
@@ -416,7 +422,7 @@ export class AgentLoop {
         { error: String(err) },
         'failed'
       );
-      db.saveAgentSession(session);
+      db.saveAgentSession(session, userId);
       return session;
     }
   }

@@ -9,19 +9,19 @@ export class ApplicationService {
    * Prepare application: Extracts form fields, generates AI answers & tailored cover letter,
    * sets status to WAITING_FOR_APPROVAL (Human-in-the-loop).
    */
-  static async prepareApplication(jobId: string): Promise<PreparedApplication> {
+  static async prepareApplication(jobId: string, userId?: string): Promise<PreparedApplication> {
     const job = db.getJobById(jobId);
     if (!job) {
       throw new Error(`Job with ID ${jobId} not found`);
     }
 
-    const profile = db.getProfile();
-    const existingMatch = db.getMatchByJobId(jobId);
+    const profile = db.getProfile(userId);
+    const existingMatch = db.getMatchByJobId(jobId, userId);
     const matchScore = existingMatch ? existingMatch.score : 85;
 
     // 1. Generate tailored cover letter
     const coverLetter = await AIService.generateCoverLetter(profile, job, 'professional');
-    db.saveCoverLetter(coverLetter);
+    db.saveCoverLetter(coverLetter, userId);
 
     // 2. Synthesize & Answer Application Form Questions
     const nameParts = profile.name.split(' ');
@@ -193,10 +193,10 @@ export class ApplicationService {
       updatedAt: new Date().toISOString(),
     };
 
-    db.saveApplication(application);
+    db.saveApplication(application, userId);
 
     // Dispatch Telegram alert
-    await TelegramService.notifyApplicationPrepared(application);
+    await TelegramService.notifyApplicationPrepared(application, userId);
 
     return application;
   }
@@ -207,9 +207,10 @@ export class ApplicationService {
   static async approveAndSubmit(
     applicationId: string,
     editedFields?: ApplicationFormField[],
-    editedCoverLetter?: string
+    editedCoverLetter?: string,
+    userId?: string
   ): Promise<PreparedApplication> {
-    const app = db.getApplicationById(applicationId);
+    const app = db.getApplicationById(applicationId, userId);
     if (!app) {
       throw new Error(`Application ${applicationId} not found`);
     }
@@ -236,10 +237,10 @@ export class ApplicationService {
       source: 'user',
     });
 
-    db.saveApplication(app);
+    db.saveApplication(app, userId);
 
     // Trigger submission Telegram notification
-    await TelegramService.notifyApplicationSubmitted(app);
+    await TelegramService.notifyApplicationSubmitted(app, userId);
 
     return app;
   }
@@ -251,9 +252,10 @@ export class ApplicationService {
     applicationId: string,
     status: ApplicationStatus,
     note?: string,
-    source: 'agent' | 'user' | 'email_monitor' = 'user'
+    source: 'agent' | 'user' | 'email_monitor' = 'user',
+    userId?: string
   ): PreparedApplication {
-    const app = db.getApplicationById(applicationId);
+    const app = db.getApplicationById(applicationId, userId);
     if (!app) {
       throw new Error(`Application ${applicationId} not found`);
     }
@@ -271,7 +273,7 @@ export class ApplicationService {
       source,
     });
 
-    db.saveApplication(app);
+    db.saveApplication(app, userId);
     return app;
   }
 }

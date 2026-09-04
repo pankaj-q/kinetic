@@ -23,7 +23,7 @@ import {
   Sun,
   Moon
 } from 'lucide-react';
-import { NotificationMessage, TelegramConfig } from '../types';
+import { NotificationMessage, TelegramConfig, User } from '../types';
 
 interface NavbarProps {
   activeTab: string;
@@ -38,6 +38,8 @@ interface NavbarProps {
   theme?: 'dark' | 'light';
   onToggleTheme?: () => void;
   onOpenTelegramModal?: () => void;
+  currentUser?: User | null;
+  onOpenAuthModal?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -53,6 +55,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   theme = 'dark',
   onToggleTheme,
   onOpenTelegramModal,
+  currentUser,
+  onOpenAuthModal,
 }) => {
   const [showNotifPopover, setShowNotifPopover] = useState(false);
 
@@ -132,7 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   Kinetic
                 </span>
                 <span className="text-[10px] font-mono font-medium tracking-wider px-2 py-0.5 rounded-full bg-[#16161E] border border-[#1D1D24] text-[#8E8E9B] uppercase whitespace-nowrap hidden sm:inline-block">
-                  PANKAJ_KUMAR // BACKEND
+                  {currentUser?.name ? currentUser.name.toUpperCase().replace(/\s+/g, '_') : 'PANKAJ_KUMAR'} // {currentUser?.role ? currentUser.role.toUpperCase().slice(0, 16) : 'BACKEND'}
                 </span>
               </div>
             </motion.div>
@@ -163,8 +167,30 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Right: Theme Toggle, Telegram Quick Link & Notification Icon */}
+          {/* Right: User Switcher, Theme Toggle, Telegram Quick Link & Notification Icon */}
           <div className="flex items-center gap-2 shrink-0">
+            {/* User Account / Profile Switcher Pill */}
+            {onOpenAuthModal && (
+              <button
+                id="navbar-user-switch-btn"
+                onClick={onOpenAuthModal}
+                title="Switch Profile / Account Credentials"
+                className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-[#111116] hover:bg-[#181822] text-white border border-[#1D1D24] hover:border-[#FF5A36]/60 text-xs transition-all cursor-pointer select-none"
+              >
+                <div className="w-5 h-5 rounded-md bg-gradient-to-br from-[#FF5A36] to-[#FF3D14] flex items-center justify-center text-white font-mono font-bold text-[10px] shrink-0">
+                  {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'PK'}
+                </div>
+                <div className="hidden sm:flex flex-col items-start leading-none text-left">
+                  <span className="text-[11px] font-bold text-white max-w-[100px] truncate">
+                    {currentUser?.name || 'Pankaj Kumar'}
+                  </span>
+                  <span className="text-[9px] text-[#8E8E9B] font-mono">
+                    {currentUser?.isPrimary ? 'PRIMARY' : 'PRIVATE'}
+                  </span>
+                </div>
+              </button>
+            )}
+
             {/* 1-Click Telegram Quick Connect Pill */}
             <button
               onClick={onOpenTelegramModal}

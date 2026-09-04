@@ -10,13 +10,14 @@ export class TelegramService {
     text: string,
     type: NotificationMessage['type'],
     title: string,
-    meta?: NotificationMessage['data']
+    meta?: NotificationMessage['data'],
+    userId?: string
   ): Promise<{ success: boolean; deliveredToTelegram: boolean; notification: NotificationMessage }> {
-    const config = db.getTelegramConfig();
-    const botToken = config.botToken || process.env.TELEGRAM_BOT_TOKEN || '';
-    const chatId = config.chatId || process.env.TELEGRAM_CHAT_ID || '';
+    const config = db.getTelegramConfig(userId);
+    const botToken = config.botToken || (userId ? '' : process.env.TELEGRAM_BOT_TOKEN || '');
+    const chatId = config.chatId || (userId ? '' : process.env.TELEGRAM_CHAT_ID || '');
 
-    // 1. Store in-app notification
+    // 1. Store in-app notification (scoped to user)
     const notification: NotificationMessage = {
       id: `notif_${uuidv4().slice(0, 8)}`,
       type,
@@ -26,7 +27,7 @@ export class TelegramService {
       read: false,
       data: meta,
     };
-    db.addNotification(notification);
+    db.addNotification(notification, userId);
 
     // 2. Deliver to Telegram if configured
     let deliveredToTelegram = false;
@@ -74,7 +75,7 @@ export class TelegramService {
    * Event Formatters matching Section 16 of the Plan
    */
 
-  static async notifyHighMatchJob(job: Job, matchScore: number, matchingSkills: string[]) {
+  static async notifyHighMatchJob(job: Job, matchScore: number, matchingSkills: string[], userId?: string) {
     const title = `🔥 New Job Match (${matchScore}%)`;
     const text = `*${title}*
 
@@ -88,15 +89,21 @@ ${matchingSkills.map((s) => `✓ ${s}`).join('\n')}
 
 [Review in Kinetic Dashboard]`;
 
-    return this.sendTelegramNotification(text, 'high_match', title, {
-      jobId: job.id,
-      score: matchScore,
-      company: job.company,
-      url: job.url,
-    });
+    return this.sendTelegramNotification(
+      text,
+      'high_match',
+      title,
+      {
+        jobId: job.id,
+        score: matchScore,
+        company: job.company,
+        url: job.url,
+      },
+      userId
+    );
   }
 
-  static async notifyApplicationPrepared(app: PreparedApplication) {
+  static async notifyApplicationPrepared(app: PreparedApplication, userId?: string) {
     const title = `📝 Application Prepared (Awaiting Approval)`;
     const text = `*${title}*
 
@@ -110,13 +117,19 @@ ${matchingSkills.map((s) => `✓ ${s}`).join('\n')}
 
 👉 Please review and approve before final submission.`;
 
-    return this.sendTelegramNotification(text, 'application_prepared', title, {
-      applicationId: app.id,
-      company: app.company,
-    });
+    return this.sendTelegramNotification(
+      text,
+      'application_prepared',
+      title,
+      {
+        applicationId: app.id,
+        company: app.company,
+      },
+      userId
+    );
   }
 
-  static async notifyApplicationSubmitted(app: PreparedApplication) {
+  static async notifyApplicationSubmitted(app: PreparedApplication, userId?: string) {
     const title = `✅ Application Submitted`;
     const text = `*${title}*
 
@@ -126,13 +139,19 @@ ${matchingSkills.map((s) => `✓ ${s}`).join('\n')}
 *Status:* APPLIED
 *Timestamp:* ${new Date().toLocaleTimeString()}`;
 
-    return this.sendTelegramNotification(text, 'submission_success', title, {
-      applicationId: app.id,
-      company: app.company,
-    });
+    return this.sendTelegramNotification(
+      text,
+      'submission_success',
+      title,
+      {
+        applicationId: app.id,
+        company: app.company,
+      },
+      userId
+    );
   }
 
-  static async notifyInterviewDetected(company: string, role: string, snippet: string) {
+  static async notifyInterviewDetected(company: string, role: string, snippet: string, userId?: string) {
     const title = `🎉 Interview Update Detected!`;
     const text = `*${title}*
 
@@ -144,12 +163,18 @@ ${matchingSkills.map((s) => `✓ ${s}`).join('\n')}
 
 Please check your dashboard to schedule your conversation!`;
 
-    return this.sendTelegramNotification(text, 'interview_detected', title, {
-      company,
-    });
+    return this.sendTelegramNotification(
+      text,
+      'interview_detected',
+      title,
+      {
+        company,
+      },
+      userId
+    );
   }
 
-  static async notifyRejectionDetected(company: string, role: string) {
+  static async notifyRejectionDetected(company: string, role: string, userId?: string) {
     const title = `Application Update: ${company}`;
     const text = `*Application Update*
 
@@ -159,16 +184,22 @@ Please check your dashboard to schedule your conversation!`;
 
 Your pipeline has been synchronized.`;
 
-    return this.sendTelegramNotification(text, 'rejection_detected', title, {
-      company,
-    });
+    return this.sendTelegramNotification(
+      text,
+      'rejection_detected',
+      title,
+      {
+        company,
+      },
+      userId
+    );
   }
 
   /**
    * Dispatches the 10:00 AM Morning Job Search & Application Digest with at least 5 jobs applied
    */
-  static async sendMorningJobReport(appliedApps: PreparedApplication[], totalJobsScanned: number) {
-    const emailConfig = db.getEmailDispatchConfig();
+  static async sendMorningJobReport(appliedApps: PreparedApplication[], totalJobsScanned: number, userId?: string) {
+    const emailConfig = db.getEmailDispatchConfig(userId);
     const title = `🌅 10:00 AM Morning Job Search & Application Digest`;
     
     let jobsListText = '';
@@ -194,8 +225,14 @@ ${jobsListText}
 📧 *Morning Email Digest:* Sent to \`${emailConfig.recipientEmail}\`
 ⏰ *Next Daily Routine:* Tomorrow at 10:00 AM`;
 
-    return this.sendTelegramNotification(text, 'submission_success', title, {
-      count: appliedApps.length,
-    });
+    return this.sendTelegramNotification(
+      text,
+      'submission_success',
+      title,
+      {
+        count: appliedApps.length,
+      },
+      userId
+    );
   }
 }

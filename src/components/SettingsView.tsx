@@ -18,7 +18,7 @@ import {
   Info,
   ExternalLink
 } from 'lucide-react';
-import { TelegramConfig, SchedulerConfig, EmailDispatchConfig } from '../types';
+import { TelegramConfig, SchedulerConfig, EmailDispatchConfig, User } from '../types';
 
 interface SettingsViewProps {
   telegramConfig: TelegramConfig;
@@ -34,6 +34,8 @@ interface SettingsViewProps {
   onResetDemo: () => Promise<void>;
   theme?: 'dark' | 'light';
   onToggleTheme?: () => void;
+  currentUser?: User | null;
+  onOpenAuthModal?: () => void;
 }
 
 export const SettingsView: React.FC<SettingsViewProps> = ({
@@ -50,6 +52,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   onResetDemo,
   theme = 'dark',
   onToggleTheme,
+  currentUser,
+  onOpenAuthModal,
 }) => {
   const [tg, setTg] = useState<TelegramConfig>(telegramConfig);
   const [sched, setSched] = useState<SchedulerConfig>(schedulerConfig);
@@ -195,6 +199,35 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         <p className="text-xs text-[#8E8E9B] mt-0.5 font-sans">
           Configure autonomous 10:00 AM daily job applications, 1-click Telegram alerts, and interface theme.
         </p>
+      </div>
+
+      {/* Account & Workspace Status Card */}
+      <div className="p-5 rounded-2xl bg-[#111116] border border-[#1D1D24] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF5A36] to-[#FF3D14] flex items-center justify-center text-white font-mono font-bold text-sm shrink-0">
+            {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'PK'}
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="text-sm font-bold font-display text-white">{currentUser?.name || 'Pankaj Kumar'}</h2>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#FF5A36]/20 text-[#FF5A36] border border-[#FF5A36]/40">
+                {currentUser?.isPrimary ? 'PRIMARY ROOT ACCOUNT' : 'PRIVATE WORKSPACE'}
+              </span>
+            </div>
+            <p className="text-xs text-[#8E8E9B] mt-0.5">
+              {currentUser?.email || 'codepankaj84@gmail.com'} • {currentUser?.role || 'Senior Backend Engineer'}
+            </p>
+          </div>
+        </div>
+
+        {onOpenAuthModal && (
+          <button
+            onClick={onOpenAuthModal}
+            className="btn-secondary-outline text-xs py-2 px-4 font-semibold text-white hover:border-[#FF5A36]"
+          >
+            <span>Switch Profile / Add Account</span>
+          </button>
+        )}
       </div>
 
       {/* Theme Selection Banner */}

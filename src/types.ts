@@ -292,3 +292,19 @@ export interface DashboardStats {
     badgeColor?: string;
   }[];
 }
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role?: string;
+  isPrimary?: boolean;
+  avatar?: string;
+  createdAt: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  token: string;
+}
+
