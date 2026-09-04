@@ -39,6 +39,7 @@ interface DashboardViewProps {
   onRunAgent: (goal: string, minMatchScore: number) => Promise<void>;
   onRunMorningRoutine?: () => Promise<any>;
   isAgentRunning: boolean;
+  onOpenTelegramModal?: () => void;
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
@@ -51,6 +52,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onRunAgent,
   onRunMorningRoutine,
   isAgentRunning,
+  onOpenTelegramModal,
 }) => {
   const [isRunningMorning, setIsRunningMorning] = useState(false);
   const [morningResult, setMorningResult] = useState<string | null>(null);
@@ -163,7 +165,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
         {/* Metric 4 */}
         <div
-          onClick={() => onNavigateTab('settings')}
+          onClick={() => (onOpenTelegramModal ? onOpenTelegramModal() : onNavigateTab('settings'))}
           className="p-5 rounded-2xl bg-[#111116] border border-[#1D1D24] hover:border-[#FF5A36]/40 transition-all cursor-pointer space-y-2 shadow-sm"
         >
           <div className="flex items-center justify-between text-xs font-mono text-[#8E8E9B]">

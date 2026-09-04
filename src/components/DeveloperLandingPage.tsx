@@ -28,6 +28,7 @@ interface DeveloperLandingPageProps {
   applications?: PreparedApplication[];
   telegramConfig?: { enabled: boolean; chatId: string };
   schedulerConfig?: { active: boolean; dailyMorningTime?: string; minJobsToApplyDaily?: number };
+  onOpenTelegramModal?: () => void;
 }
 
 export const DeveloperLandingPage: React.FC<DeveloperLandingPageProps> = ({
@@ -39,6 +40,7 @@ export const DeveloperLandingPage: React.FC<DeveloperLandingPageProps> = ({
   applications = [],
   telegramConfig,
   schedulerConfig,
+  onOpenTelegramModal,
 }) => {
   const [isRunningMorning, setIsRunningMorning] = React.useState(false);
   const [morningResult, setMorningResult] = React.useState<string | null>(null);
@@ -181,7 +183,7 @@ export const DeveloperLandingPage: React.FC<DeveloperLandingPageProps> = ({
 
           {/* Card 4: 10:00 AM Automation */}
           <div
-            onClick={() => onNavigateTab('settings')}
+            onClick={() => (onOpenTelegramModal ? onOpenTelegramModal() : onNavigateTab('settings'))}
             className="p-5 rounded-2xl bg-[#111116] border border-[#1D1D24] hover:border-[#FF5A36]/40 transition-all cursor-pointer space-y-3 shadow-sm"
           >
             <div className="flex items-center justify-between text-xs font-mono text-[#8E8E9B]">

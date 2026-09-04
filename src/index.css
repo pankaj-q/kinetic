@@ -251,3 +251,122 @@
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
 }
+
+/* ==========================================================================
+   Kinetic Clean Minimal Light Mode
+   ========================================================================== */
+html.light,
+html.light body {
+  background-color: #F7F7FA !important;
+  color: #111116 !important;
+}
+
+html.light div.min-h-screen {
+  background-color: #F7F7FA !important;
+  color: #111116 !important;
+}
+
+html.light header {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border-color: #E4E4EC !important;
+}
+
+html.light .bg-\[\#070709\],
+html.light .bg-\[\#0A0A0E\],
+html.light .bg-\[\#0A0A0D\],
+html.light .bg-\[\#0D0D12\] {
+  background-color: #F0F0F6 !important;
+}
+
+html.light .bg-\[\#111116\],
+html.light .bg-\[\#14141B\],
+html.light .bg-\[\#14141E\],
+html.light .bg-\[\#16161E\],
+html.light .bg-\[\#181822\],
+html.light .bg-\[\#181820\],
+html.light .bg-\[\#20202E\],
+html.light .kinetic-card,
+html.light .editorial-card,
+html.light .huvo-card {
+  background-color: #FFFFFF !important;
+  border-color: #E4E4EC !important;
+}
+
+html.light .border-\[\#1D1D24\],
+html.light .border-\[\#2B2B38\],
+html.light .border-\[\#262632\],
+html.light .border-\[\#353545\],
+html.light .border-\[\#333342\] {
+  border-color: #E4E4EC !important;
+}
+
+html.light .text-white,
+html.light .text-\[\#FFFFFF\] {
+  color: #111116 !important;
+}
+
+html.light .text-\[\#CCCCCC\],
+html.light .text-\[\#E2E2E8\] {
+  color: #374151 !important;
+}
+
+html.light .text-\[\#8E8E9B\],
+html.light .text-\[\#5A5A66\] {
+  color: #6B7280 !important;
+}
+
+html.light input,
+html.light textarea,
+html.light select,
+html.light .huvo-input {
+  background-color: #FFFFFF !important;
+  color: #111116 !important;
+  border-color: #D6D6E0 !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #9CA3AF !important;
+}
+
+html.light .btn-secondary-outline,
+html.light .btn-kinetic-secondary {
+  background-color: #FFFFFF !important;
+  color: #111116 !important;
+  border-color: #D6D6E0 !important;
+}
+
+html.light .btn-secondary-outline:hover,
+html.light .btn-kinetic-secondary:hover {
+  background-color: #F3F3F8 !important;
+  border-color: #B5B5C4 !important;
+}
+
+html.light .btn-icon {
+  background-color: #FFFFFF !important;
+  color: #4B5563 !important;
+  border-color: #E4E4EC !important;
+}
+
+html.light .btn-icon:hover {
+  background-color: #F0F0F6 !important;
+  color: #111116 !important;
+}
+
+html.light .code-editor-surface {
+  background-color: #F3F3F8 !important;
+  color: #1E293B !important;
+  border-color: #E4E4EC !important;
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #F0F0F6;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #D1D1DB;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #B5B5C4;
+}

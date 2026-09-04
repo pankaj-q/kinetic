@@ -11,6 +11,7 @@ import { ProfileView } from './components/ProfileView';
 import { CoverLettersView } from './components/CoverLettersView';
 import { EmailMonitorView } from './components/EmailMonitorView';
 import { SettingsView } from './components/SettingsView';
+import { TelegramConnectModal } from './components/TelegramConnectModal';
 import {
   CandidateProfile,
   Job,
@@ -103,6 +104,7 @@ export function App() {
 
   // Selected Application for Approval Modal
   const [selectedAppId, setSelectedAppId] = useState<string | null>(null);
+  const [showTelegramModal, setShowTelegramModal] = useState(false);
   const [isAgentRunning, setIsAgentRunning] = useState(false);
 
   // Fetch all data
@@ -526,6 +528,9 @@ export function App() {
         onClearNotifications={handleClearNotifications}
         onOpenApplication={handleOpenApplication}
         isAgentRunning={isAgentRunning}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
+        onOpenTelegramModal={() => setShowTelegramModal(true)}
       />
 
       {/* Main App Body with Smooth Page Transitions */}
@@ -539,6 +544,7 @@ export function App() {
           applications={applications}
           telegramConfig={telegramConfig}
           schedulerConfig={schedulerConfig}
+          onOpenTelegramModal={() => setShowTelegramModal(true)}
         />
       ) : (
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -555,14 +561,13 @@ export function App() {
                   stats={stats}
                   jobs={jobs}
                   applications={applications}
-                  telegramConfig={telegramConfig}
+                  profile={profile}
                   onNavigateTab={setActiveTab}
                   onOpenApplication={handleOpenApplication}
-                  onPrepareApplication={handlePrepareApplication}
-                  onTriggerAgent={handleRunAgent}
+                  onRunAgent={handleRunAgent}
                   onRunMorningRoutine={handleRunMorningRoutineNow}
                   isAgentRunning={isAgentRunning}
-                  onRefreshData={fetchData}
+                  onOpenTelegramModal={() => setShowTelegramModal(true)}
                 />
               )}
 
@@ -639,6 +644,8 @@ export function App() {
                 onSaveEmailConfig={handleSaveEmailConfig}
                 onTestEmail={handleTestEmail}
                 onResetDemo={handleResetDemo}
+                theme={theme}
+                onToggleTheme={handleToggleTheme}
               />
             )}
           </motion.div>
@@ -655,6 +662,15 @@ export function App() {
           onUpdateStatus={handleUpdateApplicationStatus}
         />
       )}
+
+      {/* 1-Click Easy Telegram Connection Modal */}
+      <TelegramConnectModal
+        isOpen={showTelegramModal}
+        onClose={() => setShowTelegramModal(false)}
+        telegramConfig={telegramConfig}
+        onSaveTelegram={handleSaveTelegram}
+        onTestTelegram={handleTestTelegram}
+      />
     </div>
   );
 }

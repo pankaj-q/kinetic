@@ -19,7 +19,9 @@ import {
   Zap,
   Globe,
   Home,
-  ArrowRight
+  ArrowRight,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { NotificationMessage, TelegramConfig } from '../types';
 
@@ -33,6 +35,9 @@ interface NavbarProps {
   onClearNotifications: () => void;
   onOpenApplication?: (appId: string) => void;
   isAgentRunning?: boolean;
+  theme?: 'dark' | 'light';
+  onToggleTheme?: () => void;
+  onOpenTelegramModal?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -45,6 +50,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   onClearNotifications,
   onOpenApplication,
   isAgentRunning,
+  theme = 'dark',
+  onToggleTheme,
+  onOpenTelegramModal,
 }) => {
   const [showNotifPopover, setShowNotifPopover] = useState(false);
 
@@ -61,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-[#1D1D24] bg-[#070709]/95 backdrop-blur-md transition-all font-['Geist',sans-serif]">
+    <header className="sticky top-0 z-40 w-full border-b border-[#1D1D24] bg-[#070709]/95 backdrop-blur-md transition-colors font-['Geist',sans-serif]">
       {/* Top Running Status Marquee */}
       <div className="w-full border-b border-[#1D1D24] bg-[#0A0A0E] py-1.5 overflow-hidden relative group/marquee [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
         <div className="animate-marquee-slow flex items-center justify-center gap-6 text-xs select-none font-mono">
@@ -70,9 +78,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span>10:00 AM ROUTINE: <strong className="text-[#00FF88] font-bold">READY (5+ APPLIED DAILY)</strong></span>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0">
+          <div
+            onClick={onOpenTelegramModal}
+            className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] hover:border-[#FF5A36]/60 cursor-pointer text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0 transition-colors"
+          >
             <Send className="w-3 h-3 text-[#FF5A36]" />
-            <span>TELEGRAM ALERT: <strong className="text-white font-bold">CHAT {telegramConfig.chatId || '1276866292'}</strong></span>
+            <span>TELEGRAM ALERT: <strong className="text-white font-bold">{telegramConfig.chatId ? `CHAT ${telegramConfig.chatId}` : 'CONNECT NOW'}</strong></span>
           </div>
 
           <div className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0">
@@ -91,9 +102,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span>10:00 AM ROUTINE: <strong className="text-[#00FF88] font-bold">READY (5+ APPLIED DAILY)</strong></span>
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0">
+          <div
+            onClick={onOpenTelegramModal}
+            className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] hover:border-[#FF5A36]/60 cursor-pointer text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0 transition-colors"
+          >
             <Send className="w-3 h-3 text-[#FF5A36]" />
-            <span>TELEGRAM ALERT: <strong className="text-white font-bold">CHAT {telegramConfig.chatId || '1276866292'}</strong></span>
+            <span>TELEGRAM ALERT: <strong className="text-white font-bold">{telegramConfig.chatId ? `CHAT ${telegramConfig.chatId}` : 'CONNECT NOW'}</strong></span>
           </div>
         </div>
       </div>
@@ -149,8 +163,36 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Right: Quick Action & Notification Icon */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          {/* Right: Theme Toggle, Telegram Quick Link & Notification Icon */}
+          <div className="flex items-center gap-2 shrink-0">
+            {/* 1-Click Telegram Quick Connect Pill */}
+            <button
+              onClick={onOpenTelegramModal}
+              title="Connect Telegram Alerts"
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#111116] hover:bg-[#181822] text-[#8E8E9B] hover:text-white border border-[#1D1D24] text-xs font-mono transition-all cursor-pointer"
+            >
+              <Send className="w-3.5 h-3.5 text-[#FF5A36]" />
+              <span className="hidden lg:inline text-[11px]">Telegram</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00FF88]" />
+            </button>
+
+            {/* Dark / Light Theme Toggle Button */}
+            {onToggleTheme && (
+              <button
+                id="theme-toggle-btn"
+                onClick={onToggleTheme}
+                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                className="p-2 rounded-xl bg-[#111116] hover:bg-[#181820] text-[#8E8E9B] hover:text-white transition-all border border-[#1D1D24] cursor-pointer"
+                aria-label="Toggle theme"
+              >
+                {theme === 'dark' ? (
+                  <Sun className="w-4 h-4 text-[#FF5A36] transition-transform hover:rotate-45" />
+                ) : (
+                  <Moon className="w-4 h-4 text-[#FF5A36] transition-transform hover:-rotate-12" />
+                )}
+              </button>
+            )}
+
             {/* Notifications Popover Trigger */}
             <div className="relative">
               <button
@@ -175,7 +217,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-[#111116] border border-[#1D1D24] shadow-2xl p-4 z-50 space-y-3"
+                    className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl bg-[#111116] border border-[#1D1D24] shadow-2xl p-4 z-50 space-y-3 text-white"
                   >
                     <div className="flex items-center justify-between border-b border-[#1D1D24] pb-2.5">
                       <div className="flex items-center gap-2">

@@ -13,6 +13,7 @@ import {
   Save,
   Mail,
   Sun,
+  Moon,
   Zap,
   Info,
   ExternalLink
@@ -31,6 +32,8 @@ interface SettingsViewProps {
   onSaveEmailConfig?: (config: EmailDispatchConfig) => Promise<void>;
   onTestEmail?: (email?: string) => Promise<void>;
   onResetDemo: () => Promise<void>;
+  theme?: 'dark' | 'light';
+  onToggleTheme?: () => void;
 }
 
 export const SettingsView: React.FC<SettingsViewProps> = ({
@@ -45,6 +48,8 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   onSaveEmailConfig,
   onTestEmail,
   onResetDemo,
+  theme = 'dark',
+  onToggleTheme,
 }) => {
   const [tg, setTg] = useState<TelegramConfig>(telegramConfig);
   const [sched, setSched] = useState<SchedulerConfig>(schedulerConfig);
@@ -163,7 +168,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   };
 
   const handleReset = async () => {
-    if (window.confirm('Reset all jobs, matches, applications, and logs back to the curated demo baseline?')) {
+    if (window.confirm('Reset all jobs, matches, applications, and logs back to the clean baseline?')) {
       setIsResetting(true);
       try {
         await onResetDemo();
@@ -184,12 +189,55 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <Sliders className="w-4 h-4" />
           </div>
           <h1 className="text-2xl font-bold font-display text-white tracking-tight">
-            Automation, Telegram & Email Settings
+            Automation, Telegram & Theme Settings
           </h1>
         </div>
         <p className="text-xs text-[#8E8E9B] mt-0.5 font-sans">
-          Configure autonomous 10:00 AM daily job applications, real-time Telegram alerts, and Gmail email dispatches.
+          Configure autonomous 10:00 AM daily job applications, 1-click Telegram alerts, and interface theme.
         </p>
+      </div>
+
+      {/* Theme Selection Banner */}
+      <div className="p-5 rounded-2xl bg-[#111116] border border-[#1D1D24] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-[#181822] border border-[#1D1D24] flex items-center justify-center text-[#FF5A36]">
+            {theme === 'dark' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+          </div>
+          <div>
+            <h2 className="text-sm font-bold font-display text-white">Interface Appearance</h2>
+            <p className="text-xs text-[#8E8E9B]">
+              Current mode: <strong className="text-white capitalize">{theme} Mode</strong>
+            </p>
+          </div>
+        </div>
+
+        {onToggleTheme && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => theme !== 'dark' && onToggleTheme()}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-semibold transition-all cursor-pointer ${
+                theme === 'dark'
+                  ? 'bg-[#FF5A36] text-white shadow-sm'
+                  : 'bg-[#181822] text-[#8E8E9B] hover:text-white border border-[#1D1D24]'
+              }`}
+            >
+              <Moon className="w-3.5 h-3.5" />
+              <span>Dark Obsidian</span>
+            </button>
+
+            <button
+              onClick={() => theme !== 'light' && onToggleTheme()}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-semibold transition-all cursor-pointer ${
+                theme === 'light'
+                  ? 'bg-[#FF5A36] text-white shadow-sm'
+                  : 'bg-[#181822] text-[#8E8E9B] hover:text-white border border-[#1D1D24]'
+              }`}
+            >
+              <Sun className="w-3.5 h-3.5" />
+              <span>Clean Light</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Featured 10:00 AM Morning Job Routine Quick Banner */}
@@ -268,7 +316,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   onChange={(e) => setSched({ ...sched, dailyMorningTime: e.target.value })}
                   className="w-full text-xs text-white bg-[#070709] border border-[#1D1D24] rounded-lg p-3 font-mono focus:outline-none focus:border-[#FF5A36]"
                 />
-                <p className="text-[10px] text-[#5A5A66] mt-1 font-mono">24-hour format (e.g. 10:00 = 10:00 AM)</p>
+                <p className="text-[10px] text-[#5A5A66] mt-1 font-mono">24-hour format (e.g. 10:00 = 10:00 AM IST)</p>
               </div>
 
               <div>
@@ -283,7 +331,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                   onChange={(e) => setSched({ ...sched, minJobsToApplyDaily: Number(e.target.value) })}
                   className="w-full text-xs text-white bg-[#070709] border border-[#1D1D24] rounded-lg p-3 font-mono focus:outline-none focus:border-[#FF5A36]"
                 />
-                <p className="text-[10px] text-[#5A5A66] mt-1 font-mono">Target ≥ 5 applications per morning</p>
+                <p className="text-[10px] text-[#5A5A66] mt-1 font-mono">Target &ge; 5 applications per morning</p>
               </div>
             </div>
 
@@ -356,7 +404,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           )}
         </div>
 
-        {/* Telegram Bot Integration Card */}
+        {/* Telegram Bot Integration Card (Easy 2-Click Connect) */}
         <div className="p-6 sm:p-7 rounded-2xl bg-[#111116] border border-[#1D1D24] space-y-5">
           <div className="flex items-center justify-between pb-3 border-b border-[#1D1D24]">
             <div className="flex items-center gap-2.5">
@@ -365,7 +413,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               </div>
               <div>
                 <h2 className="text-base font-bold font-display text-white tracking-tight">Telegram Real-Time Alerts</h2>
-                <p className="text-xs text-[#8E8E9B]">Pushes 10:00 AM report & recruiter updates</p>
+                <p className="text-xs text-[#8E8E9B]">Easy 2-click bot connection</p>
               </div>
             </div>
 
@@ -380,9 +428,33 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             </label>
           </div>
 
+          {/* Quick Helper Links */}
+          <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+            <a
+              href="https://t.me/BotFather"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-xl bg-[#0D0D12] border border-[#1D1D24] hover:border-[#FF5A36]/40 flex items-center justify-between text-[#CCCCCC] hover:text-white transition-all"
+            >
+              <span>1. Get Bot Token</span>
+              <ExternalLink className="w-3 h-3 text-[#FF5A36]" />
+            </a>
+            <a
+              href="https://t.me/userinfobot"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-xl bg-[#0D0D12] border border-[#1D1D24] hover:border-[#FF5A36]/40 flex items-center justify-between text-[#CCCCCC] hover:text-white transition-all"
+            >
+              <span>2. Get Chat ID</span>
+              <ExternalLink className="w-3 h-3 text-[#FF5A36]" />
+            </a>
+          </div>
+
           <div className="space-y-3.5">
             <div>
-              <label className="text-xs font-mono font-bold text-[#8E8E9B] block mb-1.5 uppercase tracking-wider">Telegram Bot Token</label>
+              <label className="text-xs font-mono font-bold text-[#8E8E9B] block mb-1.5 uppercase tracking-wider">
+                Telegram Bot Token
+              </label>
               <input
                 type="text"
                 placeholder="e.g. 7123456789:AAFx9_exampleBotToken"
@@ -390,11 +462,21 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 onChange={(e) => setTg({ ...tg, botToken: e.target.value })}
                 className="w-full text-xs text-white bg-[#070709] border border-[#1D1D24] rounded-lg p-3 font-mono focus:outline-none focus:border-[#FF5A36]"
               />
-              <p className="text-[11px] text-[#5A5A66] mt-1 font-sans">Configured with @BotFather on Telegram</p>
             </div>
 
             <div>
-              <label className="text-xs font-mono font-bold text-[#8E8E9B] block mb-1.5 uppercase tracking-wider">Telegram Chat ID</label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-mono font-bold text-[#8E8E9B] uppercase tracking-wider">
+                  Telegram Chat ID
+                </label>
+                <button
+                  type="button"
+                  onClick={() => setTg({ ...tg, chatId: '1276866292' })}
+                  className="text-[11px] text-[#FF5A36] hover:underline font-mono"
+                >
+                  Use: 1276866292
+                </button>
+              </div>
               <input
                 type="text"
                 placeholder="e.g. 1276866292"
@@ -402,7 +484,6 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
                 onChange={(e) => setTg({ ...tg, chatId: e.target.value })}
                 className="w-full text-xs text-white bg-[#070709] border border-[#1D1D24] rounded-lg p-3 font-mono focus:outline-none focus:border-[#FF5A36]"
               />
-              <p className="text-[11px] text-[#5A5A66] mt-1 font-sans">Active Chat ID: 1276866292</p>
             </div>
 
             {/* Notification Checkboxes */}
@@ -458,7 +539,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               className="btn-secondary-outline text-xs py-2 px-3.5 disabled:opacity-50"
             >
               <Send className="w-3.5 h-3.5 text-[#FF5A36]" />
-              <span>{isTestingTg ? 'Sending...' : 'Send Test Alert'}</span>
+              <span>{isTestingTg ? 'Sending Ping...' : 'Send Test Ping'}</span>
             </button>
 
             <button
