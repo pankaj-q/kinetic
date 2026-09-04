@@ -24,7 +24,7 @@ async function startServer() {
   app.get('/api/health', (req, res) => {
     res.json({
       status: 'ok',
-      service: 'JobAgent Core Engine',
+      service: 'Kinetic Core Engine',
       postgres: isPostgresConnected() ? 'connected' : 'local_json_fallback',
       timestamp: new Date().toISOString()
     });
@@ -46,7 +46,7 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 JobAgent Server running on port ${PORT}`);
+    console.log(`🚀 Kinetic Server running on port ${PORT}`);
     SchedulerService.startScheduler();
   });
 }
