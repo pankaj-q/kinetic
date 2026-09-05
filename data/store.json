@@ -1,0 +1,1720 @@
+{
+  "version": "2.0",
+  "users": [
+    {
+      "id": "usr_pankaj_default",
+      "name": "Pankaj Kumar",
+      "email": "codepankaj84@gmail.com",
+      "role": "Senior Backend Software Engineer",
+      "isPrimary": true,
+      "createdAt": "2026-09-04T10:00:00.000Z"
+    }
+  ],
+  "userData": {
+    "usr_pankaj_default": {
+      "user": {
+        "id": "usr_pankaj_default",
+        "name": "Pankaj Kumar",
+        "email": "codepankaj84@gmail.com",
+        "role": "Senior Backend Software Engineer",
+        "isPrimary": true,
+        "createdAt": "2026-09-04T10:00:00.000Z"
+      },
+      "profile": {
+        "id": "profile_default_01",
+        "name": "Pankaj Kumar",
+        "email": "codepankaj84@gmail.com",
+        "phone": "+91 98765 43210",
+        "location": "Bangalore, India (Open to Remote Worldwide)",
+        "linkedinUrl": "https://linkedin.com/in/pankajkumar-dev",
+        "githubUrl": "https://github.com/pankajkumar-dev",
+        "portfolioUrl": "https://pankajkumar.dev",
+        "summary": "Senior Backend Software Engineer with 5+ years of experience architecting high-scale distributed systems, low-latency microservices, and asynchronous event streaming pipelines. Deep expertise in Node.js, Express, TypeScript, PostgreSQL, MongoDB, Redis, Docker, and AWS cloud infrastructures.",
+        "skills": [
+          "Node.js",
+          "Express.js",
+          "TypeScript",
+          "JavaScript",
+          "PostgreSQL",
+          "MongoDB",
+          "Redis",
+          "Docker",
+          "AWS (EC2, S3, Lambda)",
+          "REST APIs",
+          "GraphQL",
+          "Microservices Architecture",
+          "BullMQ / Task Queues",
+          "Kafka / Event Streaming",
+          "CI/CD & Git",
+          "Linux / Bash"
+        ],
+        "programmingLanguages": [
+          "JavaScript",
+          "TypeScript",
+          "SQL",
+          "Python"
+        ],
+        "frameworks": [
+          "Node.js",
+          "Express.js",
+          "NestJS",
+          "React"
+        ],
+        "databases": [
+          "PostgreSQL",
+          "MongoDB",
+          "Redis"
+        ],
+        "toolsAndCloud": [
+          "AWS",
+          "Docker",
+          "BullMQ",
+          "Kafka",
+          "Git",
+          "GitHub Actions",
+          "Linux"
+        ],
+        "preferredRoles": [
+          "Senior Backend Engineer",
+          "Backend Software Engineer",
+          "Distributed Systems Engineer",
+          "Node.js Architect"
+        ],
+        "preferredLocations": [
+          "Remote",
+          "India",
+          "Worldwide Remote"
+        ],
+        "remotePreference": "remote",
+        "experience": [
+          {
+            "id": "exp_1",
+            "company": "Vync",
+            "role": "Senior Backend Software Engineer",
+            "startDate": "2023-03",
+            "endDate": "Present",
+            "current": true,
+            "description": "Architected core distributed backend systems, low-latency API gateways, and asynchronous event streams in Node.js, Express, and TypeScript.",
+            "highlights": [
+              "Designed high-throughput distributed message queuing infrastructure using Redis & BullMQ, handling over 20M daily events with 99.99% uptime",
+              "Optimized complex PostgreSQL and MongoDB query plans, reducing p99 API latency from 380ms to 45ms",
+              "Implemented robust HMAC webhook security, distributed locking, and idempotent payment processing workflows"
+            ],
+            "technologies": [
+              "Node.js",
+              "TypeScript",
+              "Express",
+              "PostgreSQL",
+              "Redis",
+              "Docker",
+              "AWS"
+            ]
+          },
+          {
+            "id": "exp_2",
+            "company": "Coron",
+            "role": "Backend Software Engineer",
+            "startDate": "2021-06",
+            "endDate": "2023-02",
+            "current": false,
+            "description": "Engineered scalable microservices, authentication systems, and database clustering for high-concurrency applications.",
+            "highlights": [
+              "Developed REST and GraphQL services powering core mobile & web platforms with comprehensive automated test suites",
+              "Engineered Redis caching layers and connection pooling strategies, reducing database load by 60%",
+              "Automated CI/CD build and container deployment pipelines with Docker and GitHub Actions"
+            ],
+            "technologies": [
+              "Node.js",
+              "Express",
+              "MongoDB",
+              "Redis",
+              "Docker",
+              "REST APIs"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "id": "edu_1",
+            "institution": "Bachelor of Technology",
+            "degree": "B.Tech",
+            "fieldOfStudy": "Computer Science & Engineering",
+            "graduationYear": "2021"
+          }
+        ],
+        "projects": [
+          {
+            "id": "proj_1",
+            "title": "Kinetic Autonomous Career Engine",
+            "description": "Autonomous multi-step ReAct agent operating system scanning live ATS feeds, calculating deep fit metrics, and dispatching 10:00 AM routines.",
+            "technologies": [
+              "Node.js",
+              "TypeScript",
+              "PostgreSQL",
+              "Gemini API",
+              "Telegram Bot API"
+            ],
+            "link": "https://github.com/pankajkumar-dev/kinetic-agent"
+          },
+          {
+            "id": "proj_2",
+            "title": "Distributed Event Mesh & Task Runner",
+            "description": "High-concurrency distributed job queue engine leveraging Redis streams and PostgreSQL transactional outbox pattern.",
+            "technologies": [
+              "Node.js",
+              "TypeScript",
+              "Redis",
+              "PostgreSQL",
+              "Docker"
+            ],
+            "link": "https://github.com/pankajkumar-dev/distributed-mesh"
+          }
+        ],
+        "salaryPreference": {
+          "min": 135000,
+          "max": 190000,
+          "currency": "USD"
+        },
+        "jobTypes": [
+          "Full-time",
+          "Contract"
+        ],
+        "excludedCompanies": [
+          "CryptoSpam Labs"
+        ],
+        "keywords": [
+          "Backend",
+          "Node.js",
+          "TypeScript",
+          "Distributed Systems",
+          "PostgreSQL",
+          "Redis",
+          "Microservices"
+        ],
+        "yearsOfExperience": 5,
+        "updatedAt": "2026-09-04T12:29:26.897Z"
+      },
+      "telegramConfig": {
+        "enabled": true,
+        "botToken": "",
+        "chatId": "1276866292",
+        "notifyOnHighMatch": true,
+        "minMatchScore": 80,
+        "notifyOnApplicationReady": true,
+        "notifyOnSubmission": true,
+        "notifyOnInterview": true,
+        "notifyOnRejection": false,
+        "morningReportEnabled": true
+      },
+      "emailDispatchConfig": {
+        "enabled": true,
+        "recipientEmail": "codepankaj84@gmail.com",
+        "senderName": "Kinetic Autonomous AI",
+        "smtpHost": "smtp.gmail.com",
+        "smtpPort": 587,
+        "smtpUser": "",
+        "smtpPassword": "",
+        "useTls": true,
+        "sendDailyMorningDigest": true
+      },
+      "schedulerConfig": {
+        "active": true,
+        "scheduleType": "daily_morning",
+        "dailyMorningTime": "10:00",
+        "minJobsToApplyDaily": 5,
+        "autoSubmitOnMorning": true,
+        "intervalMinutes": 180,
+        "preferredTimes": [
+          "10:00",
+          "14:00",
+          "18:00"
+        ],
+        "autoMatch": true,
+        "autoPrepareApplications": true,
+        "minMatchScoreForAutoPrepare": 80,
+        "autoCheckEmails": true,
+        "lastRunAt": "2026-09-05T04:03:30.939Z",
+        "nextRunAt": "2026-09-05T07:03:30.939Z"
+      },
+      "matches": [
+        {
+          "id": "match_01",
+          "jobId": "job_seed_01",
+          "candidateProfileId": "profile_default_01",
+          "score": 94,
+          "recommendation": "strong_match",
+          "matchingSkills": [
+            "TypeScript",
+            "Node.js",
+            "PostgreSQL",
+            "Redis",
+            "Docker",
+            "AWS",
+            "REST APIs"
+          ],
+          "missingSkills": [],
+          "reason": "Exceptional alignment: Candidate has 4+ years in TypeScript/Node.js microservices, built BullMQ/Redis async pipelines at AetherFlow, and possesses deep PostgreSQL optimization experience matching all requirements.",
+          "experienceFit": "exceeds",
+          "evaluatedAt": "2026-09-04T07:29:26.898Z"
+        },
+        {
+          "id": "match_02",
+          "jobId": "job_seed_02",
+          "candidateProfileId": "profile_default_01",
+          "score": 91,
+          "recommendation": "strong_match",
+          "matchingSkills": [
+            "React",
+            "TypeScript",
+            "Node.js",
+            "Express",
+            "Tailwind CSS",
+            "MongoDB"
+          ],
+          "missingSkills": [
+            "Specific Gemini SDK experience in production"
+          ],
+          "reason": "Strong full stack fit with React & Node.js backend background, experience building agentic tools and responsive UIs with Tailwind CSS, matching salary expectations and 100% remote preference.",
+          "experienceFit": "meets",
+          "evaluatedAt": "2026-09-03T20:29:26.898Z"
+        },
+        {
+          "id": "match_03",
+          "jobId": "job_seed_03",
+          "candidateProfileId": "profile_default_01",
+          "score": 88,
+          "recommendation": "good_match",
+          "matchingSkills": [
+            "TypeScript",
+            "Node.js",
+            "PostgreSQL",
+            "Redis",
+            "REST APIs",
+            "Docker"
+          ],
+          "missingSkills": [],
+          "reason": "Great backend alignment on TypeScript, Express, PostgreSQL and Redis. Remote fit is fully aligned.",
+          "experienceFit": "meets",
+          "evaluatedAt": "2026-09-03T12:29:26.898Z"
+        },
+        {
+          "id": "match_04",
+          "jobId": "job_seed_04",
+          "candidateProfileId": "profile_default_01",
+          "score": 22,
+          "recommendation": "skip",
+          "matchingSkills": [],
+          "missingSkills": [
+            "C++",
+            "FPGA",
+            "Linux Kernel",
+            "Low Latency Networking"
+          ],
+          "reason": "Poor match: Requires 8+ years low-latency C++ / FPGA quant trading experience and onsite in Chicago, whereas candidate specializes in TypeScript/Node.js full stack web and prefers remote.",
+          "experienceFit": "below",
+          "evaluatedAt": "2026-09-03T00:29:26.898Z"
+        },
+        {
+          "id": "match_6e10e13e",
+          "jobId": "job_li_7536e512",
+          "candidateProfileId": "profile_default_01",
+          "score": 88,
+          "recommendation": "good_match",
+          "matchingSkills": [
+            "TypeScript",
+            "Node.js",
+            "PostgreSQL",
+            "Docker",
+            "REST APIs"
+          ],
+          "missingSkills": [
+            "AWS"
+          ],
+          "reason": "Matched 5 of 6 core technical requirements with strong alignment on remote preference.",
+          "experienceFit": "meets",
+          "evaluatedAt": "2026-09-04T15:29:27.464Z"
+        },
+        {
+          "id": "match_bab39132",
+          "jobId": "job_lev_c65526cd",
+          "candidateProfileId": "profile_default_01",
+          "score": 65,
+          "recommendation": "possible_match",
+          "matchingSkills": [
+            "Node.js",
+            "TypeScript",
+            "PostgreSQL"
+          ],
+          "missingSkills": [
+            "React",
+            "Tailwind CSS",
+            "AI / Gemini"
+          ],
+          "reason": "Matched 3 of 6 core technical requirements with strong alignment on remote preference.",
+          "experienceFit": "meets",
+          "evaluatedAt": "2026-09-04T15:29:27.468Z"
+        },
+        {
+          "id": "match_fa501534",
+          "jobId": "job_gh_4699f394",
+          "candidateProfileId": "profile_default_01",
+          "score": 80,
+          "recommendation": "good_match",
+          "matchingSkills": [
+            "TypeScript",
+            "Node.js",
+            "Redis",
+            "PostgreSQL",
+            "Docker"
+          ],
+          "missingSkills": [
+            "Express",
+            "AWS"
+          ],
+          "reason": "Matched 5 of 7 core technical requirements with strong alignment on remote preference.",
+          "experienceFit": "meets",
+          "evaluatedAt": "2026-09-04T15:29:27.474Z"
+        },
+        {
+          "id": "match_2a048e6f",
+          "jobId": "job_seed_05",
+          "candidateProfileId": "profile_default_01",
+          "score": 80,
+          "recommendation": "good_match",
+          "matchingSkills": [
+            "Node.js",
+            "TypeScript",
+            "PostgreSQL",
+            "Redis",
+            "Docker"
+          ],
+          "missingSkills": [
+            "AWS",
+            "Microservices"
+          ],
+          "reason": "Matched 5 of 7 core technical requirements with strong alignment on remote preference.",
+          "experienceFit": "meets",
+          "evaluatedAt": "2026-09-04T15:29:27.476Z"
+        }
+      ],
+      "applications": [
+        {
+          "id": "app_21925ddc",
+          "jobId": "job_seed_03",
+          "candidateProfileId": "profile_default_01",
+          "jobTitle": "Backend API Developer (TypeScript / PostgreSQL)",
+          "company": "CloudScale Global",
+          "applicationUrl": "https://remoteok.com/remote-jobs/9921-backend-developer",
+          "status": "WAITING_FOR_APPROVAL",
+          "matchScore": 88,
+          "coverLetterId": "cl_f989207c",
+          "coverLetterContent": "Dear Hiring Team at CloudScale Global,\n\nI am writing to express my strong interest in the Backend API Developer (TypeScript / PostgreSQL) position. With over 5 years of experience specializing in Node.js, Express.js, TypeScript, JavaScript, I am excited about the opportunity to contribute to CloudScale Global's engineering objectives.\n\nIn my recent role as Senior Backend Software Engineer at Vync, I focused on building reliable, performant systems and microservices. Furthermore, my hands-on work with Kinetic Autonomous Career Engine (Node.js, TypeScript, PostgreSQL, Gemini API, Telegram Bot API) demonstrates my ability to take technical initiatives from concept to production.\n\nI am particularly drawn to CloudScale Global's work and would welcome the opportunity to discuss how my background aligns with your team's needs. Thank you for your consideration.\n\nSincerely,\nPankaj Kumar\ncodepankaj84@gmail.com | +91 98765 43210",
+          "resumeVersion": "Pankaj_Kumar_Resume_Current.pdf",
+          "formFields": [
+            {
+              "fieldId": "first_name",
+              "label": "First Name",
+              "type": "text",
+              "value": "Pankaj",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "last_name",
+              "label": "Last Name",
+              "type": "text",
+              "value": "Kumar",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "email",
+              "label": "Email Address",
+              "type": "text",
+              "value": "codepankaj84@gmail.com",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "phone",
+              "label": "Phone Number",
+              "type": "text",
+              "value": "+91 98765 43210",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "location",
+              "label": "Current Location",
+              "type": "text",
+              "value": "Bangalore, India (Open to Remote Worldwide)",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "linkedin",
+              "label": "LinkedIn Profile",
+              "type": "text",
+              "value": "https://linkedin.com/in/pankajkumar-dev",
+              "required": false,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "github",
+              "label": "GitHub / Portfolio URL",
+              "type": "text",
+              "value": "https://github.com/pankajkumar-dev",
+              "required": false,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "work_authorization",
+              "label": "Are you legally authorized to work in the United States without sponsorship?",
+              "type": "select",
+              "value": "Yes",
+              "required": true,
+              "isAiGenerated": true,
+              "reasoning": "Verified from candidate profile US residency status.",
+              "category": "legal"
+            },
+            {
+              "fieldId": "years_experience",
+              "label": "Total Years of Relevant Experience",
+              "type": "text",
+              "value": "5 years",
+              "required": true,
+              "isAiGenerated": true,
+              "reasoning": "Computed from candidate profile timeline.",
+              "category": "experience"
+            },
+            {
+              "fieldId": "q_why_company",
+              "label": "Why are you interested in joining CloudScale Global as a Backend API Developer (TypeScript / PostgreSQL)?",
+              "type": "textarea",
+              "value": "With 5+ years of experience working with Node.js, Express.js, TypeScript, JavaScript, I have developed and maintained scalable applications that directly align with Backend API Developer (TypeScript / PostgreSQL) at CloudScale Global.",
+              "required": true,
+              "isAiGenerated": true,
+              "reasoning": "Standard candidate qualification summary.",
+              "category": "custom_question"
+            },
+            {
+              "fieldId": "q_tech_stack",
+              "label": "Describe your hands-on experience with TypeScript, Node.js, PostgreSQL.",
+              "type": "textarea",
+              "value": "With 5+ years of experience working with Node.js, Express.js, TypeScript, JavaScript, I have developed and maintained scalable applications that directly align with Backend API Developer (TypeScript / PostgreSQL) at CloudScale Global.",
+              "required": true,
+              "isAiGenerated": true,
+              "reasoning": "Standard candidate qualification summary.",
+              "category": "custom_question"
+            },
+            {
+              "fieldId": "salary_expectation",
+              "label": "Desired Annual Salary (USD)",
+              "type": "text",
+              "value": "$135,000 - $190,000",
+              "required": false,
+              "isAiGenerated": true,
+              "reasoning": "Derived from candidate profile salary preferences and job budget.",
+              "category": "experience"
+            }
+          ],
+          "notes": "Application prepared automatically by AI Agent. Match score: 88%. Awaiting human approval before final submission.",
+          "waitingForApproval": true,
+          "approvalRequestedAt": "2026-09-04T15:29:28.123Z",
+          "historyLogs": [
+            {
+              "status": "MATCHED",
+              "timestamp": "2026-09-04T15:29:28.123Z",
+              "note": "Match score 88% calculated.",
+              "source": "agent"
+            },
+            {
+              "status": "READY_TO_APPLY",
+              "timestamp": "2026-09-04T15:29:28.123Z",
+              "note": "Tailored cover letter and answers generated.",
+              "source": "agent"
+            },
+            {
+              "status": "WAITING_FOR_APPROVAL",
+              "timestamp": "2026-09-04T15:29:28.123Z",
+              "note": "Paused application flow for human verification and approval.",
+              "source": "agent"
+            }
+          ],
+          "createdAt": "2026-09-04T15:29:28.123Z",
+          "updatedAt": "2026-09-04T15:29:28.123Z"
+        },
+        {
+          "id": "app_fd1102bb",
+          "jobId": "job_seed_02",
+          "candidateProfileId": "profile_default_01",
+          "jobTitle": "Full Stack Engineer (React, Node.js, AI Workflows)",
+          "company": "NexusAI Labs",
+          "applicationUrl": "https://jobs.lever.co/nexusai/88301",
+          "status": "WAITING_FOR_APPROVAL",
+          "matchScore": 91,
+          "coverLetterId": "cl_01f65867",
+          "coverLetterContent": "Dear Hiring Team at NexusAI Labs,\n\nI am writing to express my strong interest in the Full Stack Engineer (React, Node.js, AI Workflows) position. With over 5 years of experience specializing in Node.js, Express.js, TypeScript, JavaScript, I am excited about the opportunity to contribute to NexusAI Labs's engineering objectives.\n\nIn my recent role as Senior Backend Software Engineer at Vync, I focused on building reliable, performant systems and microservices. Furthermore, my hands-on work with Kinetic Autonomous Career Engine (Node.js, TypeScript, PostgreSQL, Gemini API, Telegram Bot API) demonstrates my ability to take technical initiatives from concept to production.\n\nI am particularly drawn to NexusAI Labs's work and would welcome the opportunity to discuss how my background aligns with your team's needs. Thank you for your consideration.\n\nSincerely,\nPankaj Kumar\ncodepankaj84@gmail.com | +91 98765 43210",
+          "resumeVersion": "Pankaj_Kumar_Resume_Current.pdf",
+          "formFields": [
+            {
+              "fieldId": "first_name",
+              "label": "First Name",
+              "type": "text",
+              "value": "Pankaj",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "last_name",
+              "label": "Last Name",
+              "type": "text",
+              "value": "Kumar",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "email",
+              "label": "Email Address",
+              "type": "text",
+              "value": "codepankaj84@gmail.com",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "phone",
+              "label": "Phone Number",
+              "type": "text",
+              "value": "+91 98765 43210",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "location",
+              "label": "Current Location",
+              "type": "text",
+              "value": "Bangalore, India (Open to Remote Worldwide)",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "linkedin",
+              "label": "LinkedIn Profile",
+              "type": "text",
+              "value": "https://linkedin.com/in/pankajkumar-dev",
+              "required": false,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "github",
+              "label": "GitHub / Portfolio URL",
+              "type": "text",
+              "value": "https://github.com/pankajkumar-dev",
+              "required": false,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "work_authorization",
+              "label": "Are you legally authorized to work in the United States without sponsorship?",
+              "type": "select",
+              "value": "Yes",
+              "required": true,
+              "isAiGenerated": true,
+              "reasoning": "Verified from candidate profile US residency status.",
+              "category": "legal"
+            },
+            {
+              "fieldId": "years_experience",
+              "label": "Total Years of Relevant Experience",
+              "type": "text",
+              "value": "5 years",
+              "required": true,
+              "isAiGenerated": true,
+              "reasoning": "Computed from candidate profile timeline.",
+              "category": "experience"
+            },
+            {
+              "fieldId": "q_why_company",
+              "label": "Why are you interested in joining NexusAI Labs as a Full Stack Engineer (React, Node.js, AI Workflows)?",
+              "type": "textarea",
+              "value": "With 5+ years of experience working with Node.js, Express.js, TypeScript, JavaScript, I have developed and maintained scalable applications that directly align with Full Stack Engineer (React, Node.js, AI Workflows) at NexusAI Labs.",
+              "required": true,
+              "isAiGenerated": true,
+              "reasoning": "Standard candidate qualification summary.",
+              "category": "custom_question"
+            },
+            {
+              "fieldId": "q_tech_stack",
+              "label": "Describe your hands-on experience with React, TypeScript, Node.js.",
+              "type": "textarea",
+              "value": "With 5+ years of experience working with Node.js, Express.js, TypeScript, JavaScript, I have developed and maintained scalable applications that directly align with Full Stack Engineer (React, Node.js, AI Workflows) at NexusAI Labs.",
+              "required": true,
+              "isAiGenerated": true,
+              "reasoning": "Standard candidate qualification summary.",
+              "category": "custom_question"
+            },
+            {
+              "fieldId": "salary_expectation",
+              "label": "Desired Annual Salary (USD)",
+              "type": "text",
+              "value": "$135,000 - $190,000",
+              "required": false,
+              "isAiGenerated": true,
+              "reasoning": "Derived from candidate profile salary preferences and job budget.",
+              "category": "experience"
+            }
+          ],
+          "notes": "Application prepared automatically by AI Agent. Match score: 91%. Awaiting human approval before final submission.",
+          "waitingForApproval": true,
+          "approvalRequestedAt": "2026-09-04T15:29:28.112Z",
+          "historyLogs": [
+            {
+              "status": "MATCHED",
+              "timestamp": "2026-09-04T15:29:28.112Z",
+              "note": "Match score 91% calculated.",
+              "source": "agent"
+            },
+            {
+              "status": "READY_TO_APPLY",
+              "timestamp": "2026-09-04T15:29:28.112Z",
+              "note": "Tailored cover letter and answers generated.",
+              "source": "agent"
+            },
+            {
+              "status": "WAITING_FOR_APPROVAL",
+              "timestamp": "2026-09-04T15:29:28.112Z",
+              "note": "Paused application flow for human verification and approval.",
+              "source": "agent"
+            }
+          ],
+          "createdAt": "2026-09-04T15:29:28.112Z",
+          "updatedAt": "2026-09-04T15:29:28.112Z"
+        },
+        {
+          "id": "app_seed_01",
+          "jobId": "job_seed_01",
+          "candidateProfileId": "profile_default_01",
+          "jobTitle": "Senior Backend Engineer (Node.js & Distributed Systems)",
+          "company": "StripeStack Technologies",
+          "applicationUrl": "https://boards.greenhouse.io/stripestack/jobs/40921",
+          "status": "WAITING_FOR_APPROVAL",
+          "matchScore": 94,
+          "resumeVersion": "Pankaj_Kumar_Backend_Resume.pdf",
+          "coverLetterId": "cl_seed_01",
+          "coverLetterContent": "Dear StripeStack Technologies Hiring Team,\n\nI am writing to express my strong enthusiasm for the Senior Backend Engineer position. With 5+ years of hands-on experience building high-throughput Node.js and TypeScript distributed microservices handling over 20M daily events at Vync, I am confident in my ability to immediately accelerate your Platform Core initiatives.\n\nIn my recent work, I architected an asynchronous task processing engine using BullMQ, Redis, and PostgreSQL that slashed event latency from 380ms to 45ms while maintaining strict data integrity. My background in building resilient RESTful APIs, implementing robust database pooling, and deploying containerized services with Docker directly matches StripeStack's technical demands.\n\nI admire StripeStack's commitment to developer-first platform infrastructure and would love the opportunity to contribute to your scalable core systems.\n\nWarm regards,\nPankaj Kumar",
+          "formFields": [
+            {
+              "fieldId": "full_name",
+              "label": "Full Name",
+              "type": "text",
+              "value": "Pankaj Kumar",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "email",
+              "label": "Email Address",
+              "type": "text",
+              "value": "codepankaj84@gmail.com",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "phone",
+              "label": "Phone Number",
+              "type": "text",
+              "value": "+91 98765 43210",
+              "required": true,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "linkedin",
+              "label": "LinkedIn Profile",
+              "type": "text",
+              "value": "https://linkedin.com/in/pankajkumar-dev",
+              "required": false,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "github",
+              "label": "GitHub / Portfolio",
+              "type": "text",
+              "value": "https://github.com/pankajkumar-dev",
+              "required": false,
+              "isAiGenerated": false,
+              "category": "personal"
+            },
+            {
+              "fieldId": "q_distributed_systems",
+              "label": "Describe a challenging distributed system or queue latency problem you solved.",
+              "type": "textarea",
+              "value": "At Vync, we experienced queue worker contention during peak traffic spikes. I redesigned our BullMQ and Redis architecture with atomic partition keys and automated worker concurrency scaling, reducing p99 latency to 45ms and eliminating Redis memory hotspots.",
+              "required": true,
+              "isAiGenerated": true,
+              "reasoning": "Synthesized directly from verified experience at Vync.",
+              "category": "custom_question"
+            },
+            {
+              "fieldId": "salary_expectation",
+              "label": "What are your annual salary expectations (USD)?",
+              "type": "text",
+              "value": "$150,000 - $165,000",
+              "required": false,
+              "isAiGenerated": true,
+              "reasoning": "Aligned within candidate target range and job posted budget.",
+              "category": "experience"
+            }
+          ],
+          "notes": "Agent matched job at 94% score. Custom cover letter and application answers generated.",
+          "waitingForApproval": true,
+          "approvalRequestedAt": "2026-09-04T10:29:26.898Z",
+          "historyLogs": [
+            {
+              "status": "MATCHED",
+              "timestamp": "2026-09-04T07:29:26.898Z",
+              "note": "AI Match Engine assigned 94% score (Strong Match).",
+              "source": "agent"
+            },
+            {
+              "status": "READY_TO_APPLY",
+              "timestamp": "2026-09-04T09:29:26.898Z",
+              "note": "Generated tailored cover letter and extracted application form requirements.",
+              "source": "agent"
+            },
+            {
+              "status": "WAITING_FOR_APPROVAL",
+              "timestamp": "2026-09-04T10:29:26.898Z",
+              "note": "Application package prepared and queued for human-in-the-loop review.",
+              "source": "agent"
+            }
+          ],
+          "createdAt": "2026-09-04T07:29:26.898Z",
+          "updatedAt": "2026-09-04T10:29:26.898Z"
+        }
+      ],
+      "coverLetters": [
+        {
+          "id": "cl_f989207c",
+          "jobId": "job_seed_03",
+          "candidateProfileId": "profile_default_01",
+          "company": "CloudScale Global",
+          "jobTitle": "Backend API Developer (TypeScript / PostgreSQL)",
+          "content": "Dear Hiring Team at CloudScale Global,\n\nI am writing to express my strong interest in the Backend API Developer (TypeScript / PostgreSQL) position. With over 5 years of experience specializing in Node.js, Express.js, TypeScript, JavaScript, I am excited about the opportunity to contribute to CloudScale Global's engineering objectives.\n\nIn my recent role as Senior Backend Software Engineer at Vync, I focused on building reliable, performant systems and microservices. Furthermore, my hands-on work with Kinetic Autonomous Career Engine (Node.js, TypeScript, PostgreSQL, Gemini API, Telegram Bot API) demonstrates my ability to take technical initiatives from concept to production.\n\nI am particularly drawn to CloudScale Global's work and would welcome the opportunity to discuss how my background aligns with your team's needs. Thank you for your consideration.\n\nSincerely,\nPankaj Kumar\ncodepankaj84@gmail.com | +91 98765 43210",
+          "tone": "professional",
+          "highlightedProjects": [
+            "Kinetic Autonomous Career Engine"
+          ],
+          "createdAt": "2026-09-04T15:29:28.120Z",
+          "updatedAt": "2026-09-04T15:29:28.120Z"
+        },
+        {
+          "id": "cl_01f65867",
+          "jobId": "job_seed_02",
+          "candidateProfileId": "profile_default_01",
+          "company": "NexusAI Labs",
+          "jobTitle": "Full Stack Engineer (React, Node.js, AI Workflows)",
+          "content": "Dear Hiring Team at NexusAI Labs,\n\nI am writing to express my strong interest in the Full Stack Engineer (React, Node.js, AI Workflows) position. With over 5 years of experience specializing in Node.js, Express.js, TypeScript, JavaScript, I am excited about the opportunity to contribute to NexusAI Labs's engineering objectives.\n\nIn my recent role as Senior Backend Software Engineer at Vync, I focused on building reliable, performant systems and microservices. Furthermore, my hands-on work with Kinetic Autonomous Career Engine (Node.js, TypeScript, PostgreSQL, Gemini API, Telegram Bot API) demonstrates my ability to take technical initiatives from concept to production.\n\nI am particularly drawn to NexusAI Labs's work and would welcome the opportunity to discuss how my background aligns with your team's needs. Thank you for your consideration.\n\nSincerely,\nPankaj Kumar\ncodepankaj84@gmail.com | +91 98765 43210",
+          "tone": "professional",
+          "highlightedProjects": [
+            "Kinetic Autonomous Career Engine"
+          ],
+          "createdAt": "2026-09-04T15:29:27.487Z",
+          "updatedAt": "2026-09-04T15:29:27.487Z"
+        }
+      ],
+      "emails": [],
+      "notifications": [
+        {
+          "id": "notif_9e6e56a9",
+          "type": "application_prepared",
+          "title": "📝 Application Prepared (Awaiting Approval)",
+          "body": "*📝 Application Prepared (Awaiting Approval)*\n\n*Company:* CloudScale Global\n*Role:* Backend API Developer (TypeScript / PostgreSQL)\n*Match:* 88%\n\n*Status:* Waiting for Human Approval\n*Cover Letter:* Tailored & Attached\n*Custom Questions:* Auto-Answered with Evidence\n\n👉 Please review and approve before final submission.",
+          "timestamp": "2026-09-04T15:29:28.125Z",
+          "read": false,
+          "data": {
+            "applicationId": "app_21925ddc",
+            "company": "CloudScale Global"
+          }
+        },
+        {
+          "id": "notif_0a234028",
+          "type": "application_prepared",
+          "title": "📝 Application Prepared (Awaiting Approval)",
+          "body": "*📝 Application Prepared (Awaiting Approval)*\n\n*Company:* NexusAI Labs\n*Role:* Full Stack Engineer (React, Node.js, AI Workflows)\n*Match:* 91%\n\n*Status:* Waiting for Human Approval\n*Cover Letter:* Tailored & Attached\n*Custom Questions:* Auto-Answered with Evidence\n\n👉 Please review and approve before final submission.",
+          "timestamp": "2026-09-04T15:29:28.114Z",
+          "read": false,
+          "data": {
+            "applicationId": "app_fd1102bb",
+            "company": "NexusAI Labs"
+          }
+        },
+        {
+          "id": "notif_01",
+          "type": "high_match",
+          "title": "🔥 High Job Match (94%)",
+          "body": "StripeStack Technologies is hiring Senior Backend Engineer. Your Node.js & Redis skills are a direct match.",
+          "timestamp": "2026-09-04T07:29:26.898Z",
+          "read": false,
+          "data": {
+            "jobId": "job_seed_01",
+            "score": 94,
+            "company": "StripeStack Technologies"
+          }
+        },
+        {
+          "id": "notif_02",
+          "type": "application_prepared",
+          "title": "📝 Application Prepared (Awaiting Approval)",
+          "body": "Application for StripeStack Technologies is prepared with tailored cover letter and custom questions answered. Ready for your review.",
+          "timestamp": "2026-09-04T10:29:26.898Z",
+          "read": false,
+          "data": {
+            "applicationId": "app_seed_01",
+            "company": "StripeStack Technologies"
+          }
+        },
+        {
+          "id": "notif_03",
+          "type": "interview_detected",
+          "title": "🎉 Interview Invitation Detected!",
+          "body": "Datacore Cloud sent an interview invitation for Senior Software Engineer.",
+          "timestamp": "2026-09-03T12:29:26.898Z",
+          "read": true,
+          "data": {
+            "applicationId": "app_seed_02",
+            "company": "Datacore Cloud"
+          }
+        }
+      ],
+      "agentSessions": [
+        {
+          "id": "session_75d864ef",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 4,
+          "maxSteps": 7,
+          "startedAt": "2026-09-05T04:03:31.000Z",
+          "logs": [
+            {
+              "id": "log_bc6518",
+              "timestamp": "2026-09-05T04:03:31.000Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_922e3a",
+              "timestamp": "2026-09-05T04:03:31.015Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 3,
+                "duplicatesFiltered": 3,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_11bebb",
+              "timestamp": "2026-09-05T04:03:31.036Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_b20f96",
+              "timestamp": "2026-09-05T04:03:31.037Z",
+              "step": 4,
+              "thought": "Autonomous cycle finished. 0 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 0
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 0,
+            "applicationsPrepared": 0,
+            "coverLettersGenerated": 0,
+            "notificationsSent": 0
+          },
+          "completedAt": "2026-09-05T04:03:31.037Z"
+        },
+        {
+          "id": "session_97f0023a",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 4,
+          "maxSteps": 7,
+          "startedAt": "2026-09-05T00:56:50.322Z",
+          "logs": [
+            {
+              "id": "log_828f95",
+              "timestamp": "2026-09-05T00:56:50.322Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_a72635",
+              "timestamp": "2026-09-05T00:56:50.325Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 3,
+                "duplicatesFiltered": 3,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_294acf",
+              "timestamp": "2026-09-05T00:56:50.356Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_a7f45d",
+              "timestamp": "2026-09-05T00:56:50.358Z",
+              "step": 4,
+              "thought": "Autonomous cycle finished. 0 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 0
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 0,
+            "applicationsPrepared": 0,
+            "coverLettersGenerated": 0,
+            "notificationsSent": 0
+          },
+          "completedAt": "2026-09-05T00:56:50.358Z"
+        },
+        {
+          "id": "session_517c1504",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 4,
+          "maxSteps": 7,
+          "startedAt": "2026-09-04T21:44:17.577Z",
+          "logs": [
+            {
+              "id": "log_01d1d6",
+              "timestamp": "2026-09-04T21:44:17.577Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_dc58d3",
+              "timestamp": "2026-09-04T21:44:17.580Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 3,
+                "duplicatesFiltered": 3,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_497610",
+              "timestamp": "2026-09-04T21:44:17.608Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_8e544b",
+              "timestamp": "2026-09-04T21:44:17.609Z",
+              "step": 4,
+              "thought": "Autonomous cycle finished. 0 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 0
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 0,
+            "applicationsPrepared": 0,
+            "coverLettersGenerated": 0,
+            "notificationsSent": 0
+          },
+          "completedAt": "2026-09-04T21:44:17.609Z"
+        },
+        {
+          "id": "session_eb91b186",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 4,
+          "maxSteps": 7,
+          "startedAt": "2026-09-04T18:29:27.477Z",
+          "logs": [
+            {
+              "id": "log_c6244e",
+              "timestamp": "2026-09-04T18:29:27.477Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_5cec19",
+              "timestamp": "2026-09-04T18:29:27.479Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 3,
+                "duplicatesFiltered": 3,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_38718b",
+              "timestamp": "2026-09-04T18:29:27.551Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_f40851",
+              "timestamp": "2026-09-04T18:29:27.553Z",
+              "step": 4,
+              "thought": "Autonomous cycle finished. 0 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 0
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 0,
+            "applicationsPrepared": 0,
+            "coverLettersGenerated": 0,
+            "notificationsSent": 0
+          },
+          "completedAt": "2026-09-04T18:29:27.554Z"
+        },
+        {
+          "id": "session_f769c6cd",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 8,
+          "maxSteps": 7,
+          "startedAt": "2026-09-04T15:29:27.336Z",
+          "logs": [
+            {
+              "id": "log_b92d27",
+              "timestamp": "2026-09-04T15:29:27.337Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_a7c9cc",
+              "timestamp": "2026-09-04T15:29:27.339Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 3,
+                "duplicatesFiltered": 0,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_6e47f8",
+              "timestamp": "2026-09-04T15:29:27.461Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_a477ad",
+              "timestamp": "2026-09-04T15:29:27.479Z",
+              "step": 4,
+              "thought": "Job \"Full Stack Engineer (React, Node.js, AI Workflows)\" at NexusAI Labs scored 91% (Strong Match). Generating bespoke cover letter and answering application questions.",
+              "action": "Preparing application package for NexusAI Labs",
+              "tool": "prepare_application_package",
+              "input": {
+                "jobId": "job_seed_02",
+                "company": "NexusAI Labs",
+                "score": 91
+              },
+              "output": {
+                "applicationId": "app_fd1102bb",
+                "status": "WAITING_FOR_APPROVAL",
+                "formFieldsDetected": 12,
+                "coverLetterSnippet": "Dear Hiring Team at NexusAI Labs,\n\nI am writing to express my strong interest in the Full Stack Engi..."
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_6e11c7",
+              "timestamp": "2026-09-04T15:29:28.115Z",
+              "step": 5,
+              "thought": "Dispatching Telegram notification for prepared application at NexusAI Labs.",
+              "action": "Sending notification alert to user",
+              "tool": "send_telegram_alert",
+              "input": {
+                "company": "NexusAI Labs",
+                "score": 91
+              },
+              "output": {
+                "delivered": true
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_04932b",
+              "timestamp": "2026-09-04T15:29:28.119Z",
+              "step": 6,
+              "thought": "Job \"Backend API Developer (TypeScript / PostgreSQL)\" at CloudScale Global scored 88% (Strong Match). Generating bespoke cover letter and answering application questions.",
+              "action": "Preparing application package for CloudScale Global",
+              "tool": "prepare_application_package",
+              "input": {
+                "jobId": "job_seed_03",
+                "company": "CloudScale Global",
+                "score": 88
+              },
+              "output": {
+                "applicationId": "app_21925ddc",
+                "status": "WAITING_FOR_APPROVAL",
+                "formFieldsDetected": 12,
+                "coverLetterSnippet": "Dear Hiring Team at CloudScale Global,\n\nI am writing to express my strong interest in the Backend AP..."
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_47096a",
+              "timestamp": "2026-09-04T15:29:28.128Z",
+              "step": 7,
+              "thought": "Dispatching Telegram notification for prepared application at CloudScale Global.",
+              "action": "Sending notification alert to user",
+              "tool": "send_telegram_alert",
+              "input": {
+                "company": "CloudScale Global",
+                "score": 88
+              },
+              "output": {
+                "delivered": true
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_d696a3",
+              "timestamp": "2026-09-04T15:29:28.130Z",
+              "step": 8,
+              "thought": "Autonomous cycle finished. 2 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 2
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 4,
+            "applicationsPrepared": 2,
+            "coverLettersGenerated": 2,
+            "notificationsSent": 2
+          },
+          "completedAt": "2026-09-04T15:29:28.131Z"
+        }
+      ]
+    }
+  },
+  "jobs": [
+    {
+      "id": "job_li_7536e512",
+      "externalId": "li_91077",
+      "source": "LinkedIn",
+      "title": "Staff Platform Engineer (Cloud Infrastructure & APIs)",
+      "company": "CloudMatrix Global",
+      "location": "Austin, TX (Hybrid/Remote)",
+      "remote": true,
+      "jobType": "Full-time",
+      "description": "Join CloudMatrix to build mission-critical REST microservices in Node.js and Go. Experience with AWS, Docker, and PostgreSQL required.",
+      "url": "https://www.linkedin.com/jobs/view/481920",
+      "salary": {
+        "min": 165000,
+        "max": 195000,
+        "currency": "USD",
+        "period": "year"
+      },
+      "experienceRequiredYears": 4,
+      "skillsRequired": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "AWS",
+        "Docker",
+        "REST APIs"
+      ],
+      "postedAt": "2026-09-04T15:29:27.459Z",
+      "createdAt": "2026-09-04T15:29:27.459Z"
+    },
+    {
+      "id": "job_lev_c65526cd",
+      "externalId": "lev_52050",
+      "source": "Lever",
+      "title": "Full Stack Engineer - AI Agents & Platform",
+      "company": "SynthAgent Robotics",
+      "location": "Remote (Worldwide)",
+      "remote": true,
+      "jobType": "Full-time",
+      "description": "SynthAgent is building autonomous AI platforms. We are hiring a Full Stack Engineer to create agent reasoning pipelines, tool calling integrations, and interactive React interfaces.\n\nResponsibilities:\n- Build React 19 web dashboards with Tailwind CSS and Vite.\n- Connect LLM APIs (Gemini, Claude, GPT) to backend Express and WebSocket servers.\n- Handle state persistence with PostgreSQL and Redis.",
+      "url": "https://jobs.lever.co/synthagent/3391",
+      "salary": {
+        "min": 140000,
+        "max": 180000,
+        "currency": "USD",
+        "period": "year"
+      },
+      "experienceRequiredYears": 3,
+      "skillsRequired": [
+        "React",
+        "Node.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "AI / Gemini",
+        "PostgreSQL"
+      ],
+      "postedAt": "2026-09-04T15:29:27.459Z",
+      "createdAt": "2026-09-04T15:29:27.459Z"
+    },
+    {
+      "id": "job_gh_4699f394",
+      "externalId": "gh_99716",
+      "source": "Greenhouse",
+      "title": "Senior Backend Engineer (Node.js / Express / Redis)",
+      "company": "VercelPulse Systems",
+      "location": "San Francisco, CA (Remote)",
+      "remote": true,
+      "jobType": "Full-time",
+      "description": "VercelPulse is seeking a Senior Backend Engineer to scale our real-time edge processing and microservices architecture.\nYou will write clean TypeScript, design event-driven queues with BullMQ/Redis, and optimize PostgreSQL queries.\n\nKey Responsibilities:\n- Build fault-tolerant Node.js & TypeScript microservices.\n- Design database schemas and optimize PostgreSQL query performance.\n- Work closely with frontend engineers to deliver snappy GraphQL and REST APIs.\n\nRequirements:\n- 3+ years experience with Node.js, Express, TypeScript.\n- Strong knowledge of Redis, Docker, and AWS.\n- Passion for developer experience and automated testing.",
+      "url": "https://boards.greenhouse.io/vercelpulse/jobs/9201",
+      "salary": {
+        "min": 155000,
+        "max": 185000,
+        "currency": "USD",
+        "period": "year"
+      },
+      "experienceRequiredYears": 3,
+      "skillsRequired": [
+        "TypeScript",
+        "Node.js",
+        "Express",
+        "Redis",
+        "PostgreSQL",
+        "Docker",
+        "AWS"
+      ],
+      "postedAt": "2026-09-04T15:29:27.459Z",
+      "createdAt": "2026-09-04T15:29:27.459Z"
+    },
+    {
+      "id": "job_seed_01",
+      "externalId": "gh_40921",
+      "source": "Greenhouse",
+      "title": "Senior Backend Engineer (Node.js & Distributed Systems)",
+      "company": "StripeStack Technologies",
+      "location": "San Francisco, CA (Remote)",
+      "remote": true,
+      "jobType": "Full-time",
+      "description": "We are looking for a Senior Backend Engineer to join our Platform Core team. You will design, build, and maintain mission-critical microservices and event pipelines powering thousands of business clients.\n\nKey Responsibilities:\n- Build reliable, low-latency REST and GraphQL APIs using Node.js and TypeScript.\n- Architect asynchronous event queues using Redis, BullMQ, and PostgreSQL.\n- Partner with infrastructure teams to deploy scalable containers on AWS/Docker.\n- Write clean, well-tested code with rigorous automated unit and integration suites.\n\nRequirements:\n- 3+ years experience with modern Node.js, TypeScript, and Express/NestJS.\n- Solid understanding of relational databases (PostgreSQL) and caching layers (Redis).\n- Familiarity with CI/CD, Docker, and cloud deployments (AWS or GCP).\n- Strong problem-solving mindset and dedication to clean architecture.",
+      "url": "https://boards.greenhouse.io/stripestack/jobs/40921",
+      "salary": {
+        "min": 145000,
+        "max": 175000,
+        "currency": "USD",
+        "period": "year"
+      },
+      "experienceRequiredYears": 3,
+      "skillsRequired": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "AWS",
+        "REST APIs"
+      ],
+      "postedAt": "2026-09-04T06:29:26.898Z",
+      "createdAt": "2026-09-04T06:29:26.898Z"
+    },
+    {
+      "id": "job_seed_02",
+      "externalId": "lev_88301",
+      "source": "Lever",
+      "title": "Full Stack Engineer (React, Node.js, AI Workflows)",
+      "company": "NexusAI Labs",
+      "location": "New York, NY (Remote US/Canada)",
+      "remote": true,
+      "jobType": "Full-time",
+      "description": "NexusAI is building the next generation of intelligent workflow automation tools. We are seeking a Full Stack Engineer passionate about developer tooling and LLM-powered applications.\n\nWhat You Will Do:\n- Develop intuitive user interfaces in React, Tailwind CSS, and Vite.\n- Build server-side orchestration pipelines in Node.js and Express connecting to Gemini / AI models.\n- Manage persistent state with MongoDB and PostgreSQL.\n- Maintain high security, fast performance, and smooth animations.\n\nQualifications:\n- 3+ years experience in Full Stack development with React and Node.js/TypeScript.\n- Experience with AI SDKs, LLM prompting, or tool-calling agent systems is a big plus!\n- Experience with Tailwind CSS and responsive web UI.\n- Strong team communication and autonomy in a remote environment.",
+      "url": "https://jobs.lever.co/nexusai/88301",
+      "salary": {
+        "min": 140000,
+        "max": 180000,
+        "currency": "USD",
+        "period": "year"
+      },
+      "experienceRequiredYears": 3,
+      "skillsRequired": [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Express",
+        "Tailwind CSS",
+        "AI / Gemini",
+        "MongoDB"
+      ],
+      "postedAt": "2026-09-03T18:29:26.898Z",
+      "createdAt": "2026-09-03T18:29:26.898Z"
+    },
+    {
+      "id": "job_seed_03",
+      "externalId": "rok_9921",
+      "source": "RemoteOK",
+      "title": "Backend API Developer (TypeScript / PostgreSQL)",
+      "company": "CloudScale Global",
+      "location": "Worldwide (Remote)",
+      "remote": true,
+      "jobType": "Full-time",
+      "description": "Join CloudScale Global to engineer data ingestion pipelines and developer API services.\n\nRequirements:\n- Strong command of TypeScript, Express/Node.js, PostgreSQL, and Redis.\n- Proven track record designing high-throughput REST APIs.\n- Experience with containerization (Docker) and AWS or GCP.\n- Self-starter who thrives in an asynchronous, remote-first culture.",
+      "url": "https://remoteok.com/remote-jobs/9921-backend-developer",
+      "salary": {
+        "min": 135000,
+        "max": 165000,
+        "currency": "USD",
+        "period": "year"
+      },
+      "experienceRequiredYears": 3,
+      "skillsRequired": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "REST APIs",
+        "Docker"
+      ],
+      "postedAt": "2026-09-03T08:29:26.898Z",
+      "createdAt": "2026-09-03T08:29:26.898Z"
+    },
+    {
+      "id": "job_seed_04",
+      "externalId": "gh_55410",
+      "source": "Greenhouse",
+      "title": "Senior Python & C++ Quant Platform Engineer",
+      "company": "Apex Trading Capital",
+      "location": "Chicago, IL (Onsite)",
+      "remote": false,
+      "jobType": "Full-time",
+      "description": "Apex Trading Capital is seeking a low-latency C++ & Python Quant Engineer. Must have 8+ years experience in high frequency trading infrastructure, FPGA programming, and Linux kernel bypass networking.",
+      "url": "https://boards.greenhouse.io/apextrading/55410",
+      "salary": {
+        "min": 220000,
+        "max": 300000,
+        "currency": "USD",
+        "period": "year"
+      },
+      "experienceRequiredYears": 8,
+      "skillsRequired": [
+        "C++",
+        "Python",
+        "FPGA",
+        "Linux Kernel",
+        "Low Latency Networking"
+      ],
+      "postedAt": "2026-09-02T20:29:26.898Z",
+      "createdAt": "2026-09-02T20:29:26.898Z"
+    },
+    {
+      "id": "job_seed_05",
+      "externalId": "lev_44120",
+      "source": "Lever",
+      "title": "Senior Software Engineer - Infrastructure & Microservices",
+      "company": "Datacore Cloud",
+      "location": "Remote (US/Canada)",
+      "remote": true,
+      "jobType": "Full-time",
+      "description": "Datacore Cloud is scaling its global edge database infrastructure. We need an experienced backend engineer to lead our microservices architecture and Redis cache federation.\n\nResponsibilities:\n- Build and scale Node.js & Go microservices.\n- Optimize multi-region data replication across PostgreSQL clusters.\n- Enhance CI/CD pipelines and infrastructure as code.",
+      "url": "https://jobs.lever.co/datacore/44120",
+      "salary": {
+        "min": 150000,
+        "max": 185000,
+        "currency": "USD",
+        "period": "year"
+      },
+      "experienceRequiredYears": 4,
+      "skillsRequired": [
+        "Node.js",
+        "TypeScript",
+        "PostgreSQL",
+        "Redis",
+        "Docker",
+        "AWS",
+        "Microservices"
+      ],
+      "postedAt": "2026-09-04T00:29:26.898Z",
+      "createdAt": "2026-09-04T00:29:26.898Z"
+    }
+  ]
+}
