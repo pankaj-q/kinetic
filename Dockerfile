@@ -21,7 +21,7 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=3005
+ENV PORT=3003
 
 # Copy production package descriptors and install only production dependencies
 COPY package*.json ./
@@ -38,7 +38,7 @@ RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
 RUN chown -R nodejs:nodejs /app
 USER nodejs
 
-EXPOSE 3005
+EXPOSE 3003
 
 # On container boot: run migration then start production server
 CMD ["node", "dist/server.cjs"]

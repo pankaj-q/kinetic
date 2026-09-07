@@ -11,7 +11,7 @@ dotenv.config();
 
 async function startServer() {
   const app = express();
-  const requestedPort = Number(process.env.PORT) || 3000;
+  const requestedPort = Number(process.env.PORT) || 3003;
 
   // Initialize PostgreSQL database connection and schema
   await initPostgres();
