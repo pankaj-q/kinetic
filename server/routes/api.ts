@@ -195,6 +195,35 @@ apiRouter.post('/jobs/match-all', async (req: Request, res: Response) => {
   }
 });
 
+apiRouter.post('/jobs/refresh-live', async (req: Request, res: Response) => {
+  try {
+    const userId = getUserId(req);
+    const profile = db.getProfile(userId);
+    const result = await JobService.searchAndIngestJobs(profile.preferredRoles?.[0] || 'backend');
+    // Automatically match new jobs
+    await JobService.matchAllUnmatchedJobs(profile, userId);
+    res.json({ success: true, ...result, jobs: db.getJobs() });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.post('/jobs/auto-apply-live', async (req: Request, res: Response) => {
+  try {
+    const userId = getUserId(req);
+    const { minScore = 80, maxCount = 5 } = req.body;
+    const result = await JobService.autoApplyToBestMatches(Number(minScore), Number(maxCount), userId);
+    res.json({
+      success: true,
+      message: `Successfully applied to ${result.appliedCount} real live jobs and dispatched alerts to Telegram.`,
+      appliedCount: result.appliedCount,
+      applications: result.applications,
+    });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // --- Applications Endpoints (User-Scoped) ---
 apiRouter.get('/applications', (req: Request, res: Response) => {
   const userId = getUserId(req);

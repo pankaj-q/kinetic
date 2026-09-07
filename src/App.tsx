@@ -326,6 +326,22 @@ export function App() {
     }
   };
 
+  const handleAutoApplyLive = async (minScore: number = 80, maxCount: number = 5) => {
+    try {
+      const res = await authFetch('/api/jobs/auto-apply-live', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ minScore, maxCount }),
+      });
+      const data = await res.json();
+      await fetchData();
+      return data;
+    } catch (err) {
+      console.error('Error auto-applying to live jobs:', err);
+      throw err;
+    }
+  };
+
   const handleRunAgent = async (goal: string, minMatchScore: number) => {
     setIsAgentRunning(true);
     try {
@@ -628,6 +644,7 @@ export function App() {
                 onPrepareApplication={handlePrepareApplication}
                 onOpenApplication={handleOpenApplication}
                 onGenerateCoverLetter={(jobId) => handleGenerateCoverLetter(jobId, 'professional')}
+                onAutoApplyLive={handleAutoApplyLive}
               />
             )}
 

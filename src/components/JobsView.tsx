@@ -1,28 +1,26 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import {
   Briefcase,
   Search,
-  Filter,
-  Flame,
-  Building,
-  MapPin,
-  DollarSign,
   Sparkles,
   ExternalLink,
-  ChevronRight,
   RefreshCw,
   FileText,
   CheckCircle2,
-  AlertCircle,
   Clock,
-  Layers,
   Plus,
-  X,
+  Zap,
+  MapPin,
+  DollarSign,
+  Building,
+  Flame,
   Globe,
-  Loader2
+  Loader2,
+  X,
+  ChevronRight
 } from 'lucide-react';
-import { Job, JobMatch, PreparedApplication } from '../types';
+import { Job, JobMatch } from '../types';
 
 interface JobsViewProps {
   jobs: (Job & { match?: JobMatch; applicationId?: string; applicationStatus?: string })[];
@@ -33,6 +31,7 @@ interface JobsViewProps {
   onPrepareApplication: (jobId: string) => Promise<void>;
   onOpenApplication: (appId: string) => void;
   onGenerateCoverLetter: (jobId: string) => void;
+  onAutoApplyLive?: (minScore?: number, maxCount?: number) => Promise<any>;
 }
 
 export const JobsView: React.FC<JobsViewProps> = ({
@@ -44,51 +43,78 @@ export const JobsView: React.FC<JobsViewProps> = ({
   onPrepareApplication,
   onOpenApplication,
   onGenerateCoverLetter,
+  onAutoApplyLive,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSource, setSelectedSource] = useState<string>('all');
-  const [remoteOnly, setRemoteOnly] = useState(false);
-  const [minScore, setMinScore] = useState<number>(0);
-  const [isIngesting, setIsIngesting] = useState(false);
-  const [isMatchingAll, setIsMatchingAll] = useState(false);
+  const [onlyHighMatch, setOnlyHighMatch] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isAutoApplying, setIsAutoApplying] = useState(false);
+  const [autoApplyFeedback, setAutoApplyFeedback] = useState<string | null>(null);
+  const [applyingJobId, setApplyingJobId] = useState<string | null>(null);
+
+  // Custom Job Import Modal State
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [customJobUrl, setCustomJobUrl] = useState('');
   const [customJobText, setCustomJobText] = useState('');
-  const [isImportingCustom, setIsImportingCustom] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
 
   const filteredJobs = jobs.filter((job) => {
+    const q = searchQuery.toLowerCase();
     const matchesQuery =
-      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.skillsRequired.some((s) => s.toLowerCase().includes(searchQuery.toLowerCase()));
-    const matchesSource = selectedSource === 'all' || job.source.toLowerCase() === selectedSource.toLowerCase();
-    const matchesRemote = !remoteOnly || job.remote;
-    const matchesScore = (job.match?.score || 0) >= minScore;
-    return matchesQuery && matchesSource && matchesRemote && matchesScore;
+      !q ||
+      job.title.toLowerCase().includes(q) ||
+      job.company.toLowerCase().includes(q) ||
+      job.skillsRequired.some((s) => s.toLowerCase().includes(q));
+
+    const matchesSource =
+      selectedSource === 'all' ||
+      job.source.toLowerCase().includes(selectedSource.toLowerCase());
+
+    const matchesHigh = !onlyHighMatch || (job.match?.score || 0) >= 80;
+
+    return matchesQuery && matchesSource && matchesHigh;
   });
 
-  const handleSearchIngest = async () => {
-    setIsIngesting(true);
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
     try {
       await onSearchIngest(searchQuery || undefined);
     } finally {
-      setIsIngesting(false);
+      setIsRefreshing(false);
     }
   };
 
-  const handleMatchAll = async () => {
-    setIsMatchingAll(true);
+  const handleAutoApply = async () => {
+    if (!onAutoApplyLive) return;
+    setIsAutoApplying(true);
+    setAutoApplyFeedback(null);
     try {
-      await onMatchAll();
+      const res = await onAutoApplyLive(80, 5);
+      setAutoApplyFeedback(
+        res?.message || `Successfully applied to ${res?.appliedCount || 5} real live jobs & sent details to Telegram!`
+      );
+      setTimeout(() => setAutoApplyFeedback(null), 7000);
+    } catch (err: any) {
+      setAutoApplyFeedback(`Auto-apply error: ${err.message || 'Failed to auto apply'}`);
     } finally {
-      setIsMatchingAll(false);
+      setIsAutoApplying(false);
     }
   };
 
-  const handleImportCustomSubmit = async (e: React.FormEvent) => {
+  const handleApplySingleJob = async (jobId: string) => {
+    setApplyingJobId(jobId);
+    try {
+      await onPrepareApplication(jobId);
+    } finally {
+      setApplyingJobId(null);
+    }
+  };
+
+  const handleCustomImportSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!customJobUrl.trim() && !customJobText.trim()) return;
-    setIsImportingCustom(true);
+    setIsImporting(true);
     try {
       if (onIngestCustomJob) {
         await onIngestCustomJob({
@@ -100,134 +126,157 @@ export const JobsView: React.FC<JobsViewProps> = ({
       setCustomJobUrl('');
       setCustomJobText('');
     } finally {
-      setIsImportingCustom(false);
+      setIsImporting(false);
     }
   };
 
+  const sources = [
+    { id: 'all', label: 'All Real Jobs' },
+    { id: 'jobicy', label: 'Jobicy' },
+    { id: 'remoteok', label: 'RemoteOK' },
+    { id: 'arbeitnow', label: 'Arbeitnow' },
+    { id: 'remotive', label: 'Remotive' },
+  ];
+
   return (
     <div className="space-y-6 animate-in fade-in duration-300 font-['Geist',sans-serif]">
-      {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Top Header & Actions */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#1D1D24] pb-5">
         <div>
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#111116] border border-[#1D1D24] flex items-center justify-center shadow-xs">
-              <Briefcase className="w-4 h-4 text-[#FF5A36]" />
+            <div className="w-9 h-9 rounded-xl bg-[#111116] border border-[#1D1D24] flex items-center justify-center text-[#FF5A36] shadow-sm">
+              <Briefcase className="w-4 h-4" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-display font-bold text-[#FFFFFF] tracking-tight">
-              Job Stream &amp; Match Engine
+            <h1 className="text-2xl sm:text-3xl font-bold font-display text-white tracking-tight">
+              Live Verified Jobs Feed
             </h1>
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/30">
+              {jobs.length} Active Listings
+            </span>
           </div>
           <p className="text-xs text-[#8E8E9B] mt-1">
-            Real-time multi-board aggregator (RemoteOK, Arbeitnow, Remotive, Greenhouse, Lever, Ashby, and Custom URL imports).
+            Real authentic backend & developer jobs scraped from live boards, verified for freshness, and matched against your resume.
           </p>
         </div>
 
+        {/* Primary Action Buttons */}
         <div className="flex items-center gap-2.5 flex-wrap">
+          {onAutoApplyLive && (
+            <button
+              id="auto-apply-live-btn"
+              onClick={handleAutoApply}
+              disabled={isAutoApplying || jobs.length === 0}
+              className="btn-accent text-xs py-2 px-4 font-semibold shadow-md shadow-[#FF5A36]/20 flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+            >
+              {isAutoApplying ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Zap className="w-3.5 h-3.5" />
+              )}
+              <span>{isAutoApplying ? 'Applying & Notifying Telegram...' : '⚡ Auto-Apply to Best Matches (≥80%)'}</span>
+            </button>
+          )}
+
+          <button
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+            className="btn-secondary-outline text-xs py-2 px-3.5 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-[#FF5A36]' : ''}`} />
+            <span>{isRefreshing ? 'Scanning Feeds...' : 'Refresh Live Feeds'}</span>
+          </button>
+
           <button
             onClick={() => setIsImportModalOpen(true)}
-            className="px-3.5 py-2 rounded-lg bg-[#111116] border border-[#1D1D24] text-xs font-semibold text-[#FFFFFF] hover:border-[#2D2D38] transition-all flex items-center gap-1.5 cursor-pointer"
+            className="px-3 py-2 rounded-xl bg-[#111116] hover:bg-[#181822] text-[#8E8E9B] hover:text-white border border-[#1D1D24] text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <Plus className="w-3.5 h-3.5 text-[#FF5A36]" />
-            <span>Import Job / Paste Link</span>
-          </button>
-
-          <button
-            id="match-all-jobs-btn"
-            onClick={handleMatchAll}
-            disabled={isMatchingAll}
-            className="px-3.5 py-2 rounded-lg bg-[#111116] border border-[#1D1D24] text-xs font-semibold text-[#FFFFFF] hover:border-[#2D2D38] transition-all flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
-          >
-            <Sparkles className={`w-3.5 h-3.5 ${isMatchingAll ? 'animate-spin' : 'text-[#FF5A36]'}`} />
-            <span>{isMatchingAll ? 'Evaluating Matches...' : 'Run Match Engine for All'}</span>
-          </button>
-
-          <button
-            id="crawl-ingest-jobs-btn"
-            onClick={handleSearchIngest}
-            disabled={isIngesting}
-            className="btn-accent text-xs py-2 px-4 disabled:opacity-50"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isIngesting ? 'animate-spin' : ''}`} />
-            <span>{isIngesting ? 'Ingesting Jobs...' : 'Search & Ingest Live Jobs'}</span>
+            <span>Add Custom Job</span>
           </button>
         </div>
       </div>
 
-      {/* Filter & Search Bar */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-[#111116] border border-[#1D1D24] space-y-3.5 shadow-xs">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {/* Keyword search */}
-          <div className="relative">
-            <Search className="w-3.5 h-3.5 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8E8E9B]" />
-            <input
-              type="text"
-              placeholder="Search title, company, skill..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#0D0D12] border border-[#1D1D24] text-xs text-[#FFFFFF] placeholder-[#8E8E9B] font-medium focus:outline-none focus:border-[#FF5A36]"
-            />
+      {/* Auto-Apply Feedback Banner */}
+      {autoApplyFeedback && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="p-4 rounded-xl bg-[#111116] border border-[#00FF88]/40 text-xs text-[#00FF88] font-mono flex items-center gap-2.5 shadow-sm"
+        >
+          <CheckCircle2 className="w-4 h-4 text-[#00FF88] shrink-0" />
+          <span>{autoApplyFeedback}</span>
+        </motion.div>
+      )}
+
+      {/* Clean Search & Source Filter Bar */}
+      <div className="p-4 rounded-2xl bg-[#111116] border border-[#1D1D24] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+        {/* Search Input */}
+        <div className="relative flex-1">
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8E8E9B]" />
+          <input
+            type="text"
+            placeholder="Search by role title, company name, or technology (e.g. Node.js, TypeScript, PostgreSQL)..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full text-xs text-white bg-[#070709] border border-[#1D1D24] rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:border-[#FF5A36] font-sans"
+          />
+        </div>
+
+        {/* Source Pills & High Match Toggle */}
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1 bg-[#070709] border border-[#1D1D24] p-1 rounded-xl">
+            {sources.map((src) => (
+              <button
+                key={src.id}
+                onClick={() => setSelectedSource(src.id)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                  selectedSource === src.id
+                    ? 'bg-[#181824] text-white font-bold border border-[#2B2B38]'
+                    : 'text-[#8E8E9B] hover:text-white'
+                }`}
+              >
+                {src.label}
+              </button>
+            ))}
           </div>
 
-          {/* Source filter */}
-          <div>
-            <select
-              value={selectedSource}
-              onChange={(e) => setSelectedSource(e.target.value)}
-              className="w-full py-2 px-3 rounded-xl bg-[#0D0D12] border border-[#1D1D24] text-xs text-[#FFFFFF] focus:outline-none focus:border-[#FF5A36]"
-            >
-              <option value="all">All Job Sources</option>
-              <option value="RemoteOK">RemoteOK (Live API)</option>
-              <option value="Arbeitnow">Arbeitnow (Live API)</option>
-              <option value="Remotive">Remotive (Live API)</option>
-              <option value="Greenhouse">Greenhouse</option>
-              <option value="Lever">Lever</option>
-              <option value="Custom Import">Custom Imports</option>
-              <option value="LinkedIn">LinkedIn</option>
-            </select>
-          </div>
-
-          {/* Min Match Score */}
-          <div>
-            <select
-              value={minScore}
-              onChange={(e) => setMinScore(Number(e.target.value))}
-              className="w-full py-2 px-3 rounded-xl bg-[#0D0D12] border border-[#1D1D24] text-xs text-[#FFFFFF] focus:outline-none focus:border-[#FF5A36]"
-            >
-              <option value={0}>All Match Scores</option>
-              <option value={85}>🔥 Strong Match (85%+)</option>
-              <option value={75}>👍 Good Match (75%+)</option>
-              <option value={60}>🔎 Possible Match (60%+)</option>
-            </select>
-          </div>
-
-          {/* Remote Toggle */}
-          <div className="flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#0D0D12] border border-[#1D1D24]">
-            <span className="text-xs text-[#FFFFFF] font-semibold">Remote Only</span>
-            <input
-              type="checkbox"
-              checked={remoteOnly}
-              onChange={(e) => setRemoteOnly(e.target.checked)}
-              className="w-4 h-4 rounded accent-[#FF5A36] cursor-pointer"
-            />
-          </div>
+          <button
+            onClick={() => setOnlyHighMatch(!onlyHighMatch)}
+            className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all border flex items-center gap-1.5 cursor-pointer ${
+              onlyHighMatch
+                ? 'bg-[#FF5A36]/10 border-[#FF5A36] text-[#FF5A36] font-bold'
+                : 'bg-[#070709] border-[#1D1D24] text-[#8E8E9B] hover:text-white'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>High Fit Only (≥80%)</span>
+          </button>
         </div>
       </div>
 
-      {/* Jobs Grid List */}
-      <div className="space-y-3.5">
-        {filteredJobs.length === 0 ? (
-          <div className="p-12 text-center rounded-2xl bg-[#111116] border border-[#1D1D24] shadow-xs space-y-3">
-            <Briefcase className="w-8 h-8 text-[#8E8E9B] mx-auto" />
-            <h3 className="text-sm font-bold text-[#FFFFFF]">No jobs match your filter criteria</h3>
-            <p className="text-xs text-[#8E8E9B]">
-              Try adjusting your search keywords, lowering the match threshold, or clicking "Search & Ingest Live Jobs".
-            </p>
-          </div>
-        ) : (
-          filteredJobs.map((job) => {
-            const match = job.match;
-            const score = match?.score;
-            const hasApp = !!job.applicationId;
+      {/* Jobs Grid */}
+      {filteredJobs.length === 0 ? (
+        <div className="p-16 text-center rounded-2xl bg-[#111116] border border-[#1D1D24] space-y-3">
+          <Briefcase className="w-8 h-8 text-[#8E8E9B] mx-auto opacity-50" />
+          <h3 className="text-sm font-bold font-display text-white">No jobs match your filter</h3>
+          <p className="text-xs text-[#8E8E9B]">
+            Click "Refresh Live Feeds" to fetch the latest postings from verified remote job boards.
+          </p>
+          <button
+            onClick={handleRefresh}
+            className="btn-accent text-xs py-2 px-4 mt-2 cursor-pointer"
+          >
+            <span>Scan Live Job Boards Now</span>
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {filteredJobs.map((job) => {
+            const matchScore = job.match?.score;
+            const hasMatch = matchScore !== undefined;
+            const isApplied = job.applicationStatus === 'APPLIED';
+            const hasApp = Boolean(job.applicationId);
+            const isApplying = applyingJobId === job.id;
 
             return (
               <motion.div
@@ -236,135 +285,165 @@ export const JobsView: React.FC<JobsViewProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -2 }}
                 transition={{ duration: 0.22 }}
-                className="p-5 sm:p-6 rounded-2xl bg-[#111116] border border-[#1D1D24] hover:border-[#2D2D38] space-y-4 shadow-xs transition-all"
+                className="p-5 sm:p-6 rounded-2xl bg-[#111116] border border-[#1D1D24] hover:border-[#2D2D38] space-y-4 shadow-xs transition-all flex flex-col justify-between"
               >
-                <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
-                  <div className="space-y-2 flex-1">
-                    <div className="flex items-center gap-2.5 flex-wrap">
-                      <h2 className="text-base sm:text-lg font-bold text-[#FFFFFF] hover:text-[#FF5A36] transition-colors">
-                        {job.title}
-                      </h2>
-                      <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-[#16161E] text-[#8E8E9B] border border-[#1D1D24]">
-                        {job.source}
-                      </span>
-                      {job.remote && (
-                        <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/30">
-                          Remote
+                <div className="space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                    <div className="space-y-1.5 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h2 className="text-base font-bold text-white hover:text-[#FF5A36] transition-colors">
+                          {job.title}
+                        </h2>
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-[#16161E] text-[#8E8E9B] border border-[#1D1D24]">
+                          {job.source}
                         </span>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-4 text-xs text-[#8E8E9B] flex-wrap">
-                      <span className="flex items-center gap-1.5 font-semibold text-[#FFFFFF]">
-                        <Building className="w-3.5 h-3.5 text-[#8E8E9B]" />
-                        <span>{job.company}</span>
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-[#8E8E9B]" />
-                        {job.location}
-                      </span>
-                      {job.salary && (
-                        <span className="flex items-center gap-1.5 font-mono font-semibold text-[#00FF88]">
-                          <DollarSign className="w-3.5 h-3.5 text-[#00FF88]" />
-                          ${(job.salary.min || 130000).toLocaleString()} - ${(job.salary.max || 170000).toLocaleString()}
-                        </span>
-                      )}
-                      <span className="flex items-center gap-1.5 font-mono text-[11px]">
-                        <Clock className="w-3.5 h-3.5 text-[#8E8E9B]" />
-                        {new Date(job.postedAt).toLocaleDateString()}
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-[#8E8E9B] line-clamp-2 leading-relaxed pt-1 font-normal">
-                      {job.description}
-                    </p>
-                  </div>
-
-                  {/* Right Score Pill */}
-                  <div className="flex items-center gap-2 lg:self-start shrink-0">
-                    {score !== undefined ? (
-                      <div
-                        className={`px-3.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 font-mono ${
-                          score >= 85
-                            ? 'bg-[#FF5A36]/15 text-[#FF5A36] border border-[#FF5A36]/30'
-                            : score >= 70
-                            ? 'bg-[#16161E] text-[#FFFFFF] border border-[#1D1D24]'
-                            : 'bg-[#16161E] text-[#8E8E9B] border border-[#1D1D24]'
-                        }`}
-                      >
-                        <Flame className="w-4 h-4 text-[#FF5A36]" />
-                        <span>{score}% Match</span>
+                        {job.remote && (
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/30">
+                            Remote
+                          </span>
+                        )}
+                        {isApplied && (
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#00FF88]/15 text-[#00FF88] border border-[#00FF88]/40 flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" />
+                            Applied
+                          </span>
+                        )}
                       </div>
-                    ) : (
-                      <button
-                        onClick={() => onMatchJob(job.id)}
-                        className="px-3 py-1.5 rounded-lg bg-[#16161E] border border-[#1D1D24] text-xs font-medium text-[#FFFFFF] hover:border-[#2D2D38] flex items-center gap-1.5 cursor-pointer"
-                      >
-                        <Sparkles className="w-3.5 h-3.5 text-[#FF5A36]" />
-                        <span>Score Fit</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
 
-                {/* AI Match Explanation */}
-                {match?.reason && (
-                  <div className="p-3.5 rounded-xl bg-[#0D0D12] border border-[#1D1D24] text-xs text-[#FFFFFF] space-y-1.5">
-                    <div className="flex items-center gap-1.5 text-[#FF5A36] font-semibold text-[11px] uppercase font-mono tracking-wider">
-                      <Sparkles className="w-3.5 h-3.5" />
-                      <span>Gemini 2.0 Evaluation</span>
+                      <div className="flex items-center gap-3.5 text-xs text-[#8E8E9B] flex-wrap">
+                        <span className="flex items-center gap-1.5 font-semibold text-white">
+                          <Building className="w-3.5 h-3.5 text-[#8E8E9B]" />
+                          <span>{job.company}</span>
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <MapPin className="w-3.5 h-3.5 text-[#8E8E9B]" />
+                          {job.location}
+                        </span>
+                        {job.salary && (
+                          <span className="flex items-center gap-1 font-mono font-semibold text-[#00FF88]">
+                            <DollarSign className="w-3.5 h-3.5 text-[#00FF88]" />
+                            ${(job.salary.min || 130000).toLocaleString()} - ${(job.salary.max || 170000).toLocaleString()}
+                          </span>
+                        )}
+                        <span className="flex items-center gap-1 font-mono text-[11px]">
+                          <Clock className="w-3.5 h-3.5 text-[#8E8E9B]" />
+                          {new Date(job.postedAt).toLocaleDateString()}
+                        </span>
+                      </div>
                     </div>
-                    <p className="leading-relaxed font-sans text-xs text-[#8E8E9B]">{match.reason}</p>
-                  </div>
-                )}
 
-                {/* Skills & Action Buttons */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#1D1D24]">
-                  <div className="flex items-center gap-1.5 flex-wrap">
+                    {/* Match Score Badge */}
+                    <div className="shrink-0">
+                      {hasMatch ? (
+                        <div
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 font-mono ${
+                            matchScore >= 80
+                              ? 'bg-[#FF5A36]/15 text-[#FF5A36] border border-[#FF5A36]/30'
+                              : matchScore >= 60
+                              ? 'bg-[#16161E] text-white border border-[#1D1D24]'
+                              : 'bg-[#16161E] text-[#8E8E9B] border border-[#1D1D24]'
+                          }`}
+                        >
+                          <Flame className="w-3.5 h-3.5 text-[#FF5A36]" />
+                          <span>{matchScore}% Match</span>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => onMatchJob(job.id)}
+                          className="px-2.5 py-1.5 rounded-lg bg-[#16161E] border border-[#1D1D24] text-xs font-medium text-white hover:border-[#2D2D38] flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <Sparkles className="w-3.5 h-3.5 text-[#FF5A36]" />
+                          <span>Score Fit</span>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Description Snippet */}
+                  <p className="text-xs text-[#8E8E9B] line-clamp-2 leading-relaxed font-normal">
+                    {job.description}
+                  </p>
+
+                  {/* AI Match Explanation */}
+                  {job.match?.reason && (
+                    <div className="p-3 rounded-xl bg-[#0D0D12] border border-[#1D1D24] text-xs text-white space-y-1">
+                      <div className="flex items-center gap-1.5 text-[#FF5A36] font-semibold text-[11px] uppercase font-mono tracking-wider">
+                        <Sparkles className="w-3 h-3" />
+                        <span>Resume Match Evaluation</span>
+                      </div>
+                      <p className="leading-relaxed font-sans text-xs text-[#8E8E9B]">{job.match.reason}</p>
+                    </div>
+                  )}
+
+                  {/* Skills Pills */}
+                  <div className="flex items-center gap-1.5 flex-wrap pt-1">
                     {job.skillsRequired.slice(0, 5).map((skill, idx) => (
                       <span
                         key={idx}
-                        className="px-2.5 py-0.5 rounded-md text-[11px] font-mono bg-[#16161E] text-[#8E8E9B] border border-[#1D1D24]"
+                        className="px-2 py-0.5 rounded-md text-[11px] font-mono bg-[#16161E] text-[#8E8E9B] border border-[#1D1D24]"
                       >
                         {skill}
                       </span>
                     ))}
                   </div>
+                </div>
 
-                  <div className="flex items-center gap-2 self-end sm:self-auto">
+                {/* Footer Action Buttons */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[#1D1D24]">
+                  {/* Direct Link to Verified Real Job */}
+                  {job.url && job.url !== '#' ? (
+                    <a
+                      href={job.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-[#8E8E9B] hover:text-white flex items-center gap-1.5 font-mono transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5 text-[#FF5A36]" />
+                      <span>Direct Posting Link</span>
+                    </a>
+                  ) : (
+                    <span className="text-[11px] text-[#8E8E9B] font-mono">Direct API feed</span>
+                  )}
+
+                  <div className="flex items-center gap-2 flex-wrap">
                     <button
                       onClick={() => onGenerateCoverLetter(job.id)}
-                      className="px-3 py-1.5 rounded-lg bg-[#16161E] border border-[#1D1D24] text-xs font-medium text-[#FFFFFF] hover:border-[#2D2D38] flex items-center gap-1.5 cursor-pointer"
+                      className="px-3 py-1.5 rounded-lg bg-[#16161E] border border-[#1D1D24] text-xs font-medium text-white hover:border-[#2D2D38] flex items-center gap-1.5 cursor-pointer"
                     >
                       <FileText className="w-3.5 h-3.5 text-[#FF5A36]" />
-                      <span>Custom Cover Letter</span>
+                      <span>Cover Letter</span>
                     </button>
 
                     {hasApp ? (
                       <button
                         onClick={() => onOpenApplication(job.applicationId!)}
-                        className="px-3.5 py-1.5 rounded-lg bg-[#16161E] border border-[#1D1D24] text-xs font-semibold text-[#FF5A36] hover:border-[#FF5A36] flex items-center gap-1 cursor-pointer"
+                        className="px-3 py-1.5 rounded-lg bg-[#16161E] border border-[#1D1D24] text-xs font-semibold text-[#FF5A36] hover:border-[#FF5A36] flex items-center gap-1 cursor-pointer"
                       >
-                        <span>View Application ({job.applicationStatus?.replace(/_/g, ' ')})</span>
+                        <span>View ({job.applicationStatus?.replace(/_/g, ' ')})</span>
                         <ChevronRight className="w-3.5 h-3.5 text-[#FF5A36]" />
                       </button>
                     ) : (
                       <button
                         id={`job-prepare-btn-${job.id}`}
-                        onClick={() => onPrepareApplication(job.id)}
-                        className="btn-accent text-xs py-1.5 px-4 font-semibold"
+                        onClick={() => handleApplySingleJob(job.id)}
+                        disabled={isApplying}
+                        className="btn-accent text-xs py-1.5 px-3.5 font-semibold flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                       >
-                        <Sparkles className="w-3.5 h-3.5 text-white" />
-                        <span>Prepare Application</span>
+                        {isApplying ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          <Sparkles className="w-3.5 h-3.5 text-white" />
+                        )}
+                        <span>{isApplying ? 'Preparing...' : 'Prepare App'}</span>
                       </button>
                     )}
                   </div>
                 </div>
               </motion.div>
             );
-          })
-        )}
-      </div>
+          })}
+        </div>
+      )}
 
       {/* Import Custom Job Modal */}
       {isImportModalOpen && (
@@ -375,36 +454,36 @@ export const JobsView: React.FC<JobsViewProps> = ({
                 <div className="w-8 h-8 rounded-lg bg-[#16161E] border border-[#1D1D24] flex items-center justify-center shadow-xs">
                   <Globe className="w-4 h-4 text-[#FF5A36]" />
                 </div>
-                <h3 className="text-lg font-display font-bold text-[#FFFFFF] tracking-tight">Import Custom Job Posting</h3>
+                <h3 className="text-lg font-display font-bold text-white tracking-tight">Import Custom Job Posting</h3>
               </div>
               <button
                 onClick={() => setIsImportModalOpen(false)}
-                className="p-1.5 rounded-lg text-[#8E8E9B] hover:text-[#FFFFFF] hover:bg-[#16161E] transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg text-[#8E8E9B] hover:text-white hover:bg-[#16161E] transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleImportCustomSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleCustomImportSubmit} className="p-6 space-y-4">
               <p className="text-xs text-[#8E8E9B] leading-relaxed">
                 Paste a link or raw description from any job site (LinkedIn, Greenhouse, Lever, Ashby, Indeed, etc.). Gemini AI will extract the role requirements, score candidate match, and generate an application package.
               </p>
 
               <div>
-                <label className="block text-xs font-mono font-bold text-[#FFFFFF] mb-1.5 uppercase tracking-wider">
+                <label className="block text-xs font-mono font-bold text-white mb-1.5 uppercase tracking-wider">
                   Job URL (Optional)
                 </label>
                 <input
                   type="url"
-                  placeholder="https://jobs.lever.co/stripe/..."
+                  placeholder="https://jobs.lever.co/company/..."
                   value={customJobUrl}
                   onChange={(e) => setCustomJobUrl(e.target.value)}
-                  className="w-full text-xs text-[#FFFFFF] bg-[#0D0D12] border border-[#1D1D24] rounded-xl p-3 font-mono focus:outline-none focus:border-[#FF5A36]"
+                  className="w-full text-xs text-white bg-[#0D0D12] border border-[#1D1D24] rounded-xl p-3 font-mono focus:outline-none focus:border-[#FF5A36]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono font-bold text-[#FFFFFF] mb-1.5 uppercase tracking-wider">
+                <label className="block text-xs font-mono font-bold text-white mb-1.5 uppercase tracking-wider">
                   Raw Job Description or Requirement Details
                 </label>
                 <textarea
@@ -412,7 +491,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
                   placeholder="Paste the full job posting, tech stack, and responsibilities here..."
                   value={customJobText}
                   onChange={(e) => setCustomJobText(e.target.value)}
-                  className="w-full text-xs text-[#FFFFFF] bg-[#0D0D12] border border-[#1D1D24] rounded-xl p-3 font-sans focus:outline-none focus:border-[#FF5A36]"
+                  className="w-full text-xs text-white bg-[#0D0D12] border border-[#1D1D24] rounded-xl p-3 font-sans focus:outline-none focus:border-[#FF5A36]"
                 />
               </div>
 
@@ -420,17 +499,17 @@ export const JobsView: React.FC<JobsViewProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsImportModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-[#16161E] border border-[#1D1D24] text-xs font-semibold text-[#8E8E9B] hover:text-[#FFFFFF] transition-all cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-[#16161E] border border-[#1D1D24] text-xs font-semibold text-[#8E8E9B] hover:text-white transition-all cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  disabled={isImportingCustom || (!customJobUrl.trim() && !customJobText.trim())}
-                  className="btn-accent text-xs py-2 px-5 disabled:opacity-50"
+                  disabled={isImporting || (!customJobUrl.trim() && !customJobText.trim())}
+                  className="btn-accent text-xs py-2 px-5 disabled:opacity-50 flex items-center gap-2 cursor-pointer"
                 >
-                  {isImportingCustom ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-white" />}
-                  <span>{isImportingCustom ? 'Parsing & Matching...' : 'Import & Match'}</span>
+                  {isImporting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-white" />}
+                  <span>{isImporting ? 'Parsing & Matching...' : 'Import & Match'}</span>
                 </button>
               </div>
             </form>

@@ -2,26 +2,17 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Briefcase,
-  LayoutDashboard,
   Sparkles,
   Layers,
   FileText,
-  Mail,
   Send,
   Sliders,
   Bell,
   CheckCircle2,
   Bot,
-  Flame,
-  Clock,
-  ExternalLink,
-  ChevronRight,
-  Zap,
-  Globe,
-  Home,
-  ArrowRight,
   Sun,
-  Moon
+  Moon,
+  ExternalLink
 } from 'lucide-react';
 import { NotificationMessage, TelegramConfig, User } from '../types';
 
@@ -60,70 +51,24 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [showNotifPopover, setShowNotifPopover] = useState(false);
 
-  const workbenchNavItems = [
-    { id: 'landing', label: 'Overview', icon: Globe },
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'jobs', label: 'Jobs Feed', icon: Briefcase },
-    { id: 'applications', label: 'Applications', icon: Layers },
-    { id: 'agent', label: 'Agent Console', icon: Bot, badge: isAgentRunning ? 'Active' : undefined },
-    { id: 'profile', label: 'Profile', icon: FileText },
-    { id: 'cover-letters', label: 'Cover Letters', icon: Sparkles },
-    { id: 'email-monitor', label: 'Email Monitor', icon: Mail },
-    { id: 'settings', label: 'Settings', icon: Sliders },
+  const navItems = [
+    { id: 'jobs', label: 'Live Jobs', icon: Briefcase },
+    { id: 'cover-letters', label: 'Cover Letter Studio', icon: Sparkles },
+    { id: 'profile', label: 'Resume & Profile', icon: FileText },
+    { id: 'applications', label: 'Applications Tracker', icon: Layers },
+    { id: 'agent', label: 'Autonomous Agent', icon: Bot, badge: isAgentRunning ? 'Running' : undefined },
+    { id: 'settings', label: 'Telegram & Settings', icon: Sliders },
   ];
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[#1D1D24] bg-[#070709]/95 backdrop-blur-md transition-colors font-['Geist',sans-serif]">
-      {/* Top Running Status Marquee */}
-      <div className="w-full border-b border-[#1D1D24] bg-[#0A0A0E] py-1.5 overflow-hidden relative group/marquee [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-        <div className="animate-marquee-slow flex items-center justify-center gap-6 text-xs select-none font-mono">
-          <div className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0">
-            <span className="w-2 h-2 rounded-full bg-[#00FF88] animate-pulse" />
-            <span>10:00 AM ROUTINE: <strong className="text-[#00FF88] font-bold">READY (5+ APPLIED DAILY)</strong></span>
-          </div>
-
-          <div
-            onClick={onOpenTelegramModal}
-            className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] hover:border-[#FF5A36]/60 cursor-pointer text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0 transition-colors"
-          >
-            <Send className="w-3 h-3 text-[#FF5A36]" />
-            <span>TELEGRAM ALERT: <strong className="text-white font-bold">{telegramConfig.chatId ? `CHAT ${telegramConfig.chatId}` : 'CONNECT NOW'}</strong></span>
-          </div>
-
-          <div className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0">
-            <Bot className="w-3 h-3 text-[#FF5A36]" />
-            <span>ENGINE: <strong className="text-white font-bold">GEMINI 2.0 REACT AGENT</strong></span>
-          </div>
-
-          <div className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0">
-            <Flame className="w-3 h-3 text-[#FF5A36]" />
-            <span>TARGET FIT: <strong className="text-[#00FF88] font-bold">&ge;80% BENCHMARK</strong></span>
-          </div>
-
-          {/* Loop duplicate */}
-          <div className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0">
-            <span className="w-2 h-2 rounded-full bg-[#00FF88] animate-pulse" />
-            <span>10:00 AM ROUTINE: <strong className="text-[#00FF88] font-bold">READY (5+ APPLIED DAILY)</strong></span>
-          </div>
-
-          <div
-            onClick={onOpenTelegramModal}
-            className="flex items-center gap-2 px-3 py-0.5 rounded-full bg-[#111116] border border-[#1D1D24] hover:border-[#FF5A36]/60 cursor-pointer text-[#8E8E9B] text-[11px] whitespace-nowrap shrink-0 transition-colors"
-          >
-            <Send className="w-3 h-3 text-[#FF5A36]" />
-            <span>TELEGRAM ALERT: <strong className="text-white font-bold">{telegramConfig.chatId ? `CHAT ${telegramConfig.chatId}` : 'CONNECT NOW'}</strong></span>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Navbar Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Brand Wordmark with Aalto Display font */}
           <div className="flex items-center gap-3 shrink-0">
             <motion.div
               id="kinetic-brand"
-              onClick={() => setActiveTab('dashboard')}
+              onClick={() => setActiveTab('jobs')}
               className="flex items-center gap-2.5 cursor-pointer select-none group"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -144,7 +89,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Center: Clean Navigation Tabs */}
           <nav className="hidden md:flex items-center gap-1.5 overflow-x-auto scrollbar-none py-1">
-            {workbenchNavItems.map((item) => {
+            {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
               return (
@@ -167,14 +112,31 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Right: User Switcher, Theme Toggle, Telegram Quick Link & Notification Icon */}
+          {/* Right: Telegram Status, User Switcher, Theme Toggle & Notification Icon */}
           <div className="flex items-center gap-2 shrink-0">
-            {/* User Account / Profile Switcher Pill */}
+            {/* 1-Click Telegram Quick Status Pill */}
+            <button
+              onClick={onOpenTelegramModal}
+              title="Connect Telegram Alerts"
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-mono transition-all cursor-pointer ${
+                telegramConfig?.chatId
+                  ? 'bg-[#111116] border-[#00FF88]/40 text-[#00FF88] hover:border-[#00FF88]'
+                  : 'bg-[#111116] border-[#FF5A36]/40 text-[#FF5A36] hover:border-[#FF5A36]'
+              }`}
+            >
+              <Send className="w-3.5 h-3.5" />
+              <span className="hidden lg:inline text-[11px]">
+                {telegramConfig?.chatId ? `Telegram Connected` : 'Connect Telegram'}
+              </span>
+              <span className={`w-1.5 h-1.5 rounded-full ${telegramConfig?.chatId ? 'bg-[#00FF88]' : 'bg-[#FF5A36] animate-pulse'}`} />
+            </button>
+
+            {/* User Account Switcher Pill */}
             {onOpenAuthModal && (
               <button
                 id="navbar-user-switch-btn"
                 onClick={onOpenAuthModal}
-                title="Switch Profile / Account Credentials"
+                title="Switch Profile / Manage Credentials"
                 className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-[#111116] hover:bg-[#181822] text-white border border-[#1D1D24] hover:border-[#FF5A36]/60 text-xs transition-all cursor-pointer select-none"
               >
                 <div className="w-5 h-5 rounded-md bg-gradient-to-br from-[#FF5A36] to-[#FF3D14] flex items-center justify-center text-white font-mono font-bold text-[10px] shrink-0">
@@ -190,17 +152,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </div>
               </button>
             )}
-
-            {/* 1-Click Telegram Quick Connect Pill */}
-            <button
-              onClick={onOpenTelegramModal}
-              title="Connect Telegram Alerts"
-              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#111116] hover:bg-[#181822] text-[#8E8E9B] hover:text-white border border-[#1D1D24] text-xs font-mono transition-all cursor-pointer"
-            >
-              <Send className="w-3.5 h-3.5 text-[#FF5A36]" />
-              <span className="hidden lg:inline text-[11px]">Telegram</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00FF88]" />
-            </button>
 
             {/* Dark / Light Theme Toggle Button */}
             {onToggleTheme && (
@@ -248,7 +199,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     <div className="flex items-center justify-between border-b border-[#1D1D24] pb-2.5">
                       <div className="flex items-center gap-2">
                         <Bell className="w-4 h-4 text-[#FF5A36]" />
-                        <span className="font-bold text-xs font-display text-white">Live Telemetry Alerts</span>
+                        <span className="font-bold text-xs font-display text-white">Live Telegram & Application Alerts</span>
                       </div>
                       {notifications.length > 0 && (
                         <button
@@ -303,7 +254,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Bottom Tab Row */}
       <div className="md:hidden flex items-center justify-around border-t border-[#1D1D24] bg-[#0A0A0E] py-2 px-2 overflow-x-auto">
-        {workbenchNavItems.slice(0, 5).map((item) => {
+        {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
           return (
