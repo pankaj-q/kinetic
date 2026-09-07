@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import { apiRouter } from './server/routes/api';
 import { SchedulerService } from './server/services/schedulerService';
@@ -10,7 +11,7 @@ dotenv.config();
 
 async function startServer() {
   const app = express();
-  const PORT = Number(process.env.PORT) || 3000;
+  const requestedPort = Number(process.env.PORT) || 3000;
 
   // Initialize PostgreSQL database connection and schema
   await initPostgres();
@@ -30,25 +31,40 @@ async function startServer() {
     });
   });
 
-  // Vite middleware in dev, static files in prod
-  if (process.env.NODE_ENV !== 'production') {
+  // Serve pre-built static files if available, otherwise use Vite middleware
+  const distPath = path.join(process.cwd(), 'dist');
+  const hasDist = fs.existsSync(path.join(distPath, 'index.html'));
+
+  if (process.env.NODE_ENV === 'production' || hasDist) {
+    app.use(express.static(distPath, { maxAge: '1h' }));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(distPath, 'index.html'));
+    });
+  } else {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
+  }
+
+  function listenOnPort(port: number) {
+    const server = app.listen(port, '0.0.0.0', () => {
+      console.log(`🚀 Kinetic Server running and ready on port ${port} (http://localhost:${port})`);
+      SchedulerService.startScheduler();
+    });
+
+    server.on('error', (err: any) => {
+      if (err.code === 'EADDRINUSE') {
+        console.warn(`⚠️ Port ${port} is busy/in-use. Trying port ${port + 1}...`);
+        listenOnPort(port + 1);
+      } else {
+        console.error('Server error:', err);
+      }
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Kinetic Server running on port ${PORT}`);
-    SchedulerService.startScheduler();
-  });
+  listenOnPort(requestedPort);
 }
 
 startServer();

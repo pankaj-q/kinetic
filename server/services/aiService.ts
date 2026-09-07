@@ -43,7 +43,7 @@ ${resumeText.slice(0, 15000)}
 """`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.7-flash',
+        model: 'gemini-2.5-flash',
         contents: prompt,
         config: {
           responseMimeType: 'application/json',
@@ -240,7 +240,7 @@ ${job.description.slice(0, 8000)}
 """`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.7-flash',
+        model: 'gemini-2.5-flash',
         contents: prompt,
         config: {
           responseMimeType: 'application/json',
@@ -343,7 +343,7 @@ ${job.description.slice(0, 8000)}
 """`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.7-flash',
+        model: 'gemini-2.5-flash',
         contents: prompt,
         config: {
           systemInstruction: 'You write concise, authentic, compelling engineering cover letters.',
@@ -409,7 +409,7 @@ ${rawText.slice(0, 15000)}
 """`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.7-flash',
+        model: 'gemini-2.5-flash',
         contents: prompt,
         config: {
           responseMimeType: 'application/json',
@@ -512,7 +512,7 @@ RULES:
 - If the question asks for confidential personal info (SSN, criminal history, specific references) that cannot be answered safely, output "NEEDS_USER_INPUT".`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.7-flash',
+        model: 'gemini-2.5-flash',
         contents: prompt,
       });
 
@@ -576,7 +576,7 @@ Classify into one of:
 - OTHER: spam, marketing, newsletter, or unrelated message`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-3.7-flash',
+        model: 'gemini-2.5-flash',
         contents: prompt,
         config: {
           responseMimeType: 'application/json',
