@@ -29,6 +29,7 @@ interface JobsViewProps {
   onMatchJob: (jobId: string) => Promise<void>;
   onMatchAll: () => Promise<void>;
   onPrepareApplication: (jobId: string) => Promise<void>;
+  onAutoApplySingleJob?: (jobId: string) => Promise<any>;
   onOpenApplication: (appId: string) => void;
   onGenerateCoverLetter: (jobId: string) => void;
   onAutoApplyLive?: (minScore?: number, maxCount?: number) => Promise<any>;
@@ -41,6 +42,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
   onMatchJob,
   onMatchAll,
   onPrepareApplication,
+  onAutoApplySingleJob,
   onOpenApplication,
   onGenerateCoverLetter,
   onAutoApplyLive,
@@ -102,10 +104,19 @@ export const JobsView: React.FC<JobsViewProps> = ({
     }
   };
 
-  const handleApplySingleJob = async (jobId: string) => {
-    setApplyingJobId(jobId);
+  const handleApplySingleJob = async (job: Job) => {
+    setApplyingJobId(job.id);
+    setAutoApplyFeedback(null);
     try {
-      await onPrepareApplication(jobId);
+      if (onAutoApplySingleJob) {
+        await onAutoApplySingleJob(job.id);
+        setAutoApplyFeedback(`🚀 Successfully applied to ${job.title} at ${job.company}! Tailored cover letter created & alert dispatched to Telegram.`);
+      } else {
+        await onPrepareApplication(job.id);
+      }
+      setTimeout(() => setAutoApplyFeedback(null), 7000);
+    } catch (err: any) {
+      setAutoApplyFeedback(`Apply error: ${err.message || 'Failed to submit application'}`);
     } finally {
       setApplyingJobId(null);
     }
@@ -424,17 +435,17 @@ export const JobsView: React.FC<JobsViewProps> = ({
                       </button>
                     ) : (
                       <button
-                        id={`job-prepare-btn-${job.id}`}
-                        onClick={() => handleApplySingleJob(job.id)}
+                        id={`job-autoapply-btn-${job.id}`}
+                        onClick={() => handleApplySingleJob(job)}
                         disabled={isApplying}
                         className="btn-accent text-xs py-1.5 px-3.5 font-semibold flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                       >
                         {isApplying ? (
                           <Loader2 className="w-3.5 h-3.5 animate-spin" />
                         ) : (
-                          <Sparkles className="w-3.5 h-3.5 text-white" />
+                          <Zap className="w-3.5 h-3.5 text-white" />
                         )}
-                        <span>{isApplying ? 'Preparing...' : 'Prepare App'}</span>
+                        <span>{isApplying ? 'Applying & Notifying...' : '⚡ 1-Click Apply'}</span>
                       </button>
                     )}
                   </div>

@@ -280,6 +280,22 @@ export function App() {
     }
   };
 
+  const handleAutoApplySingleJob = async (jobId: string) => {
+    try {
+      const res = await authFetch('/api/applications/auto-apply-job', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jobId }),
+      });
+      const data = await res.json();
+      await fetchData();
+      return data;
+    } catch (err) {
+      console.error('Error auto-applying to single job:', err);
+      throw err;
+    }
+  };
+
   const handleMatchJob = async (jobId: string) => {
     try {
       await authFetch(`/api/jobs/${jobId}/match`, { method: 'POST' });
@@ -642,6 +658,7 @@ export function App() {
                 onMatchJob={handleMatchJob}
                 onMatchAll={handleMatchAllJobs}
                 onPrepareApplication={handlePrepareApplication}
+                onAutoApplySingleJob={handleAutoApplySingleJob}
                 onOpenApplication={handleOpenApplication}
                 onGenerateCoverLetter={(jobId) => handleGenerateCoverLetter(jobId, 'professional')}
                 onAutoApplyLive={handleAutoApplyLive}

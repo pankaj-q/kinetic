@@ -250,6 +250,18 @@ apiRouter.post('/applications/prepare', async (req: Request, res: Response) => {
   }
 });
 
+apiRouter.post('/applications/auto-apply-job', async (req: Request, res: Response) => {
+  try {
+    const userId = getUserId(req);
+    const { jobId } = req.body;
+    if (!jobId) return res.status(400).json({ error: 'jobId is required' });
+    const app = await ApplicationService.autoApplySingleJob(jobId, userId);
+    res.json({ success: true, application: app });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 apiRouter.post('/applications/:id/approve', async (req: Request, res: Response) => {
   try {
     const userId = getUserId(req);
