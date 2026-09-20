@@ -90,7 +90,15 @@ export const DeveloperLandingPage: React.FC<DeveloperLandingPageProps> = ({
           </h1>
 
           <p className="text-sm sm:text-base text-[#8E8E9B] max-w-2xl mx-auto leading-relaxed">
-            Engineered for <strong className="text-white font-medium">{profile?.name || 'Pankaj Kumar'}</strong> ({profile?.preferredRoles?.[0] || 'Senior Backend Software Engineer'}). Discovers live tech roles, performs deep ReAct fit scoring, crafts verified cover letters, and dispatches 10:00 AM daily routines with Telegram alerts.
+            {profile?.name ? (
+              <>
+                Engineered for <strong className="text-white font-medium">{profile.name}</strong> ({profile.preferredRoles?.[0] || 'Software Engineer'}). Discovers live tech roles from LinkedIn, YC & Greenhouse, computes AI resume match, and dispatches 10:00 AM daily routines with Telegram alerts.
+              </>
+            ) : (
+              <>
+                Autonomous AI career agent for software engineers & developers. Discovers verified live tech roles across LinkedIn, Y Combinator & Greenhouse, computes deep match scores, and auto-applies with tailored cover letters.
+              </>
+            )}
           </p>
 
           {/* Quick Hero Actions */}
@@ -264,7 +272,7 @@ export const DeveloperLandingPage: React.FC<DeveloperLandingPageProps> = ({
 
       {/* Clean Minimal Footer */}
       <footer className="border-t border-[#1D1D24] py-6 px-4 text-center text-xs text-[#5A5A66] font-mono">
-        Kinetic Autonomous Career OS • Pankaj Kumar (Senior Backend Software Engineer)
+        Kinetic Autonomous Career OS • {profile?.name ? `${profile.name} (${profile.preferredRoles?.[0] || 'Software Engineer'})` : 'AI-Powered Job Search & Application Agent'}
       </footer>
     </div>
   );
