@@ -83,8 +83,9 @@ export const DeveloperLandingPage: React.FC<DeveloperLandingPageProps> = ({
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-6xl font-extrabold font-display tracking-tight text-white leading-[1.08]">
             Build your career.<br />
-            <span className="bg-gradient-to-r from-white via-[#EAEAEA] to-[#FF5A36] bg-clip-text text-transparent">
-              Automate every application.
+            <span>Automate every </span>
+            <span className="text-gradient-orange inline-block">
+              application.
             </span>
           </h1>
 

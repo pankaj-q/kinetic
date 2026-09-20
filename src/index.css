@@ -252,6 +252,23 @@
   --radius-2xl: calc(var(--radius) * 1.8);
 }
 
+/* Vibrant Text Gradient System */
+.text-gradient-orange {
+  background: linear-gradient(135deg, #FF5A36 0%, #FF7A59 50%, #FFA07A 100%);
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+html.light .text-gradient-orange {
+  background: linear-gradient(135deg, #FF5A36 0%, #EA580C 50%, #C2410C 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
 /* ==========================================================================
    Kinetic Clean Minimal Dual-Theme System (Dark Obsidian & Crisp Light)
    ========================================================================== */
@@ -319,18 +336,25 @@ html.light .text-\[\#5A5A66\] {
   color: #64748B !important;
 }
 
-/* CRITICAL: Accent Buttons & Badges MUST stay white text on orange/colored background */
+/* CRITICAL: Accent Buttons & Badges (not text gradients) MUST stay white text on orange background */
 html.light .btn-accent,
 html.light .btn-accent *,
 html.light .btn-kinetic-primary,
 html.light .btn-kinetic-primary *,
 html.light .huvo-glow-button,
 html.light .huvo-glow-button *,
-html.light .bg-\[\#FF5A36\],
-html.light .bg-\[\#FF5A36\] *,
-html.light [class*="from-[#FF5A36]"],
-html.light [class*="from-[#FF5A36]"] * {
+html.light button.bg-\[\#FF5A36\],
+html.light button.bg-\[\#FF5A36\] *,
+html.light button[class*="from-[#FF5A36]"],
+html.light button[class*="from-[#FF5A36]"] * {
   color: #FFFFFF !important;
+}
+
+/* Explicit rule for text gradients: keep transparent fill */
+html.light .text-gradient-orange,
+html.light [class*="text-gradient"] {
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
 }
 
 /* High Match / Status Pill styling in Light Mode */
