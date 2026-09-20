@@ -142,11 +142,16 @@ export const JobsView: React.FC<JobsViewProps> = ({
   };
 
   const sources = [
-    { id: 'all', label: 'All Real Jobs' },
+    { id: 'all', label: 'All Live Jobs' },
+    { id: 'ycombinator', label: 'Y Combinator' },
+    { id: 'toptechats', label: 'Top Tech (Direct ATS)' },
+    { id: 'linkedin', label: 'LinkedIn' },
+    { id: 'himalayas', label: 'Himalayas' },
     { id: 'jobicy', label: 'Jobicy' },
     { id: 'remoteok', label: 'RemoteOK' },
     { id: 'arbeitnow', label: 'Arbeitnow' },
     { id: 'remotive', label: 'Remotive' },
+    { id: 'imported', label: 'Imported (Naukri/Wellfound/Levels/Arc)' },
   ];
 
   return (
@@ -476,17 +481,25 @@ export const JobsView: React.FC<JobsViewProps> = ({
             </div>
 
             <form onSubmit={handleCustomImportSubmit} className="p-6 space-y-4">
+              <div className="flex flex-wrap gap-1.5 pb-1">
+                {['LinkedIn', 'Naukri', 'Internshala', 'Wellfound', 'Levels.fyi', 'Arc.dev', 'Greenhouse', 'Lever', 'Ashby', 'Y Combinator'].map((platform) => (
+                  <span key={platform} className="px-2 py-0.5 rounded-md bg-[#16161E] border border-[#1D1D24] text-[11px] font-mono text-[#8E8E9B]">
+                    {platform}
+                  </span>
+                ))}
+              </div>
+
               <p className="text-xs text-[#8E8E9B] leading-relaxed">
-                Paste a link or raw description from any job site (LinkedIn, Greenhouse, Lever, Ashby, Indeed, etc.). Gemini AI will extract the role requirements, score candidate match, and generate an application package.
+                Paste any job URL or raw description from <strong className="text-white">LinkedIn, Naukri, Internshala, Wellfound, Levels.fyi, Arc, Greenhouse, Lever, Ashby, or company portals</strong>. Gemini AI will automatically extract requirements, calculate match score, and prepare a tailored application package.
               </p>
 
               <div>
                 <label className="block text-xs font-mono font-bold text-white mb-1.5 uppercase tracking-wider">
-                  Job URL (Optional)
+                  Job URL (LinkedIn / Naukri / Wellfound / ATS Portal)
                 </label>
                 <input
                   type="url"
-                  placeholder="https://jobs.lever.co/company/..."
+                  placeholder="https://www.linkedin.com/jobs/view/... or https://jobs.lever.co/company/..."
                   value={customJobUrl}
                   onChange={(e) => setCustomJobUrl(e.target.value)}
                   className="w-full text-xs text-white bg-[#0D0D12] border border-[#1D1D24] rounded-xl p-3 font-mono focus:outline-none focus:border-[#FF5A36]"
