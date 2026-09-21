@@ -12,7 +12,10 @@ import {
   Bot,
   Sun,
   Moon,
-  ExternalLink
+  ExternalLink,
+  Home,
+  ArrowLeft,
+  LayoutDashboard
 } from 'lucide-react';
 import { NotificationMessage, TelegramConfig, User } from '../types';
 
@@ -52,6 +55,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [showNotifPopover, setShowNotifPopover] = useState(false);
 
   const navItems = [
+    { id: 'landing', label: 'Home', icon: Home },
     { id: 'jobs', label: 'Jobs Feed', icon: Briefcase },
     { id: 'applications', label: 'Applications & Tracker', icon: Layers },
     { id: 'agent', label: 'Auto-Pilot Agent', icon: Bot, badge: isAgentRunning ? 'Running' : undefined },
@@ -67,10 +71,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center gap-3 shrink-0">
             <motion.div
               id="kinetic-brand"
-              onClick={() => setActiveTab('jobs')}
+              onClick={() => setActiveTab('landing')}
               className="flex items-center gap-2.5 cursor-pointer select-none group"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              title="Kinetic Home Page"
             >
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#FF5A36] to-[#FF3D14] flex items-center justify-center text-white shadow-md shadow-[#FF5A36]/20 font-bold text-base font-mono">
                 K
@@ -84,6 +89,19 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </span>
               </div>
             </motion.div>
+
+            {/* Prominent Go Back to Home Button when not on landing page */}
+            {activeTab !== 'landing' && (
+              <button
+                id="navbar-back-to-home-btn"
+                onClick={() => setActiveTab('landing')}
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#14141E] hover:bg-[#1C1C28] text-white hover:text-[#FF5A36] border border-[#2D2D3E] hover:border-[#FF5A36]/50 text-xs font-semibold font-mono transition-all cursor-pointer shadow-xs group ml-1"
+                title="Go Back to Home Page"
+              >
+                <ArrowLeft className="w-3.5 h-3.5 text-[#FF5A36] group-hover:-translate-x-0.5 transition-transform" />
+                <span>Go Back to Home</span>
+              </button>
+            )}
           </div>
 
           {/* Center: Clean Navigation Tabs */}

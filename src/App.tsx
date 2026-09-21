@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { ArrowLeft, Home } from 'lucide-react';
 import { Navbar } from './components/Navbar';
 import { DeveloperLandingPage } from './components/DeveloperLandingPage';
 import { DashboardView } from './components/DashboardView';
@@ -626,7 +627,33 @@ export function App() {
           onOpenTelegramModal={() => setShowTelegramModal(true)}
         />
       ) : (
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          {/* Quick Breadcrumb & Back to Home Action */}
+          <div className="flex items-center justify-between pb-3.5 mb-5 border-b border-[#1D1D24]/80">
+            <button
+              onClick={() => setActiveTab('landing')}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#111116] hover:bg-[#181824] text-xs font-mono font-semibold text-[#8E8E9B] hover:text-[#FF5A36] border border-[#1D1D24] hover:border-[#FF5A36]/40 transition-all cursor-pointer group shadow-xs"
+              title="Return to Landing & Home Page"
+            >
+              <ArrowLeft className="w-3.5 h-3.5 text-[#FF5A36] group-hover:-translate-x-1 transition-transform" />
+              <span>← Back to Home Page</span>
+            </button>
+
+            <div className="flex items-center gap-2 text-[11px] font-mono text-[#8E8E9B]">
+              <button
+                onClick={() => setActiveTab('landing')}
+                className="hover:text-white transition-colors cursor-pointer flex items-center gap-1"
+              >
+                <Home className="w-3 h-3 text-[#8E8E9B]" />
+                <span>Home</span>
+              </button>
+              <span className="text-[#3A3A46]">/</span>
+              <span className="text-[#FF5A36] font-bold uppercase tracking-wider">
+                {activeTab.replace(/-/g, ' ')}
+              </span>
+            </div>
+          </div>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
