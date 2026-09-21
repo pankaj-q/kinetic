@@ -95,11 +95,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 id="navbar-back-to-home-btn"
                 onClick={() => setActiveTab('landing')}
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#14141E] hover:bg-[#1C1C28] text-white hover:text-[#FF5A36] border border-[#2D2D3E] hover:border-[#FF5A36]/50 text-xs font-semibold font-mono transition-all cursor-pointer shadow-xs group ml-1"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#14141E] hover:bg-[#1C1C28] text-white hover:text-[#FF5A36] border border-[#2D2D3E] hover:border-[#FF5A36]/50 text-xs font-semibold font-mono transition-all cursor-pointer shadow-xs group ml-1"
                 title="Go Back to Home Page"
               >
                 <ArrowLeft className="w-3.5 h-3.5 text-[#FF5A36] group-hover:-translate-x-0.5 transition-transform" />
-                <span>Go Back to Home</span>
+                <span className="hidden sm:inline">Go Back to Home</span>
+                <span className="inline sm:hidden">Home</span>
               </button>
             )}
           </div>

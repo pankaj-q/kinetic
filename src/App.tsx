@@ -34,7 +34,52 @@ import {
 } from './types';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<string>('landing');
+  // Support Browser History and URL Hash navigation
+  const getTabFromHash = (): string => {
+    if (typeof window === 'undefined') return 'landing';
+    const hash = window.location.hash.replace('#', '').trim();
+    const validTabs = [
+      'landing',
+      'dashboard',
+      'jobs',
+      'applications',
+      'agent',
+      'profile',
+      'cover-letters',
+      'email-monitor',
+      'settings',
+    ];
+    return validTabs.includes(hash) ? hash : 'landing';
+  };
+
+  const [activeTab, setActiveTabState] = useState<string>(() => {
+    return getTabFromHash();
+  });
+
+  const setActiveTab = useCallback((tab: string) => {
+    setActiveTabState(tab);
+    if (typeof window !== 'undefined') {
+      const currentHash = window.location.hash.replace('#', '').trim();
+      if (currentHash !== tab) {
+        window.history.pushState(null, '', `#${tab}`);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const tab = getTabFromHash();
+      setActiveTabState(tab);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('hashchange', handlePopState);
+    };
+  }, []);
+
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     const saved = localStorage.getItem('kinetic_theme');
@@ -795,6 +840,23 @@ export function App() {
         currentUser={currentUser}
         onAuthSuccess={handleAuthSuccess}
       />
+
+      {/* Floating Quick Go Back to Home Pill when on sub-pages */}
+      {activeTab !== 'landing' && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setActiveTab('landing')}
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#14141E]/95 hover:bg-[#1C1C28] text-white hover:text-[#FF5A36] border border-[#2D2D3E] hover:border-[#FF5A36] text-xs font-mono font-bold shadow-2xl shadow-black/80 backdrop-blur-md cursor-pointer transition-all group"
+          title="Return to Landing & Home Page"
+        >
+          <ArrowLeft className="w-4 h-4 text-[#FF5A36] group-hover:-translate-x-1 transition-transform" />
+          <span>← Back to Home</span>
+        </motion.button>
+      )}
     </div>
   );
 }
