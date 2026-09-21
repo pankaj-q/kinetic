@@ -59,7 +59,13 @@ export function App() {
 
   // Core Data States
   const [authToken, setAuthToken] = useState<string>(() => {
-    return localStorage.getItem('kinetic_auth_token') || 'token_usr_pankaj_default';
+    const saved = localStorage.getItem('kinetic_auth_token');
+    if (saved && saved.trim()) return saved.trim();
+    // For fresh public visitors, initialize a dedicated isolated guest workspace token!
+    const newGuestId = `usr_guest_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
+    const newToken = `token_${newGuestId}`;
+    localStorage.setItem('kinetic_auth_token', newToken);
+    return newToken;
   });
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -100,15 +106,15 @@ export function App() {
     minJobsToApplyDaily: 5,
   });
   const [emailConfig, setEmailConfig] = useState<EmailDispatchConfig>({
-    enabled: true,
-    recipientEmail: 'codepankaj84@gmail.com',
-    senderName: 'Kinetic Autonomous AI',
+    enabled: false,
+    recipientEmail: '',
+    senderName: 'Kinetic Candidate',
     smtpHost: 'smtp.gmail.com',
     smtpPort: 587,
     smtpUser: '',
     smtpPassword: '',
     useTls: true,
-    sendDailyMorningDigest: true,
+    sendDailyMorningDigest: false,
   });
   const [stats, setStats] = useState<DashboardStats>({
     totalJobsFound: 0,

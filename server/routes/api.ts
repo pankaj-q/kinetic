@@ -11,7 +11,7 @@ import { SchedulerService } from '../services/schedulerService';
 
 export const apiRouter = Router();
 
-// Helper to extract userId from request headers with graceful fallback to primary user
+// Helper to extract userId from request headers with safe isolated guest fallback
 function getUserId(req: Request): string {
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {
@@ -25,13 +25,20 @@ function getUserId(req: Request): string {
   if (typeof headerUserId === 'string' && headerUserId.trim()) {
     return headerUserId.trim();
   }
-  return PRIMARY_USER.id;
+  return 'usr_guest_default';
 }
 
 // --- Multi-User Auth Endpoints ---
 apiRouter.get('/auth/me', (req: Request, res: Response) => {
   const userId = getUserId(req);
-  const user = db.getUserById(userId) || PRIMARY_USER;
+  const user = db.getUserById(userId) || {
+    id: userId,
+    name: 'Guest Candidate',
+    email: '',
+    role: 'Software Engineer',
+    isPrimary: false,
+    createdAt: new Date().toISOString(),
+  };
   res.json({
     user,
     token: `token_${user.id}`,

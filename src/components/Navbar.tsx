@@ -85,7 +85,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   Kinetic
                 </span>
                 <span className="text-[10px] font-mono font-medium tracking-wider px-2 py-0.5 rounded-full bg-[#16161E] border border-[#1D1D24] text-[#8E8E9B] uppercase whitespace-nowrap hidden sm:inline-block">
-                  {currentUser?.name ? currentUser.name.toUpperCase().replace(/\s+/g, '_') : 'PANKAJ_KUMAR'} // {currentUser?.role ? currentUser.role.toUpperCase().slice(0, 16) : 'BACKEND'}
+                  {currentUser?.name ? currentUser.name.toUpperCase().replace(/\s+/g, '_') : 'GUEST_CANDIDATE'} // {currentUser?.role ? currentUser.role.toUpperCase().slice(0, 16) : 'ENGINEER'}
                 </span>
               </div>
             </motion.div>
@@ -157,14 +157,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-[#111116] hover:bg-[#181822] text-white border border-[#1D1D24] hover:border-[#FF5A36]/60 text-xs transition-all cursor-pointer select-none"
               >
                 <div className="w-5 h-5 rounded-md bg-gradient-to-br from-[#FF5A36] to-[#FF3D14] flex items-center justify-center text-white font-mono font-bold text-[10px] shrink-0">
-                  {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'PK'}
+                  {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'GC'}
                 </div>
                 <div className="hidden sm:flex flex-col items-start leading-none text-left">
                   <span className="text-[11px] font-bold text-white max-w-[100px] truncate">
-                    {currentUser?.name || 'Pankaj Kumar'}
+                    {currentUser?.name || 'Guest Candidate'}
                   </span>
                   <span className="text-[9px] text-[#8E8E9B] font-mono">
-                    {currentUser?.isPrimary ? 'PRIMARY' : 'PRIVATE'}
+                    {currentUser?.isPrimary ? 'PRIMARY' : 'GUEST'}
                   </span>
                 </div>
               </button>

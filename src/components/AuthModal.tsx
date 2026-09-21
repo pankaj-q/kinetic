@@ -245,42 +245,30 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 <span className="text-[10px] text-[#00FF88]">100% Credential Isolation</span>
               </div>
 
-              {/* Primary User Card (Pankaj Kumar) */}
-              <div
-                onClick={handleSwitchPrimary}
-                className={`p-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
-                  currentUser?.isPrimary || currentUser?.id === 'usr_pankaj_default'
-                    ? 'bg-[#181824] border-[#FF5A36]/60 shadow-sm shadow-[#FF5A36]/10'
-                    : 'bg-[#0D0D12] border-[#1D1D24] hover:border-[#353545]'
-                }`}
-              >
+              {/* Current Active Workspace Card */}
+              <div className="p-4 rounded-xl border border-[#00FF88]/40 bg-[#00FF88]/5 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF5A36] to-[#FF3D14] flex items-center justify-center text-white font-mono font-bold text-sm">
-                    PK
+                    {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'GC'}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-bold text-white font-display">Pankaj Kumar</span>
-                      <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-[#FF5A36]/20 text-[#FF5A36] border border-[#FF5A36]/40">
-                        PRIMARY
+                      <span className="text-sm font-bold text-white font-display">
+                        {currentUser?.name || 'Guest Candidate'}
+                      </span>
+                      <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-[#00FF88]/20 text-[#00FF88] border border-[#00FF88]/40">
+                        ACTIVE SESSION
                       </span>
                     </div>
                     <p className="text-xs text-[#8E8E9B]">
-                      Senior Backend Engineer • codepankaj84@gmail.com
+                      {currentUser?.email || 'Dedicated isolated sandbox'} • {currentUser?.role || 'Software Engineer'}
                     </p>
                   </div>
                 </div>
-
-                <div className="flex items-center gap-1 text-xs font-mono text-[#FF5A36]">
-                  {currentUser?.isPrimary || currentUser?.id === 'usr_pankaj_default' ? (
-                    <span className="flex items-center gap-1 text-[#00FF88]">
-                      <CheckCircle2 className="w-4 h-4" />
-                      Active
-                    </span>
-                  ) : (
-                    <span>Switch &rarr;</span>
-                  )}
-                </div>
+                <span className="flex items-center gap-1 text-xs font-mono text-[#00FF88]">
+                  <CheckCircle2 className="w-4 h-4" />
+                  Active
+                </span>
               </div>
 
               {/* Demo User Card */}

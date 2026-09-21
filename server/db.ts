@@ -547,6 +547,39 @@ export interface MultiUserStoreSchema {
   jobs: Job[];
 }
 
+// Clean isolated profile for fresh visitors / guests
+const emptyGuestProfile: CandidateProfile = {
+  id: 'profile_guest',
+  name: 'Guest Candidate',
+  email: '',
+  phone: '',
+  location: 'Remote',
+  linkedinUrl: '',
+  githubUrl: '',
+  portfolioUrl: '',
+  summary: 'Software Engineer exploring autonomous job matching and applications.',
+  skills: ['TypeScript', 'JavaScript', 'React', 'Node.js', 'Python', 'SQL', 'Git', 'REST APIs'],
+  programmingLanguages: ['JavaScript', 'TypeScript', 'Python'],
+  frameworks: ['React', 'Node.js', 'Express'],
+  databases: ['PostgreSQL', 'MongoDB'],
+  toolsAndCloud: ['Git', 'Docker', 'AWS'],
+  preferredRoles: ['Software Engineer', 'Full Stack Developer', 'Backend Developer', 'Frontend Developer'],
+  preferredLocations: ['Remote Worldwide', 'Remote'],
+  remotePreference: 'remote',
+  experience: [],
+  education: [],
+  projects: [],
+  salaryPreference: {
+    min: 90000,
+    max: 160000,
+    currency: 'USD',
+  },
+  jobTypes: ['Full-time', 'Contract'],
+  keywords: ['Software Engineer', 'Full Stack', 'React', 'Node.js', 'TypeScript'],
+  yearsOfExperience: 3,
+  updatedAt: new Date().toISOString(),
+};
+
 class Database {
   private data: MultiUserStoreSchema;
 
@@ -637,49 +670,64 @@ class Database {
   }
 
   // Ensure user state exists and return it
-  private getUserData(userId: string = PRIMARY_USER.id): UserState {
-    const effectiveUserId = userId || PRIMARY_USER.id;
+  private getUserData(userId: string = 'usr_guest_default'): UserState {
+    const effectiveUserId = userId || 'usr_guest_default';
     if (!this.data.userData[effectiveUserId]) {
+      const isPrimary = effectiveUserId === PRIMARY_USER.id;
       const user = this.getUserById(effectiveUserId) || {
         id: effectiveUserId,
-        name: 'Guest Candidate',
-        email: 'guest@kinetic.ai',
-        role: 'Software Engineer',
+        name: isPrimary ? PRIMARY_USER.name : 'Guest Candidate',
+        email: isPrimary ? PRIMARY_USER.email : '',
+        role: isPrimary ? PRIMARY_USER.role : 'Software Engineer',
+        isPrimary: isPrimary,
         createdAt: new Date().toISOString(),
       };
 
-      const newUserProfile: CandidateProfile = {
-        ...defaultProfile,
-        id: `profile_${effectiveUserId}`,
-        name: user.name,
-        email: user.email,
-        summary: `Software Engineer actively exploring new career opportunities.`,
-        skills: ['JavaScript', 'TypeScript', 'Node.js', 'React', 'REST APIs', 'Git'],
-        preferredRoles: ['Software Engineer', 'Full Stack Developer', 'Backend Developer'],
-        experience: [],
-        education: [],
-        projects: [],
-        updatedAt: new Date().toISOString(),
-      };
+      const newUserProfile: CandidateProfile = isPrimary
+        ? { ...defaultProfile }
+        : {
+            ...emptyGuestProfile,
+            id: `profile_${effectiveUserId}`,
+            name: user.name && user.name !== 'Guest Candidate' ? user.name : 'Guest Candidate',
+            email: user.email || '',
+            updatedAt: new Date().toISOString(),
+          };
 
       this.data.userData[effectiveUserId] = {
         user,
         profile: newUserProfile,
-        telegramConfig: {
-          ...defaultTelegramConfig,
-          enabled: false,
-          botToken: '',
-          chatId: '',
-        },
-        emailDispatchConfig: {
-          ...defaultEmailDispatchConfig,
-          recipientEmail: user.email,
-        },
+        telegramConfig: isPrimary
+          ? defaultTelegramConfig
+          : {
+              enabled: false,
+              botToken: '',
+              chatId: '',
+              notifyOnHighMatch: true,
+              minMatchScore: 80,
+              notifyOnApplicationReady: true,
+              notifyOnSubmission: true,
+              notifyOnInterview: true,
+              notifyOnRejection: false,
+              morningReportEnabled: true,
+            },
+        emailDispatchConfig: isPrimary
+          ? defaultEmailDispatchConfig
+          : {
+              enabled: false,
+              recipientEmail: user.email || '',
+              senderName: user.name || 'Kinetic Candidate',
+              smtpHost: 'smtp.gmail.com',
+              smtpPort: 587,
+              smtpUser: '',
+              smtpPassword: '',
+              useTls: true,
+              sendDailyMorningDigest: false,
+            },
         schedulerConfig: {
           ...defaultSchedulerConfig,
         },
-        matches: [],
-        applications: [],
+        matches: isPrimary ? initialMatches : [],
+        applications: isPrimary ? initialApplications : [],
         coverLetters: [],
         emails: [],
         notifications: [
@@ -687,7 +735,7 @@ class Database {
             id: `notif_${Date.now()}`,
             type: 'system_alert',
             title: '👋 Welcome to Kinetic Autonomous Career OS',
-            body: 'Your dedicated career workspace is ready. Upload your resume to begin autonomous matching.',
+            body: 'Your fresh isolated workspace is active. Add your profile or upload a resume to begin autonomous matching.',
             timestamp: new Date().toISOString(),
             read: false,
           },

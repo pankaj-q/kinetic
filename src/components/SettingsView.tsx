@@ -59,15 +59,15 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   const [sched, setSched] = useState<SchedulerConfig>(schedulerConfig);
   const [emailConf, setEmailConf] = useState<EmailDispatchConfig>(
     emailConfig || {
-      enabled: true,
-      recipientEmail: 'codepankaj84@gmail.com',
-      senderName: 'Kinetic Autonomous AI',
+      enabled: false,
+      recipientEmail: '',
+      senderName: 'Kinetic Candidate',
       smtpHost: 'smtp.gmail.com',
       smtpPort: 587,
       smtpUser: '',
       smtpPassword: '',
       useTls: true,
-      sendDailyMorningDigest: true,
+      sendDailyMorningDigest: false,
     }
   );
 
@@ -205,17 +205,17 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       <div className="p-5 rounded-2xl bg-[#111116] border border-[#1D1D24] flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
         <div className="flex items-center gap-3.5">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF5A36] to-[#FF3D14] flex items-center justify-center text-white font-mono font-bold text-sm shrink-0">
-            {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'PK'}
+            {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'GC'}
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold font-display text-white">{currentUser?.name || 'Pankaj Kumar'}</h2>
+              <h2 className="text-sm font-bold font-display text-white">{currentUser?.name || 'Guest Candidate'}</h2>
               <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-[#FF5A36]/20 text-[#FF5A36] border border-[#FF5A36]/40">
                 {currentUser?.isPrimary ? 'PRIMARY ROOT ACCOUNT' : 'PRIVATE WORKSPACE'}
               </span>
             </div>
             <p className="text-xs text-[#8E8E9B] mt-0.5">
-              {currentUser?.email || 'codepankaj84@gmail.com'} • {currentUser?.role || 'Senior Backend Engineer'}
+              {currentUser?.email || 'No email configured'} • {currentUser?.role || 'Software Engineer'}
             </p>
           </div>
         </div>
@@ -625,12 +625,12 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               </label>
               <input
                 type="email"
-                placeholder="codepankaj84@gmail.com"
+                placeholder="you@example.com"
                 value={emailConf.recipientEmail}
                 onChange={(e) => setEmailConf({ ...emailConf, recipientEmail: e.target.value })}
                 className="w-full text-xs text-white bg-[#070709] border border-[#1D1D24] rounded-lg p-3 font-mono focus:outline-none focus:border-[#FF5A36]"
               />
-              <p className="text-[11px] text-[#5A5A66] mt-1 font-mono">Default: codepankaj84@gmail.com</p>
+              <p className="text-[11px] text-[#5A5A66] mt-1 font-mono">Recipient email for candidate digests and outbound recruiter outreach</p>
             </div>
 
             <div>
@@ -639,7 +639,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               </label>
               <input
                 type="text"
-                placeholder="Kinetic Autonomous AI"
+                placeholder="Kinetic Candidate"
                 value={emailConf.senderName}
                 onChange={(e) => setEmailConf({ ...emailConf, senderName: e.target.value })}
                 className="w-full text-xs text-white bg-[#070709] border border-[#1D1D24] rounded-lg p-3 focus:outline-none focus:border-[#FF5A36]"
@@ -654,7 +654,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
               </label>
               <input
                 type="email"
-                placeholder="e.g. codepankaj84@gmail.com"
+                placeholder="e.g. you@gmail.com"
                 value={emailConf.smtpUser || ''}
                 onChange={(e) => setEmailConf({ ...emailConf, smtpUser: e.target.value })}
                 className="w-full text-xs text-white bg-[#070709] border border-[#1D1D24] rounded-lg p-3 font-mono focus:outline-none focus:border-[#FF5A36]"

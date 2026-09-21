@@ -94,10 +94,10 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold font-display text-white tracking-tight">
-            Welcome back, {profile?.name || 'Pankaj Kumar'}
+            Welcome back, {profile?.name || 'Candidate'}
           </h1>
           <p className="text-xs text-[#8E8E9B]">
-            Automated 10:00 AM job discovery & application pipeline active for <strong className="text-white font-medium">{profile?.preferredRoles?.[0] || 'Senior Backend Software Engineer'}</strong>.
+            Automated 10:00 AM job discovery & application pipeline active for <strong className="text-white font-medium">{profile?.preferredRoles?.[0] || 'Software Engineer'}</strong>.
           </p>
         </div>
 
@@ -298,20 +298,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="space-y-3 text-xs">
             <div className="p-3.5 rounded-xl bg-[#0D0D12] border border-[#1D1D24] space-y-1 font-mono">
               <span className="text-[#8E8E9B] block text-[10px] uppercase tracking-wider">Candidate</span>
-              <span className="text-white font-bold">{profile?.name || 'Pankaj Kumar'}</span>
-              <span className="text-[#8E8E9B] block">{profile?.email || 'codepankaj84@gmail.com'}</span>
+              <span className="text-white font-bold">{profile?.name || 'Guest Candidate'}</span>
+              <span className="text-[#8E8E9B] block">{profile?.email || 'No email configured'}</span>
             </div>
 
             <div className="p-3.5 rounded-xl bg-[#0D0D12] border border-[#1D1D24] space-y-1 font-mono">
               <span className="text-[#8E8E9B] block text-[10px] uppercase tracking-wider">10:00 AM Automation</span>
-              <span className="text-[#00FF88] font-bold">Enabled • Daily at 10:00 AM IST</span>
+              <span className="text-[#00FF88] font-bold">Autonomous Engine Ready</span>
               <span className="text-[#8E8E9B] block">Target: &ge;5 Applications/day</span>
             </div>
 
             <div className="p-3.5 rounded-xl bg-[#0D0D12] border border-[#1D1D24] space-y-1 font-mono">
-              <span className="text-[#8E8E9B] block text-[10px] uppercase tracking-wider">Telegram Channel</span>
-              <span className="text-white font-bold">Chat ID: 1276866292</span>
-              <span className="text-[#00FF88] block">Real-time alerts active</span>
+              <span className="text-[#8E8E9B] block text-[10px] uppercase tracking-wider">Telegram Notifications</span>
+              <span className="text-white font-bold">1-Click Bot Integration</span>
+              <span className="text-[#8E8E9B] block">Dispatches prepared applications</span>
             </div>
           </div>
 
