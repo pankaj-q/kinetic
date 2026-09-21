@@ -241,8 +241,8 @@
         "autoPrepareApplications": true,
         "minMatchScoreForAutoPrepare": 80,
         "autoCheckEmails": true,
-        "lastRunAt": "2026-09-08T17:49:43.264Z",
-        "nextRunAt": "2026-09-08T20:49:43.264Z",
+        "lastRunAt": "2026-09-21T15:54:24.688Z",
+        "nextRunAt": "2026-09-21T18:54:24.694Z",
         "lastMorningReportSentAt": "2026-09-08T04:30:00.897Z"
       },
       "matches": [
@@ -1364,6 +1364,606 @@
         }
       ],
       "agentSessions": [
+        {
+          "id": "session_5922cf77",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 4,
+          "maxSteps": 7,
+          "startedAt": "2026-09-21T15:54:24.720Z",
+          "logs": [
+            {
+              "id": "log_a09493",
+              "timestamp": "2026-09-21T15:54:24.720Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_784df2",
+              "timestamp": "2026-09-21T15:54:24.747Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 0,
+                "duplicatesFiltered": 0,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_1ba320",
+              "timestamp": "2026-09-21T15:54:24.861Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_dea2ba",
+              "timestamp": "2026-09-21T15:54:24.865Z",
+              "step": 4,
+              "thought": "Autonomous cycle finished. 0 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 0
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 0,
+            "applicationsPrepared": 0,
+            "coverLettersGenerated": 0,
+            "notificationsSent": 0
+          },
+          "completedAt": "2026-09-21T15:54:24.866Z"
+        },
+        {
+          "id": "session_0dd8303a",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 4,
+          "maxSteps": 7,
+          "startedAt": "2026-09-21T12:54:24.701Z",
+          "logs": [
+            {
+              "id": "log_76829b",
+              "timestamp": "2026-09-21T12:54:24.701Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_f80a61",
+              "timestamp": "2026-09-21T12:54:24.710Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 0,
+                "duplicatesFiltered": 0,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_6bf67e",
+              "timestamp": "2026-09-21T12:54:24.749Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_487d83",
+              "timestamp": "2026-09-21T12:54:24.751Z",
+              "step": 4,
+              "thought": "Autonomous cycle finished. 0 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 0
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 0,
+            "applicationsPrepared": 0,
+            "coverLettersGenerated": 0,
+            "notificationsSent": 0
+          },
+          "completedAt": "2026-09-21T12:54:24.752Z"
+        },
+        {
+          "id": "session_004a30b5",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 4,
+          "maxSteps": 7,
+          "startedAt": "2026-09-21T09:50:27.586Z",
+          "logs": [
+            {
+              "id": "log_296125",
+              "timestamp": "2026-09-21T09:50:27.586Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_6dcaf1",
+              "timestamp": "2026-09-21T09:50:27.599Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 0,
+                "duplicatesFiltered": 0,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_f397fb",
+              "timestamp": "2026-09-21T09:50:27.648Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_321d6c",
+              "timestamp": "2026-09-21T09:50:27.649Z",
+              "step": 4,
+              "thought": "Autonomous cycle finished. 0 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 0
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 0,
+            "applicationsPrepared": 0,
+            "coverLettersGenerated": 0,
+            "notificationsSent": 0
+          },
+          "completedAt": "2026-09-21T09:50:27.650Z"
+        },
+        {
+          "id": "session_755b1dc3",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 4,
+          "maxSteps": 7,
+          "startedAt": "2026-09-21T06:40:33.618Z",
+          "logs": [
+            {
+              "id": "log_6f248b",
+              "timestamp": "2026-09-21T06:40:33.618Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_3a93d7",
+              "timestamp": "2026-09-21T06:40:33.629Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 0,
+                "duplicatesFiltered": 0,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_cd9ba5",
+              "timestamp": "2026-09-21T06:40:33.665Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_71080b",
+              "timestamp": "2026-09-21T06:40:33.667Z",
+              "step": 4,
+              "thought": "Autonomous cycle finished. 0 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 0
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 0,
+            "applicationsPrepared": 0,
+            "coverLettersGenerated": 0,
+            "notificationsSent": 0
+          },
+          "completedAt": "2026-09-21T06:40:33.667Z"
+        },
+        {
+          "id": "session_b8b1b1a3",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 4,
+          "maxSteps": 7,
+          "startedAt": "2026-09-21T03:37:18.133Z",
+          "logs": [
+            {
+              "id": "log_39e7b1",
+              "timestamp": "2026-09-21T03:37:18.133Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_82497a",
+              "timestamp": "2026-09-21T03:37:18.139Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 0,
+                "duplicatesFiltered": 0,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_4dd44c",
+              "timestamp": "2026-09-21T03:37:18.159Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_52f130",
+              "timestamp": "2026-09-21T03:37:18.161Z",
+              "step": 4,
+              "thought": "Autonomous cycle finished. 0 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 0
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 0,
+            "applicationsPrepared": 0,
+            "coverLettersGenerated": 0,
+            "notificationsSent": 0
+          },
+          "completedAt": "2026-09-21T03:37:18.162Z"
+        },
+        {
+          "id": "session_66ecf2e8",
+          "goal": "Scheduled automated job scan and application preparation",
+          "status": "completed",
+          "currentStep": 4,
+          "maxSteps": 7,
+          "startedAt": "2026-09-21T00:29:00.012Z",
+          "logs": [
+            {
+              "id": "log_41f9db",
+              "timestamp": "2026-09-21T00:29:00.012Z",
+              "step": 1,
+              "thought": "I need to inspect the active candidate profile to extract technical skills, target roles, and location constraints.",
+              "action": "Fetching candidate profile from secure store",
+              "tool": "get_candidate_profile",
+              "input": {},
+              "output": {
+                "name": "Pankaj Kumar",
+                "preferredRoles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "skillsCount": 16,
+                "remotePreference": "remote"
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_75f67f",
+              "timestamp": "2026-09-21T00:29:00.014Z",
+              "step": 2,
+              "thought": "Searching job sources (RemoteOK, Greenhouse, Lever, LinkedIn) for preferred roles: Senior Backend Engineer, Backend Software Engineer, Distributed Systems Engineer, Node.js Architect.",
+              "action": "Executing multi-source job search adapter and deduplication pipeline",
+              "tool": "search_and_deduplicate_jobs",
+              "input": {
+                "roles": [
+                  "Senior Backend Engineer",
+                  "Backend Software Engineer",
+                  "Distributed Systems Engineer",
+                  "Node.js Architect"
+                ],
+                "sources": [
+                  "RemoteOK",
+                  "Greenhouse",
+                  "Lever",
+                  "LinkedIn"
+                ]
+              },
+              "output": {
+                "totalDiscovered": 0,
+                "duplicatesFiltered": 0,
+                "activeJobsPool": 8
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_660b82",
+              "timestamp": "2026-09-21T00:29:00.087Z",
+              "step": 3,
+              "thought": "Now evaluating all active jobs against candidate skills (Node.js, Express.js, TypeScript, JavaScript, PostgreSQL...) using Gemini Match Engine.",
+              "action": "Running AI job matching and scoring matrix",
+              "tool": "ai_match_jobs",
+              "input": {
+                "candidate": "Pankaj Kumar",
+                "totalJobs": 8
+              },
+              "output": {
+                "evaluatedJobs": 8,
+                "highMatchesFound": 6,
+                "minScoreThreshold": 80
+              },
+              "status": "success"
+            },
+            {
+              "id": "log_7b74b9",
+              "timestamp": "2026-09-21T00:29:00.088Z",
+              "step": 4,
+              "thought": "Autonomous cycle finished. 0 application(s) are prepared and waiting in the dashboard for your review and 1-click approval. Human approval is strictly enforced before submission.",
+              "action": "Holding state at WAITING_FOR_APPROVAL",
+              "tool": "pause_for_human_approval",
+              "input": {
+                "waitingCount": 0
+              },
+              "output": {
+                "status": "ready_for_user_approval"
+              },
+              "status": "waiting_approval"
+            }
+          ],
+          "metrics": {
+            "jobsScanned": 8,
+            "jobsMatched": 0,
+            "applicationsPrepared": 0,
+            "coverLettersGenerated": 0,
+            "notificationsSent": 0
+          },
+          "completedAt": "2026-09-21T00:29:00.089Z"
+        },
         {
           "id": "session_8c20dc32",
           "goal": "Scheduled automated job scan and application preparation",
@@ -5077,16 +5677,7 @@
       "applications": [],
       "coverLetters": [],
       "emails": [],
-      "notifications": [
-        {
-          "id": "notif_1788831499635",
-          "type": "system_alert",
-          "title": "👋 Welcome to Kinetic Autonomous Career OS",
-          "body": "Your dedicated career workspace is ready. Upload your resume to begin autonomous matching.",
-          "timestamp": "2026-09-08T01:38:19.635Z",
-          "read": false
-        }
-      ],
+      "notifications": [],
       "agentSessions": []
     }
   },

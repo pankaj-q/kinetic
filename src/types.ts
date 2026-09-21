@@ -156,6 +156,16 @@ export interface PreparedApplication {
   interviewDate?: string;
   rejectionReason?: string;
   submissionScreenshot?: string;
+  submissionChannel?: 'DIRECT_EMAIL' | 'ATS_API' | 'BROWSER_AUTOMATION' | 'ASSISTED_AUTOFILL';
+  submissionReceipt?: {
+    receiptId: string;
+    channel: 'DIRECT_EMAIL' | 'ATS_API' | 'BROWSER_AUTOMATION' | 'ASSISTED_AUTOFILL';
+    timestamp: string;
+    status: 'SUCCESS' | 'DISPATCHED' | 'QUEUED' | 'READY_FOR_AUTOFILLED_SUBMIT';
+    details: string;
+    recruiterEmail?: string;
+    httpStatusCode?: number;
+  };
   historyLogs: {
     status: ApplicationStatus;
     timestamp: string;

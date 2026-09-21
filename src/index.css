@@ -66,6 +66,12 @@
     letter-spacing: -0.02em;
   }
 
+  .font-editorial-italic {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    letter-spacing: -0.01em;
+  }
+
   .font-serif-italic {
     font-family: 'Instrument Serif', Georgia, serif;
     font-style: italic;
@@ -238,6 +244,29 @@
   animation-play-state: paused !important;
 }
 
+/* Ambient Technical Blueprint Grid & Dot Matrix */
+.bg-tech-grid {
+  background-size: 12px 12px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.13) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.13) 1px, transparent 1px);
+}
+
+html.light .bg-tech-grid {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.12) 1px, transparent 1px);
+}
+
+.bg-dot-matrix {
+  background-size: 16px 16px;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1.2px, transparent 1.2px);
+}
+
+html.light .bg-dot-matrix {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.11) 1.2px, transparent 1.2px);
+}
+
 @theme inline {
   --font-heading: 'Aalto Display', 'Syne', sans-serif;
   --font-sans: 'Geist', 'Figtree Variable', sans-serif;
@@ -270,73 +299,99 @@ html.light .text-gradient-orange {
 }
 
 /* ==========================================================================
-   Kinetic Clean Minimal Dual-Theme System (Dark Obsidian & Crisp Light)
+   Kinetic Soothing Minimal Dual-Theme (Obsidian Dark & Eye-Friendly Warm Light)
    ========================================================================== */
 html.light,
 html.light body {
-  background-color: #F8FAFC !important;
-  color: #0F172A !important;
+  background-color: #F4F4F7 !important;
+  color: #1A1A24 !important;
 }
 
 html.light div.min-h-screen {
-  background-color: #F8FAFC !important;
-  color: #0F172A !important;
+  background-color: #F4F4F7 !important;
+  color: #1A1A24 !important;
 }
 
 html.light header {
-  background-color: rgba(255, 255, 255, 0.96) !important;
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: #E4E4EC !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 1px 2px -1px rgba(0, 0, 0, 0.03) !important;
+  backdrop-filter: blur(12px) !important;
 }
 
-/* Background surfaces */
+/* Background surfaces - Soft layered off-white / light slate */
+html.light .bg-\[\#050507\],
 html.light .bg-\[\#070709\],
 html.light .bg-\[\#0A0A0E\],
 html.light .bg-\[\#0A0A0D\],
 html.light .bg-\[\#0D0D12\] {
-  background-color: #F1F5F9 !important;
+  background-color: #F4F4F7 !important;
 }
 
+html.light .bg-\[\#0D0E12\],
+html.light .bg-\[\#0E0E14\],
 html.light .bg-\[\#111116\],
+html.light .bg-\[\#111218\],
 html.light .bg-\[\#14141B\],
 html.light .bg-\[\#14141E\],
+html.light .bg-\[\#15151F\],
 html.light .bg-\[\#16161E\],
+html.light .bg-\[\#161622\],
 html.light .bg-\[\#181822\],
 html.light .bg-\[\#181820\],
+html.light .bg-\[\#1D1D2C\],
 html.light .bg-\[\#20202E\],
 html.light .kinetic-card,
 html.light .editorial-card,
 html.light .huvo-card {
   background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
+  border-color: #E4E4EC !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 1px 2px -1px rgba(0, 0, 0, 0.02) !important;
 }
 
-/* Borders */
+/* Light mode hover backgrounds */
+html.light .hover\:bg-\[\#111218\]:hover,
+html.light .hover\:bg-\[\#15151F\]:hover,
+html.light .hover\:bg-\[\#161720\]:hover,
+html.light .hover\:bg-\[\#1D1D2A\]:hover,
+html.light .hover\:bg-\[\#1A1A24\]:hover {
+  background-color: #F0F0F6 !important;
+}
+
+/* Soft Crisp Borders */
+html.light .border-\[\#1C1D26\],
 html.light .border-\[\#1D1D24\],
+html.light .border-\[\#202127\],
+html.light .border-\[\#202127\]\/80,
 html.light .border-\[\#2B2B38\],
 html.light .border-\[\#262632\],
+html.light .border-\[\#2D2E3C\],
 html.light .border-\[\#353545\],
-html.light .border-\[\#333342\] {
-  border-color: #E2E8F0 !important;
+html.light .border-\[\#333342\],
+html.light .hover\:border-\[\#2D2E3C\]:hover,
+html.light .hover\:border-\[\#353642\]:hover {
+  border-color: #E2E2EA !important;
 }
 
-/* Text Colors */
+/* Soothing Typography (High legibility without harsh glare) */
 html.light .text-white,
-html.light .text-\[\#FFFFFF\] {
-  color: #0F172A !important;
+html.light .text-\[\#FFFFFF\],
+html.light .text-\[\#F5F5F5\] {
+  color: #181822 !important;
 }
 
 html.light .text-\[\#CCCCCC\],
 html.light .text-\[\#E2E2E8\] {
-  color: #334155 !important;
+  color: #38384A !important;
 }
 
+html.light .text-\[\#8B8D96\],
 html.light .text-\[\#8E8E9B\],
 html.light .text-\[\#5A5A66\] {
-  color: #64748B !important;
+  color: #636378 !important;
 }
 
-/* CRITICAL: Accent Buttons & Badges (not text gradients) MUST stay white text on orange background */
+/* Accent Buttons & Badges (Solid white text on sunset orange) */
 html.light .btn-accent,
 html.light .btn-accent *,
 html.light .btn-kinetic-primary,
@@ -350,24 +405,29 @@ html.light button[class*="from-[#FF5A36]"] * {
   color: #FFFFFF !important;
 }
 
-/* Explicit rule for text gradients: keep transparent fill */
+/* Text gradients: Keep smooth coral-orange glow */
 html.light .text-gradient-orange,
 html.light [class*="text-gradient"] {
+  background: linear-gradient(135deg, #EA580C 0%, #D97706 100%) !important;
+  -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
   color: transparent !important;
 }
 
-/* High Match / Status Pill styling in Light Mode */
+/* High Match / Status Pill styling in Light Mode (Eye-soothing pastel tints) */
 html.light .bg-\[\#FF5A36\]\/10,
-html.light .bg-\[\#FF5A36\]\/15 {
-  background-color: #FFF1EE !important;
-  border-color: #FDBA74 !important;
-  color: #EA580C !important;
+html.light .bg-\[\#FF5A36\]\/15,
+html.light .bg-\[\#FF5A36\]\/20 {
+  background-color: #FFF4EE !important;
+  border-color: #FED7AA !important;
+  color: #C2410C !important;
 }
 
 html.light .bg-\[\#FF5A36\]\/10 *,
-html.light .bg-\[\#FF5A36\]\/15 * {
-  color: #EA580C !important;
+html.light .bg-\[\#FF5A36\]\/15 *,
+html.light .bg-\[\#FF5A36\]\/20 * {
+  color: #C2410C !important;
 }
 
 html.light .bg-\[\#00FF88\]\/10,
@@ -377,7 +437,7 @@ html.light .bg-\[\#00FF88\]\/30,
 html.light .bg-\[\#00FF88\]\/40 {
   background-color: #ECFDF5 !important;
   border-color: #A7F3D0 !important;
-  color: #059669 !important;
+  color: #065F46 !important;
 }
 
 html.light .bg-\[\#00FF88\]\/10 *,
@@ -385,42 +445,88 @@ html.light .bg-\[\#00FF88\]\/15 *,
 html.light .bg-\[\#00FF88\]\/20 *,
 html.light .bg-\[\#00FF88\]\/30 *,
 html.light .bg-\[\#00FF88\]\/40 * {
-  color: #059669 !important;
+  color: #065F46 !important;
 }
 
-/* Form inputs & Selects */
+/* Form inputs & Selects in Light Mode */
 html.light input,
 html.light textarea,
 html.light select,
 html.light .huvo-input {
   background-color: #FFFFFF !important;
-  color: #0F172A !important;
-  border-color: #CBD5E1 !important;
+  color: #181822 !important;
+  border-color: #D6D6E2 !important;
 }
 
 html.light option {
   background-color: #FFFFFF !important;
-  color: #0F172A !important;
+  color: #181822 !important;
 }
 
 html.light input::placeholder,
 html.light textarea::placeholder {
-  color: #94A3B8 !important;
+  color: #9898AC !important;
 }
 
 /* Secondary outline button in light mode */
 html.light .btn-secondary-outline,
 html.light .btn-kinetic-secondary {
   background-color: #FFFFFF !important;
-  color: #1E293B !important;
-  border-color: #CBD5E1 !important;
+  color: #242434 !important;
+  border-color: #D4D4E0 !important;
 }
 
 html.light .btn-secondary-outline:hover,
 html.light .btn-kinetic-secondary:hover {
-  background-color: #F1F5F9 !important;
-  border-color: #94A3B8 !important;
-  color: #0F172A !important;
+  background-color: #F4F4F8 !important;
+  border-color: #B8B8CC !important;
+  color: #14141E !important;
+}
+
+/* Icon Buttons */
+html.light .btn-icon {
+  background-color: #FFFFFF !important;
+  color: #525266 !important;
+  border-color: #E2E2EC !important;
+}
+
+html.light .btn-icon:hover {
+  background-color: #ECECF2 !important;
+  color: #181822 !important;
+}
+
+/* Modals & Popovers in Light Mode */
+html.light .fixed .bg-\[\#111116\],
+html.light .fixed .bg-\[\#0D0D12\],
+html.light .absolute .bg-\[\#111116\] {
+  background-color: #FFFFFF !important;
+  color: #181822 !important;
+  border-color: #E2E2EA !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Quick Guide Banner in Light Mode */
+html.light [class*="bg-gradient-to-r from-[#111116]"] {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5F5FA 100%) !important;
+  border-color: #E0E0EA !important;
+}
+
+html.light [class*="bg-[#0A0A0E]/80"] {
+  background-color: #F4F4F8 !important;
+  border-color: #E4E4EC !important;
+}
+
+/* Scrollbars in Light Mode */
+html.light ::-webkit-scrollbar-track {
+  background: #ECECF2;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #CBCBD8;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #A8A8BA;
 }
 
 /* Icon Buttons */

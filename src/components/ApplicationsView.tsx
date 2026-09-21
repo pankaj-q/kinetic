@@ -14,7 +14,9 @@ import {
   ExternalLink,
   ChevronRight,
   Sparkles,
-  Trash2
+  Trash2,
+  Mail,
+  Zap
 } from 'lucide-react';
 import { PreparedApplication, ApplicationStatus } from '../types';
 
@@ -179,6 +181,19 @@ export const ApplicationsView: React.FC<ApplicationsViewProps> = ({
                           </div>
                         )}
 
+                        {app.status === 'APPLIED' && (
+                          <div className="pt-1">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#00FF88]/10 text-[#00FF88] text-[10px] font-mono font-semibold border border-[#00FF88]/30">
+                              <CheckCircle2 className="w-2.5 h-2.5" />
+                              {app.submissionChannel === 'DIRECT_EMAIL'
+                                ? 'Direct Recruiter Email'
+                                : app.submissionChannel === 'ATS_API'
+                                ? 'ATS Direct API'
+                                : 'Universal Autofill'}
+                            </span>
+                          </div>
+                        )}
+
                         {app.status === 'INTERVIEW' && (
                           <div className="pt-1 text-[10px] text-[#00FF88] font-mono flex items-center gap-1">
                             <Clock className="w-3 h-3" />
@@ -207,7 +222,7 @@ export const ApplicationsView: React.FC<ApplicationsViewProps> = ({
                 <tr>
                   <th className="py-3.5 px-5">Role &amp; Company</th>
                   <th className="py-3.5 px-5">Match Score</th>
-                  <th className="py-3.5 px-5">Status</th>
+                  <th className="py-3.5 px-5">Status &amp; Channel</th>
                   <th className="py-3.5 px-5">Form Fields</th>
                   <th className="py-3.5 px-5">Updated</th>
                   <th className="py-3.5 px-5 text-right">Actions</th>
@@ -226,21 +241,29 @@ export const ApplicationsView: React.FC<ApplicationsViewProps> = ({
                       </span>
                     </td>
                     <td className="py-3.5 px-5">
-                      <span
-                        className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold ${
-                          app.status === 'APPLIED'
-                            ? 'bg-[#16161E] text-[#FFFFFF] border border-[#1D1D24]'
-                            : app.status === 'WAITING_FOR_APPROVAL'
-                            ? 'bg-[#FF5A36]/15 text-[#FF5A36] border border-[#FF5A36]/30'
-                            : app.status === 'INTERVIEW'
-                            ? 'bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/30'
-                            : app.status === 'OFFER'
-                            ? 'bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/30'
-                            : 'bg-[#16161E] text-[#8E8E9B] border border-[#1D1D24]'
-                        }`}
-                      >
-                        {app.status.replace(/_/g, ' ')}
-                      </span>
+                      <div className="flex flex-col gap-1">
+                        <span
+                          className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold w-fit ${
+                            app.status === 'APPLIED'
+                              ? 'bg-[#16161E] text-[#FFFFFF] border border-[#1D1D24]'
+                              : app.status === 'WAITING_FOR_APPROVAL'
+                              ? 'bg-[#FF5A36]/15 text-[#FF5A36] border border-[#FF5A36]/30'
+                              : app.status === 'INTERVIEW'
+                              ? 'bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/30'
+                              : app.status === 'OFFER'
+                              ? 'bg-[#00FF88]/10 text-[#00FF88] border border-[#00FF88]/30'
+                              : 'bg-[#16161E] text-[#8E8E9B] border border-[#1D1D24]'
+                          }`}
+                        >
+                          {app.status.replace(/_/g, ' ')}
+                        </span>
+                        {app.submissionChannel && (
+                          <span className="text-[10px] text-[#8E8E9B] font-mono flex items-center gap-1">
+                            <Zap className="w-2.5 h-2.5 text-[#FF5A36]" />
+                            {app.submissionChannel.replace(/_/g, ' ')}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="py-3.5 px-5 text-[#8E8E9B] font-mono">{app.formFields.length} inputs prepared</td>
                     <td className="py-3.5 px-5 text-[#8E8E9B] font-mono">

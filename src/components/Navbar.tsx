@@ -52,12 +52,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [showNotifPopover, setShowNotifPopover] = useState(false);
 
   const navItems = [
-    { id: 'jobs', label: 'Live Jobs', icon: Briefcase },
-    { id: 'cover-letters', label: 'Cover Letter Studio', icon: Sparkles },
+    { id: 'jobs', label: 'Jobs Feed', icon: Briefcase },
+    { id: 'applications', label: 'Applications & Tracker', icon: Layers },
+    { id: 'agent', label: 'Auto-Pilot Agent', icon: Bot, badge: isAgentRunning ? 'Running' : undefined },
     { id: 'profile', label: 'Resume & Profile', icon: FileText },
-    { id: 'applications', label: 'Applications Tracker', icon: Layers },
-    { id: 'agent', label: 'Autonomous Agent', icon: Bot, badge: isAgentRunning ? 'Running' : undefined },
-    { id: 'settings', label: 'Telegram & Settings', icon: Sliders },
+    { id: 'settings', label: 'Settings', icon: Sliders },
   ];
 
   return (

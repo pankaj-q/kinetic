@@ -141,11 +141,20 @@ export const JobsView: React.FC<JobsViewProps> = ({
     }
   };
 
+  const [showGuide, setShowGuide] = useState(() => {
+    return localStorage.getItem('kinetic_hide_guide') !== 'true';
+  });
+
+  const handleDismissGuide = () => {
+    setShowGuide(false);
+    localStorage.setItem('kinetic_hide_guide', 'true');
+  };
+
   const sources = [
-    { id: 'all', label: 'All Live Jobs' },
-    { id: 'ycombinator', label: 'Y Combinator' },
-    { id: 'toptechats', label: 'Top Tech (Direct ATS)' },
-    { id: 'linkedin', label: 'LinkedIn' },
+    { id: 'all', label: 'All Verified Sources' },
+    { id: 'ycombinator', label: 'Y Combinator (YC)' },
+    { id: 'toptechats', label: 'Top Tech (Greenhouse/Lever/Ashby)' },
+    { id: 'linkedin', label: 'LinkedIn (Verified Live)' },
     { id: 'himalayas', label: 'Himalayas' },
     { id: 'jobicy', label: 'Jobicy' },
     { id: 'remoteok', label: 'RemoteOK' },
@@ -156,6 +165,52 @@ export const JobsView: React.FC<JobsViewProps> = ({
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300 font-['Geist',sans-serif]">
+      {/* 3-Step Guided Workflow Banner (Dismissable) */}
+      {showGuide && (
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#111116] via-[#161622] to-[#111116] border border-[#FF5A36]/30 shadow-md relative overflow-hidden">
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-3 flex-1">
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#FF5A36]/20 text-[#FF5A36] border border-[#FF5A36]/40 uppercase tracking-wider">
+                  Quick Start Guide
+                </span>
+                <span className="text-xs font-bold text-white font-display">How Kinetic Works in 3 Simple Steps:</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-[#0A0A0E]/80 border border-[#1D1D24]">
+                  <div className="w-6 h-6 rounded-lg bg-[#FF5A36]/20 text-[#FF5A36] font-mono font-bold text-xs flex items-center justify-center shrink-0">1</div>
+                  <div className="text-xs">
+                    <p className="font-bold text-white">Save Your Profile</p>
+                    <p className="text-[11px] text-[#8E8E9B] mt-0.5">Upload or paste resume in Profile tab to teach AI your tech stack.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-[#0A0A0E]/80 border border-[#1D1D24]">
+                  <div className="w-6 h-6 rounded-lg bg-[#00FF88]/20 text-[#00FF88] font-mono font-bold text-xs flex items-center justify-center shrink-0">2</div>
+                  <div className="text-xs">
+                    <p className="font-bold text-white">1-Click Auto Apply</p>
+                    <p className="text-[11px] text-[#8E8E9B] mt-0.5">Click ⚡ on any high-match job to generate tailored cover letter instantly.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-[#0A0A0E]/80 border border-[#1D1D24]">
+                  <div className="w-6 h-6 rounded-lg bg-[#38BDF8]/20 text-[#38BDF8] font-mono font-bold text-xs flex items-center justify-center shrink-0">3</div>
+                  <div className="text-xs">
+                    <p className="font-bold text-white">Get Real-Time Alerts</p>
+                    <p className="text-[11px] text-[#8E8E9B] mt-0.5">Connect Telegram to receive job updates & morning 10:00 AM routines.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={handleDismissGuide}
+              title="Dismiss Guide"
+              className="p-1 rounded-lg text-[#8E8E9B] hover:text-white hover:bg-[#1C1C26] transition-all cursor-pointer shrink-0"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Top Header & Actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#1D1D24] pb-5">
         <div>
@@ -189,7 +244,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
               ) : (
                 <Zap className="w-3.5 h-3.5" />
               )}
-              <span>{isAutoApplying ? 'Applying & Notifying Telegram...' : '⚡ Auto-Apply to Best Matches (≥80%)'}</span>
+              <span>{isAutoApplying ? 'Applying & Notifying Telegram...' : '⚡ Auto-Apply Top Matches (≥80%)'}</span>
             </button>
           )}
 
@@ -199,7 +254,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
             className="btn-secondary-outline text-xs py-2 px-3.5 flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-[#FF5A36]' : ''}`} />
-            <span>{isRefreshing ? 'Scanning Feeds...' : 'Refresh Live Feeds'}</span>
+            <span>{isRefreshing ? 'Scanning Feeds...' : 'Refresh Feeds'}</span>
           </button>
 
           <button
@@ -207,7 +262,7 @@ export const JobsView: React.FC<JobsViewProps> = ({
             className="px-3 py-2 rounded-xl bg-[#111116] hover:bg-[#181822] text-[#8E8E9B] hover:text-white border border-[#1D1D24] text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <Plus className="w-3.5 h-3.5 text-[#FF5A36]" />
-            <span>Add Custom Job</span>
+            <span>Paste Job Link</span>
           </button>
         </div>
       </div>
@@ -231,41 +286,37 @@ export const JobsView: React.FC<JobsViewProps> = ({
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8E8E9B]" />
           <input
             type="text"
-            placeholder="Search by role title, company name, or technology (e.g. Node.js, TypeScript, PostgreSQL)..."
+            placeholder="Search role title, company, or skills (e.g. Node.js, TypeScript, PostgreSQL)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full text-xs text-white bg-[#070709] border border-[#1D1D24] rounded-xl pl-9 pr-4 py-2.5 focus:outline-none focus:border-[#FF5A36] font-sans"
           />
         </div>
 
-        {/* Source Pills & High Match Toggle */}
+        {/* Source Dropdown & High Match Toggle */}
         <div className="flex items-center gap-2 flex-wrap">
-          <div className="flex items-center gap-1 bg-[#070709] border border-[#1D1D24] p-1 rounded-xl">
+          <select
+            value={selectedSource}
+            onChange={(e) => setSelectedSource(e.target.value)}
+            className="px-3 py-2 rounded-xl text-xs font-mono bg-[#070709] text-white border border-[#1D1D24] focus:outline-none focus:border-[#FF5A36] cursor-pointer"
+          >
             {sources.map((src) => (
-              <button
-                key={src.id}
-                onClick={() => setSelectedSource(src.id)}
-                className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all cursor-pointer ${
-                  selectedSource === src.id
-                    ? 'bg-[#181824] text-white font-bold border border-[#2B2B38]'
-                    : 'text-[#8E8E9B] hover:text-white'
-                }`}
-              >
+              <option key={src.id} value={src.id} className="bg-[#111116] text-white">
                 {src.label}
-              </button>
+              </option>
             ))}
-          </div>
+          </select>
 
           <button
             onClick={() => setOnlyHighMatch(!onlyHighMatch)}
-            className={`px-3 py-1.5 rounded-xl text-xs font-mono transition-all border flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 py-2 rounded-xl text-xs font-mono transition-all border flex items-center gap-1.5 cursor-pointer ${
               onlyHighMatch
-                ? 'bg-[#FF5A36]/10 border-[#FF5A36] text-[#FF5A36] font-bold'
+                ? 'bg-[#FF5A36]/15 border-[#FF5A36] text-[#FF5A36] font-bold'
                 : 'bg-[#070709] border-[#1D1D24] text-[#8E8E9B] hover:text-white'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>High Fit Only (≥80%)</span>
+            <span>High Fit (≥80%)</span>
           </button>
         </div>
       </div>

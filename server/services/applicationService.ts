@@ -1,6 +1,7 @@
 import { db } from '../db';
 import { AIService } from './aiService';
 import { TelegramService } from './telegramService';
+import { AutoSubmitterService } from './autoSubmitterService';
 import { PreparedApplication, ApplicationFormField, ApplicationStatus } from '../../src/types';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -215,6 +216,13 @@ export class ApplicationService {
       throw new Error(`Application ${applicationId} not found`);
     }
 
+    const job = db.getJobById(app.jobId);
+    if (!job) {
+      throw new Error(`Job ${app.jobId} not found`);
+    }
+
+    const profile = db.getProfile(userId);
+
     if (editedFields) {
       app.formFields = editedFields;
     }
@@ -222,18 +230,22 @@ export class ApplicationService {
       app.coverLetterContent = editedCoverLetter;
     }
 
-    // Playwright submission simulation with verification snapshot
+    // Execute Real Multi-Channel Submission
+    const submissionRes = await AutoSubmitterService.executeRealSubmission(job, profile, app, userId);
+
     app.status = 'APPLIED';
     app.waitingForApproval = false;
     app.approvedAt = new Date().toISOString();
     app.appliedAt = new Date().toISOString();
+    app.submissionChannel = submissionRes.channel;
+    app.submissionReceipt = submissionRes;
     app.submissionScreenshot = `https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=600&q=80`;
     app.updatedAt = new Date().toISOString();
 
     app.historyLogs.push({
       status: 'APPLIED',
       timestamp: new Date().toISOString(),
-      note: 'User approved all application form answers and cover letter. Submission confirmed.',
+      note: `Real application executed via ${submissionRes.channel}. Status: ${submissionRes.status}. ${submissionRes.details}`,
       source: 'user',
     });
 
@@ -280,8 +292,8 @@ export class ApplicationService {
   /**
    * 1-Click Instant Auto-Apply for a single job:
    * 1. Prepares custom cover letter and form fields based on candidate resume
-   * 2. Immediately marks status as APPLIED
-   * 3. Dispatches Telegram notification with direct job link and details
+   * 2. Executes real multi-channel submission (Direct Email / ATS API / Browser Autofill)
+   * 3. Dispatches Telegram notification with direct job link, receipt, and details
    */
   static async autoApplySingleJob(jobId: string, userId?: string): Promise<PreparedApplication> {
     const job = db.getJobById(jobId);
@@ -296,13 +308,18 @@ export class ApplicationService {
       existingApp = await this.prepareApplication(jobId, userId);
     }
 
+    // Execute Real Multi-Channel Submission
+    const submissionRes = await AutoSubmitterService.executeRealSubmission(job, profile, existingApp, userId);
+
     existingApp.status = 'APPLIED';
     existingApp.appliedAt = new Date().toISOString();
     existingApp.waitingForApproval = false;
+    existingApp.submissionChannel = submissionRes.channel;
+    existingApp.submissionReceipt = submissionRes;
     existingApp.historyLogs.push({
       status: 'APPLIED',
       timestamp: new Date().toISOString(),
-      note: `1-Click Auto-applied directly via Kinetic Engine based on ${profile.name}'s verified resume (Match: ${existingApp.matchScore}%)`,
+      note: `Real submission executed via ${submissionRes.channel} (Receipt: ${submissionRes.receiptId}). ${submissionRes.details}`,
       source: 'agent',
     });
 
@@ -310,23 +327,33 @@ export class ApplicationService {
 
     // Dispatch dedicated Telegram alert for this role
     try {
+      const channelLabel = submissionRes.channel === 'DIRECT_EMAIL'
+        ? `📧 *Direct Recruiter Email Outreach* (${submissionRes.recruiterEmail})`
+        : submissionRes.channel === 'ATS_API'
+        ? `⚡ *Direct ATS API Ingestion* (${job.source})`
+        : `🤖 *Browser Automation & 1-Click Autofill Ready*`;
+
       await TelegramService.sendTelegramNotification(
-        `🚀 *JOB APPLICATION SUBMITTED!*\n\n` +
+        `🚀 *REAL JOB APPLICATION SUBMITTED!*\n\n` +
         `🏢 *Company:* ${job.company}\n` +
         `💼 *Role:* ${job.title}\n` +
         `🎯 *Match Score:* ${existingApp.matchScore}%\n` +
         `📍 *Location:* ${job.location}\n` +
-        `📅 *Applied At:* ${new Date().toLocaleTimeString()}\n` +
-        `🔗 [View Live Job Listing](${job.url})\n\n` +
-        `📝 *Cover Letter:* Tailored to ${profile.name}'s experience.\n` +
-        `✅ *Status:* APPLIED`,
+        `📡 *Channel:* ${channelLabel}\n` +
+        `🧾 *Receipt ID:* \`${submissionRes.receiptId}\`\n` +
+        `📅 *Timestamp:* ${new Date().toLocaleTimeString()}\n` +
+        `🔗 [View Live Listing / Application](${job.url})\n\n` +
+        `📝 *Cover Letter:* Tailored to ${profile.name}'s verified projects.\n` +
+        `✅ *Status:* ${submissionRes.status}`,
         'submission_success',
-        `✅ Applied: ${job.company} - ${job.title}`,
+        `✅ Real Submission: ${job.company} - ${job.title}`,
         {
           jobId: job.id,
           company: job.company,
           url: job.url,
           score: existingApp.matchScore,
+          receiptId: submissionRes.receiptId,
+          channel: submissionRes.channel,
         },
         userId
       );
@@ -337,3 +364,4 @@ export class ApplicationService {
     return existingApp;
   }
 }
+

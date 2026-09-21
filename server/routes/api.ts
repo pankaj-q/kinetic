@@ -3,6 +3,7 @@ import { db, PRIMARY_USER, DEMO_USER } from '../db';
 import { AIService } from '../services/aiService';
 import { JobService } from '../services/jobService';
 import { ApplicationService } from '../services/applicationService';
+import { AutoSubmitterService } from '../services/autoSubmitterService';
 import { TelegramService } from '../services/telegramService';
 import { EmailService } from '../services/emailService';
 import { AgentLoop } from '../services/agentLoop';
@@ -272,10 +273,25 @@ apiRouter.post('/applications/:id/approve', async (req: Request, res: Response) 
       editedCoverLetter,
       userId
     );
+    res.json(app);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+apiRouter.get('/applications/:id/autofill-script', (req: Request, res: Response) => {
+  try {
+    const userId = getUserId(req);
+    const app = db.getApplicationById(req.params.id, userId);
+    if (!app) return res.status(404).json({ error: 'Application not found' });
+    const profile = db.getProfile(userId);
+    const bookmarklet = AutoSubmitterService.generateAutofillBookmarklet(profile, app);
     res.json({
       success: true,
-      message: 'Application approved and submitted successfully.',
-      application: app,
+      applicationId: app.id,
+      company: app.company,
+      jobTitle: app.jobTitle,
+      bookmarklet,
     });
   } catch (err: any) {
     res.status(500).json({ error: err.message });
