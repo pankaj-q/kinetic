@@ -63,8 +63,14 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'settings', label: 'Settings', icon: Sliders },
   ];
 
+  const isLanding = activeTab === 'landing';
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-[#1D1D24] bg-[#070709]/95 backdrop-blur-md transition-colors font-['Geist',sans-serif]">
+    <header className={`sticky top-0 z-40 w-full backdrop-blur-md transition-colors font-['Geist',sans-serif] ${
+      isLanding
+        ? 'border-b border-[#E5E2DC] bg-[#F9F8F5]/90 text-[#111114]'
+        : 'border-b border-[#1D1D24] bg-[#070709]/95 text-white'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Brand Wordmark with Aalto Display font */}
@@ -81,17 +87,23 @@ export const Navbar: React.FC<NavbarProps> = ({
                 K
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="font-display text-xl font-bold tracking-wider text-white uppercase">
+                <span className={`font-display text-xl font-bold tracking-wider uppercase ${
+                  isLanding ? 'text-[#111114]' : 'text-white'
+                }`}>
                   Kinetic
                 </span>
-                <span className="text-[10px] font-mono font-medium tracking-wider px-2 py-0.5 rounded-full bg-[#16161E] border border-[#1D1D24] text-[#8E8E9B] uppercase whitespace-nowrap hidden sm:inline-block">
+                <span className={`text-[10px] font-mono font-medium tracking-wider px-2 py-0.5 rounded-full uppercase whitespace-nowrap hidden sm:inline-block ${
+                  isLanding
+                    ? 'bg-[#EAE7E0] border border-[#DDD9D0] text-[#52545E]'
+                    : 'bg-[#16161E] border border-[#1D1D24] text-[#8E8E9B]'
+                }`}>
                   {currentUser?.name ? currentUser.name.toUpperCase().replace(/\s+/g, '_') : 'GUEST_CANDIDATE'} // {currentUser?.role ? currentUser.role.toUpperCase().slice(0, 16) : 'ENGINEER'}
                 </span>
               </div>
             </motion.div>
 
             {/* Prominent Go Back to Home Button when not on landing page */}
-            {activeTab !== 'landing' && (
+            {!isLanding && (
               <button
                 id="navbar-back-to-home-btn"
                 onClick={() => setActiveTab('landing')}
@@ -116,11 +128,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onClick={() => setActiveTab(item.id)}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
                     isActive
-                      ? 'bg-[#181822] text-white border border-[#2B2B38] shadow-sm font-semibold'
-                      : 'text-[#8E8E9B] hover:text-white hover:bg-[#111116]'
+                      ? isLanding
+                        ? 'bg-white text-[#111114] border border-[#DCD9D1] shadow-xs font-semibold'
+                        : 'bg-[#181822] text-white border border-[#2B2B38] shadow-sm font-semibold'
+                      : isLanding
+                        ? 'text-[#6A6C76] hover:text-[#111114] hover:bg-[#EFECE5]'
+                        : 'text-[#8E8E9B] hover:text-white hover:bg-[#111116]'
                   }`}
                 >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#FF5A36]' : 'text-[#8E8E9B]'}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#FF5A36]' : isLanding ? 'text-[#6A6C76]' : 'text-[#8E8E9B]'}`} />
                   <span>{item.label}</span>
                   {item.badge && (
                     <span className="w-1.5 h-1.5 rounded-full bg-[#00FF88] animate-ping" />
@@ -138,15 +154,19 @@ export const Navbar: React.FC<NavbarProps> = ({
               title="Connect Telegram Alerts"
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-mono transition-all cursor-pointer ${
                 telegramConfig?.chatId
-                  ? 'bg-[#111116] border-[#00FF88]/40 text-[#00FF88] hover:border-[#00FF88]'
-                  : 'bg-[#111116] border-[#FF5A36]/40 text-[#FF5A36] hover:border-[#FF5A36]'
+                  ? isLanding
+                    ? 'bg-white border-[#00C853]/40 text-[#00A844] hover:border-[#00C853]'
+                    : 'bg-[#111116] border-[#00FF88]/40 text-[#00FF88] hover:border-[#00FF88]'
+                  : isLanding
+                    ? 'bg-white border-[#FF5A36]/40 text-[#FF5A36] hover:border-[#FF5A36]'
+                    : 'bg-[#111116] border-[#FF5A36]/40 text-[#FF5A36] hover:border-[#FF5A36]'
               }`}
             >
               <Send className="w-3.5 h-3.5" />
               <span className="hidden lg:inline text-[11px]">
                 {telegramConfig?.chatId ? `Telegram Connected` : 'Connect Telegram'}
               </span>
-              <span className={`w-1.5 h-1.5 rounded-full ${telegramConfig?.chatId ? 'bg-[#00FF88]' : 'bg-[#FF5A36] animate-pulse'}`} />
+              <span className={`w-1.5 h-1.5 rounded-full ${telegramConfig?.chatId ? 'bg-[#00C853]' : 'bg-[#FF5A36] animate-pulse'}`} />
             </button>
 
             {/* User Account Switcher Pill */}
@@ -155,16 +175,20 @@ export const Navbar: React.FC<NavbarProps> = ({
                 id="navbar-user-switch-btn"
                 onClick={onOpenAuthModal}
                 title="Switch Profile / Manage Credentials"
-                className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-[#111116] hover:bg-[#181822] text-white border border-[#1D1D24] hover:border-[#FF5A36]/60 text-xs transition-all cursor-pointer select-none"
+                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-xl border text-xs transition-all cursor-pointer select-none ${
+                  isLanding
+                    ? 'bg-white hover:bg-[#F3F1EC] text-[#111114] border-[#E5E2DC] hover:border-[#D0CDC5]'
+                    : 'bg-[#111116] hover:bg-[#181822] text-white border-[#1D1D24] hover:border-[#FF5A36]/60'
+                }`}
               >
                 <div className="w-5 h-5 rounded-md bg-gradient-to-br from-[#FF5A36] to-[#FF3D14] flex items-center justify-center text-white font-mono font-bold text-[10px] shrink-0">
                   {currentUser?.name ? currentUser.name.slice(0, 2).toUpperCase() : 'GC'}
                 </div>
                 <div className="hidden sm:flex flex-col items-start leading-none text-left">
-                  <span className="text-[11px] font-bold text-white max-w-[100px] truncate">
+                  <span className={`text-[11px] font-bold max-w-[100px] truncate ${isLanding ? 'text-[#111114]' : 'text-white'}`}>
                     {currentUser?.name || 'Guest Candidate'}
                   </span>
-                  <span className="text-[9px] text-[#8E8E9B] font-mono">
+                  <span className={`text-[9px] font-mono ${isLanding ? 'text-[#6A6C76]' : 'text-[#8E8E9B]'}`}>
                     {currentUser?.isPrimary ? 'PRIMARY' : 'GUEST'}
                   </span>
                 </div>
@@ -177,7 +201,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 id="theme-toggle-btn"
                 onClick={onToggleTheme}
                 title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                className="p-2 rounded-xl bg-[#111116] hover:bg-[#181820] text-[#8E8E9B] hover:text-white transition-all border border-[#1D1D24] cursor-pointer"
+                className={`p-2 rounded-xl transition-all border cursor-pointer ${
+                  isLanding
+                    ? 'bg-white hover:bg-[#F3F1EC] text-[#6A6C76] hover:text-[#111114] border-[#E5E2DC]'
+                    : 'bg-[#111116] hover:bg-[#181820] text-[#8E8E9B] hover:text-white border-[#1D1D24]'
+                }`}
                 aria-label="Toggle theme"
               >
                 {theme === 'dark' ? (
@@ -193,7 +221,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 id="navbar-notification-btn"
                 onClick={() => setShowNotifPopover(!showNotifPopover)}
-                className="relative p-2 rounded-xl bg-[#111116] hover:bg-[#181820] text-[#8E8E9B] hover:text-white transition-all border border-[#1D1D24] cursor-pointer"
+                className={`relative p-2 rounded-xl transition-all border cursor-pointer ${
+                  isLanding
+                    ? 'bg-white hover:bg-[#F3F1EC] text-[#6A6C76] hover:text-[#111114] border-[#E5E2DC]'
+                    : 'bg-[#111116] hover:bg-[#181820] text-[#8E8E9B] hover:text-white border-[#1D1D24]'
+                }`}
                 aria-label="View notifications"
               >
                 <Bell className="w-4 h-4" />
